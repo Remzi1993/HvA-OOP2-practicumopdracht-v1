@@ -1,0 +1,4 @@
+XXX1,Man,11-06-1993,Amsterdam,Nederlandse,342453566,OIHBN
+XXX2,Vrouw,11-06-1993,Amsterdam,Nederlandse,342453566,OIHBN
+XXX3,Man,11-06-1993,Amsterdam,Nederlandse,342453566,OIHBN
+XXX4,Vrouw,11-06-1993,Amsterdam,Nederlandse,342453566,OIHBN

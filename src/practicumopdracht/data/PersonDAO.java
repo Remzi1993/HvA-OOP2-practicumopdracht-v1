@@ -1,0 +1,58 @@
+package practicumopdracht.data;
+
+import practicumopdracht.models.Person;
+import java.io.FileNotFoundException;
+import java.util.ArrayList;
+import java.util.List;
+
+/**
+ * PersonDAO - MasterDAO
+ *
+ * @author Remzi Cavdar - remzi.cavdar@hva.nl
+ */
+
+public abstract class PersonDAO implements DAO<Person> {
+    protected List<Person> persons;
+
+    public PersonDAO() {
+        persons = new ArrayList<>();
+    }
+
+    public Person getById(int id) {
+        try {
+            Integer.valueOf(id);
+            return persons.get(id);
+        } catch (Exception e) {
+            System.err.println("PersonDAO getById(): Something went wrong!");
+            return null;
+        }
+    }
+
+    public int getIdFor(Person person) {
+        return persons.indexOf(person);
+    }
+
+    @Override
+    public List<Person> getAll() {
+        return persons;
+    }
+
+    @Override
+    public void addOrUpdate(Person person) {
+        if (persons.contains(person)) {
+            return;
+        }
+        persons.add(person);
+    }
+
+    @Override
+    public void remove(Person person) {
+        persons.remove(person);
+    }
+
+    @Override
+    public abstract boolean load() throws FileNotFoundException;
+
+    @Override
+    public abstract boolean save();
+}
