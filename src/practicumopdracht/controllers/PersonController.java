@@ -132,7 +132,7 @@ public class PersonController extends Controller {
 
     private void handleSaveButton(ActionEvent event) {
         if (DEBUG) {
-            System.out.println("Start action: save");
+            System.out.println("\nStart action: save");
         }
         getInputDataFromView();
 
@@ -252,7 +252,7 @@ public class PersonController extends Controller {
 
     private void handleNewButton(ActionEvent event) {
         if (DEBUG) {
-            System.out.println("Start action: new/clear");
+            System.out.println("\nStart action: new/clear");
         }
 
         alert = new AlertDialog("CONFIRMATION", "Persoon aanmaken",
@@ -278,7 +278,7 @@ public class PersonController extends Controller {
 
     private void handleDeleteButton(ActionEvent event) {
         if (DEBUG) {
-            System.out.println("Start action: delete");
+            System.out.println("\nStart action: delete");
         }
         person = view.getListView().getSelectionModel().getSelectedItem();
 

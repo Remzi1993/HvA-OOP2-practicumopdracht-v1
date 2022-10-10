@@ -170,8 +170,8 @@ public class TicketController extends Controller {
     }
 
     private void handleSaveButton(ActionEvent event) {
-        if (MainApplication.DEBUG) {
-            System.out.println("Start action: save");
+        if (DEBUG) {
+            System.out.println("\nStart action: save");
         }
         getInputDataFromView();
 
@@ -239,7 +239,6 @@ public class TicketController extends Controller {
             alert.setTitle("Ticket aangemaakt");
             alert.setContentText("Ticket is aangemaakt.");
         } else {
-            System.out.println("Update ticket");
             // Update ticket
             ticket.setBelongsTo(belongsTo.getSelectionModel().getSelectedItem());
             ticket.setStartDate(startDate.getValue());
@@ -258,14 +257,14 @@ public class TicketController extends Controller {
         alert.show();
         // Clear everything after successful save
         inputHandler.clearValues(data, false);
-        if (MainApplication.DEBUG) {
+        if (DEBUG) {
             System.out.println("End action: save");
         }
     }
 
     private void handleNewButton(ActionEvent event) {
-        if (MainApplication.DEBUG) {
-            System.out.println("Start action: new/clear");
+        if (DEBUG) {
+            System.out.println("\nStart action: new/clear");
         }
 
         alert = new AlertDialog("CONFIRMATION", "Ticket aanmaken",
@@ -284,14 +283,14 @@ public class TicketController extends Controller {
             inputHandler.clearWarnings(data);
         }
 
-        if (MainApplication.DEBUG) {
+        if (DEBUG) {
             System.out.println("End action: new/clear");
         }
     }
 
     private void handleDeleteButton(ActionEvent event) {
-        if (MainApplication.DEBUG) {
-            System.out.println("Start action: delete");
+        if (DEBUG) {
+            System.out.println("\nStart action: delete");
         }
         ticket = view.getListView().getSelectionModel().getSelectedItem();
 
@@ -314,7 +313,7 @@ public class TicketController extends Controller {
             observableListTickets.remove(ticket);
         }
 
-        if (MainApplication.DEBUG) {
+        if (DEBUG) {
             System.out.println("End action: delete");
         }
     }

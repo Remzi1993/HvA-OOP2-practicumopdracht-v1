@@ -25,7 +25,7 @@ public class TextTicketDAO extends TicketDAO {
         File file = new File(DIRECTORY_NAME + "/" + FILE_NAME);
 
         if (DEBUG) {
-            System.out.println("App data directory: " + directory.getAbsolutePath());
+            System.out.println("\nApp data directory: " + directory.getAbsolutePath());
         }
 
         /*
@@ -54,10 +54,13 @@ public class TextTicketDAO extends TicketDAO {
                     System.out.println("File already exists: " + FILE_NAME);
                 }
             }
-        } catch (SecurityException se) {
-            System.out.println("SecurityException: " + se.getMessage());
+        } catch (SecurityException e) {
+            System.out.println("SecurityException: " + e.getMessage());
         } catch (IOException e) {
             System.out.println("An error occurred.");
+        } catch (Exception e) {
+            System.out.println("Something went wrong. An unexpected error occurred.");
+            e.printStackTrace();
         }
 
         if (DEBUG) {
@@ -69,7 +72,7 @@ public class TextTicketDAO extends TicketDAO {
                         StandardCharsets.UTF_8);
                 BufferedReader bufferedReader = new BufferedReader(fileReader);
         ) {
-            // Clear the list in RAM
+            // Clear the list
             tickets.clear();
 
             String line = bufferedReader.readLine();
@@ -78,6 +81,7 @@ public class TextTicketDAO extends TicketDAO {
                     line = line.substring(1);
                 }
                 String[] values = line.split(",");
+
                 if (DEBUG) {
                     System.out.println(Arrays.toString(values));
                 }
@@ -104,7 +108,6 @@ public class TextTicketDAO extends TicketDAO {
             // Successful load
             if (DEBUG) {
                 System.out.println("Loading complete: " + FILE_NAME);
-                System.out.println(Arrays.toString(tickets.toArray()));
             }
             return true;
         } catch (FileNotFoundException e) {
@@ -123,7 +126,7 @@ public class TextTicketDAO extends TicketDAO {
     @Override
     public boolean save() {
         if (DEBUG) {
-            System.out.println("Saving data: " + FILE_NAME);
+            System.out.println("\nSaving data: " + FILE_NAME);
         }
 
         try (
@@ -138,7 +141,7 @@ public class TextTicketDAO extends TicketDAO {
 
             // Successful save
             if (DEBUG) {
-                System.out.println("Saving complete: " + FILE_NAME);
+                System.out.println("Saving data complete: " + FILE_NAME);
             }
             return true;
         } catch (FileNotFoundException e) {

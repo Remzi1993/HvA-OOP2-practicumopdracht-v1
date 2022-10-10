@@ -26,7 +26,7 @@ public class TextPersonDAO extends PersonDAO {
         File file = new File(DIRECTORY_NAME + "/" + FILE_NAME);
 
         if (DEBUG) {
-            System.out.println("App data directory: " + directory.getAbsolutePath());
+            System.out.println("\nApp data directory: " + directory.getAbsolutePath());
         }
 
         /*
@@ -55,10 +55,13 @@ public class TextPersonDAO extends PersonDAO {
                     System.out.println("File already exists: " + FILE_NAME);
                 }
             }
-        } catch (SecurityException se) {
-            System.out.println("SecurityException: " + se.getMessage());
+        } catch (SecurityException e) {
+            System.out.println("SecurityException: " + e.getMessage());
         } catch (IOException e) {
             System.out.println("An error occurred.");
+        } catch (Exception e) {
+            System.out.println("Something went wrong. An unexpected error occurred.");
+            e.printStackTrace();
         }
 
         if (DEBUG) {
@@ -70,7 +73,7 @@ public class TextPersonDAO extends PersonDAO {
                         StandardCharsets.UTF_8);
                 BufferedReader bufferedReader = new BufferedReader(fileReader);
         ) {
-            // Clear the list in RAM
+            // Clear the list
             persons.clear();
 
             String line = bufferedReader.readLine();
@@ -79,6 +82,7 @@ public class TextPersonDAO extends PersonDAO {
                     line = line.substring(1);
                 }
                 String[] values = line.split(",");
+
                 if (DEBUG) {
                     System.out.println(Arrays.toString(values));
                 }
@@ -107,7 +111,6 @@ public class TextPersonDAO extends PersonDAO {
             // Successful load
             if (DEBUG) {
                 System.out.println("Loading complete: " + FILE_NAME);
-                System.out.println(Arrays.toString(persons.toArray()));
             }
             return true;
         } catch (FileNotFoundException e) {
@@ -126,7 +129,7 @@ public class TextPersonDAO extends PersonDAO {
     @Override
     public boolean save() {
         if (DEBUG) {
-            System.out.println("Saving data: " + FILE_NAME);
+            System.out.println("\nSaving data: " + FILE_NAME);
         }
 
         try (
@@ -141,7 +144,7 @@ public class TextPersonDAO extends PersonDAO {
 
             // Successful save
             if (DEBUG) {
-                System.out.println("Saving complete: " + FILE_NAME);
+                System.out.println("Saving data complete: " + FILE_NAME);
             }
             return true;
         } catch (FileNotFoundException e) {
