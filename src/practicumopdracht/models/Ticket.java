@@ -3,7 +3,6 @@ package practicumopdracht.models;
 import practicumopdracht.data.PersonDAO;
 import java.time.LocalDate;
 import java.util.Locale;
-
 import static practicumopdracht.MainApplication.getDateTimeFormatter;
 import static practicumopdracht.MainApplication.getPersonDAO;
 
@@ -14,11 +13,10 @@ import static practicumopdracht.MainApplication.getPersonDAO;
 
 public class Ticket {
     private Person belongsTo;
-    private PersonDAO personDAO = getPersonDAO();
-    private LocalDate startDate;
-    private LocalDate endDate;
+    private LocalDate startDate, endDate;
     private double cost;
     private boolean checkedIn;
+    private PersonDAO personDAO;
 
     public Ticket(Person belongsTo, LocalDate startDate, LocalDate endDate, double cost, boolean checkedIn) {
         this.belongsTo = belongsTo;
@@ -26,6 +24,7 @@ public class Ticket {
         this.endDate = endDate;
         this.cost = cost;
         this.checkedIn = checkedIn;
+        personDAO = getPersonDAO();
     }
 
     @Override

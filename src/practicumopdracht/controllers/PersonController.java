@@ -32,9 +32,8 @@ public class PersonController extends Controller {
     private DatePicker birthdate;
     private ListView<Person> listView;
     private Object[] data;
-    private static InputHandler inputHandler;
     private ObservableList<Person> observableListPersons;
-    private DatePickerConverter datePickerConverter;
+    private static InputHandler inputHandler;
 
     public PersonController() {
         personDAO = getPersonDAO();
@@ -74,7 +73,7 @@ public class PersonController extends Controller {
         // Datepicker
         birthdate = view.getDatePickerBirthdate();
         // Create the DateConverter
-        datePickerConverter = new DatePickerConverter(getDateFormat());
+        DatePickerConverter datePickerConverter = new DatePickerConverter(getDateFormat());
         // Add the Converter to the DatePicker
         birthdate.setConverter(datePickerConverter);
         // Set the Date in the Prompt

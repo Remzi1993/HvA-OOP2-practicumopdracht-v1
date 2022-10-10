@@ -61,6 +61,7 @@ public abstract class TicketDAO implements DAO<Ticket> {
     @Override
     public abstract boolean save();
 
+    // Getter
     public static String getAppDataDirectory() {
         return APP_DATA_DIRECTORY;
     }

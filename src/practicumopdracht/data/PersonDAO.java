@@ -59,6 +59,7 @@ public abstract class PersonDAO implements DAO<Person> {
     @Override
     public abstract boolean save();
 
+    // Getter
     public static String getAppDataDirectory() {
         return APP_DATA_DIRECTORY;
     }

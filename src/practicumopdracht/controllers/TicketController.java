@@ -34,10 +34,9 @@ public class TicketController extends Controller {
     private CheckBox checkedIn;
     private ListView<Ticket> listView;
     private Object[] data;
-    private static InputHandler inputHandler;
     private ObservableList<Person> observableListPersons;
     private ObservableList<Ticket> observableListTickets;
-    private DatePickerConverter datePickerConverter;
+    private static InputHandler inputHandler;
 
     public TicketController(Person person) {
         ticketDAO = getTicketDAO();
@@ -91,7 +90,7 @@ public class TicketController extends Controller {
         startDate = view.getDatePickerStartDate();
         endDate = view.getDatePickerEndDate();
         // Create the DateConverter
-        datePickerConverter = new DatePickerConverter(getDateFormat());
+        DatePickerConverter datePickerConverter = new DatePickerConverter(getDateFormat());
         // Add the Converter to the DatePicker
         startDate.setConverter(datePickerConverter);
         endDate.setConverter(datePickerConverter);
@@ -134,7 +133,7 @@ public class TicketController extends Controller {
         startDate = view.getDatePickerStartDate();
         endDate = view.getDatePickerEndDate();
         cost = view.getTxtFieldCost();
-        checkedIn = view.getCheckBoxcheckedIn();
+        checkedIn = view.getCheckBoxCheckedIn();
         listView = view.getListView();
         data = new Object[]{belongsTo, startDate, endDate, cost, checkedIn, listView};
     }

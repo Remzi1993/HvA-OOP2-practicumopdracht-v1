@@ -1,0 +1,758 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<diagram program="umlet" version="15.0.0">
+  <zoom_level>3</zoom_level>
+  <element>
+    <id>UMLClass</id>
+    <coordinates>
+      <x>534</x>
+      <y>507</y>
+      <w>144</w>
+      <h>48</h>
+    </coordinates>
+    <panel_attributes>Person
+--
+-name, sex, birthplace, nationality, documentNumber: String
+-birthdate: LocalDate
+-BSN: int
+--
++Person(name: String, sex: String, birthdate: LocalDate, birthplace: String, 
+nationality: String, BSN: int, documentNumber: String)
++toString(): String
++toStringTextFile(): String</panel_attributes>
+    <additional_attributes/>
+  </element>
+  <element>
+    <id>UMLClass</id>
+    <coordinates>
+      <x>732</x>
+      <y>507</y>
+      <w>162</w>
+      <h>57</h>
+    </coordinates>
+    <panel_attributes>Ticket
+--
+-belongsTo: Person
+-startDate, endDate: LocalDate
+-cost: double
+-checkedIn: boolean
+-personDAO: PersonDAO
+--
++Ticket(belongsTo: Person, startDate: LocalDate, endDate: LocalDate, cost: double, 
+checkedIn: boolean)
++toString(): String
++toStringTextFile(): String</panel_attributes>
+    <additional_attributes/>
+  </element>
+  <element>
+    <id>Relation</id>
+    <coordinates>
+      <x>675</x>
+      <y>522</y>
+      <w>63</w>
+      <h>15</h>
+    </coordinates>
+    <panel_attributes>lt=&lt;-
+Belongs to
+m1=1
+m2=0..n</panel_attributes>
+    <additional_attributes>10.0;20.0;190.0;20.0</additional_attributes>
+  </element>
+  <element>
+    <id>UMLNote</id>
+    <coordinates>
+      <x>645</x>
+      <y>498</y>
+      <w>33</w>
+      <h>9</h>
+    </coordinates>
+    <panel_attributes>MasterModel
+bg=blue</panel_attributes>
+    <additional_attributes/>
+  </element>
+  <element>
+    <id>UMLClass</id>
+    <coordinates>
+      <x>804</x>
+      <y>180</y>
+      <w>42</w>
+      <h>12</h>
+    </coordinates>
+    <panel_attributes>&lt;&lt;javafx.application&gt;&gt;
+Application</panel_attributes>
+    <additional_attributes/>
+  </element>
+  <element>
+    <id>UMLClass</id>
+    <coordinates>
+      <x>576</x>
+      <y>180</y>
+      <w>210</w>
+      <h>99</h>
+    </coordinates>
+    <panel_attributes>MainApplication
+--
+_-TITLE: String = String.format("Practicumopdracht OOP2 - %s - %d", getStudentName(), getStudentNumber())_
+_-WIDTH: int = 640_
+_-HEIGHT: int = 480_
+_-WIDTH_OVERFLOW: double = 15.3043823242188_
+_-HEIGHT_OVERFLOW: double = 37.5652465820312_
+_-VISUAL_BOUNDS: Rectangle2D = Screen.getPrimary().getVisualBounds()_
+_-RESOURCE_LOADER: ResourceLoader = new ResourceLoader()_
+_-APP_ICON: Image = nnew Image(RESOURCE_LOADER.getInputStream("images/icon.png"))_
+_-APP_CSS: String = RESOURCE_LOADER.getResourceDir("/style.css")_
+_-DATE_FORMAT: String = "dd-MM-yyyy"_
+_-DATE_TIME_FORMATTER: DateTimeFormatter = DateTimeFormatter.ofPattern(DATE_FORMAT)_
+_-stage: Stage_
+_-scene: Scene_
+_-personDAO: PersonDAO_
+_-ticketDAO: TicketDAO_
+_+DEBUG: boolean = false_
+--
++start(stage: Stage): void
+_+switchController(controller: Controller): void_</panel_attributes>
+    <additional_attributes/>
+  </element>
+  <element>
+    <id>Relation</id>
+    <coordinates>
+      <x>783</x>
+      <y>180</y>
+      <w>27</w>
+      <h>9</h>
+    </coordinates>
+    <panel_attributes>lt=&lt;&lt;-</panel_attributes>
+    <additional_attributes>70.0;10.0;10.0;10.0</additional_attributes>
+  </element>
+  <element>
+    <id>UMLClass</id>
+    <coordinates>
+      <x>984</x>
+      <y>306</y>
+      <w>48</w>
+      <h>36</h>
+    </coordinates>
+    <panel_attributes>&lt;&lt;views&gt;&gt;
+/View/
+--
+-root: Parent
+--
++View()
+/#initializeView(): Parent/
++getRoot(): Parent</panel_attributes>
+    <additional_attributes/>
+  </element>
+  <element>
+    <id>Relation</id>
+    <coordinates>
+      <x>696</x>
+      <y>315</y>
+      <w>294</w>
+      <h>9</h>
+    </coordinates>
+    <panel_attributes>lt=&lt;-</panel_attributes>
+    <additional_attributes>960.0;10.0;10.0;10.0</additional_attributes>
+  </element>
+  <element>
+    <id>UMLClass</id>
+    <coordinates>
+      <x>804</x>
+      <y>198</y>
+      <w>87</w>
+      <h>42</h>
+    </coordinates>
+    <panel_attributes>Main
+--
+_-STUDENT_NAME: String = "Remzi Cavdar"_
+_-STUDENT_NUMBER: int = 500714645_
+_-YES_I_ACCEPT: boolean = true_
+_+launchedFromMain_
+--
+_+main(args: String[]): void_
+_-showDeclarationOfIntegrity(): void_</panel_attributes>
+    <additional_attributes/>
+  </element>
+  <element>
+    <id>Relation</id>
+    <coordinates>
+      <x>783</x>
+      <y>201</y>
+      <w>27</w>
+      <h>9</h>
+    </coordinates>
+    <panel_attributes>lt=&lt;-</panel_attributes>
+    <additional_attributes>10.0;10.0;70.0;10.0</additional_attributes>
+  </element>
+  <element>
+    <id>UMLClass</id>
+    <coordinates>
+      <x>840</x>
+      <y>372</y>
+      <w>213</w>
+      <h>66</h>
+    </coordinates>
+    <panel_attributes>&lt;&lt;views&gt;&gt;
+PersonView
+--
+-labelName, labelSex, labelBirthdate, labelBirthplace, labelNationality, labelBSN, labelDocumentNumber: Label
+-txtFieldName, txtFieldBirthplace, txtFieldNationality, txtFieldBSN, txtFieldDocumentNumber: TextField
+-datePickerBirthdate: DatePicker
+-comboBoxSex: ComboBox&lt;String&gt;
+-saveButton, newButton, deleteButton, switchButton: Button
+-listView: ListView&lt;Person&gt;
+_-MAX_LENGTH_BSN: int = 9_
+-menuItemSave, menuItemLoad, menuItemClose: MenuItem
+--
++PersonView()
+#initializeView(): Parent</panel_attributes>
+    <additional_attributes/>
+  </element>
+  <element>
+    <id>UMLNote</id>
+    <coordinates>
+      <x>864</x>
+      <y>498</y>
+      <w>30</w>
+      <h>9</h>
+    </coordinates>
+    <panel_attributes>DetailModel
+bg=blue
+</panel_attributes>
+    <additional_attributes/>
+  </element>
+  <element>
+    <id>UMLClass</id>
+    <coordinates>
+      <x>1065</x>
+      <y>372</y>
+      <w>156</w>
+      <h>66</h>
+    </coordinates>
+    <panel_attributes>&lt;&lt;views&gt;&gt;
+TicketView
+--
+-labelBelongsTo, labelStartDate, labelEndDate, labelCost, labelCheckedIn: Label
+-txtFieldCost: TextField
+-datePickerStartDate, datePickerEndDate: DatePicker
+-checkBoxCheckedIn: CheckBox
+-comboBoxBelongsTo: ComboBox&lt;Person&gt;
+-saveButton, newButton, deleteButton, switchButton: Button
+-listview: ListView&lt;Ticket&gt;
+-menuItemSave, menuItemLoad, menuItemClose: MenuItem
+--
+#initializeView(): Parent</panel_attributes>
+    <additional_attributes/>
+  </element>
+  <element>
+    <id>UMLNote</id>
+    <coordinates>
+      <x>1023</x>
+      <y>363</y>
+      <w>30</w>
+      <h>9</h>
+    </coordinates>
+    <panel_attributes>MasterView
+bg=blue</panel_attributes>
+    <additional_attributes/>
+  </element>
+  <element>
+    <id>Relation</id>
+    <coordinates>
+      <x>858</x>
+      <y>339</y>
+      <w>141</w>
+      <h>39</h>
+    </coordinates>
+    <panel_attributes>lt=&lt;&lt;-</panel_attributes>
+    <additional_attributes>450.0;10.0;10.0;110.0</additional_attributes>
+  </element>
+  <element>
+    <id>Relation</id>
+    <coordinates>
+      <x>1020</x>
+      <y>339</y>
+      <w>78</w>
+      <h>39</h>
+    </coordinates>
+    <panel_attributes>lt=&lt;&lt;-</panel_attributes>
+    <additional_attributes>10.0;10.0;240.0;110.0</additional_attributes>
+  </element>
+  <element>
+    <id>UMLClass</id>
+    <coordinates>
+      <x>663</x>
+      <y>306</y>
+      <w>36</w>
+      <h>21</h>
+    </coordinates>
+    <panel_attributes>&lt;&lt;controllers&gt;&gt;
+/Controller/
+--
+/+getView(): View/</panel_attributes>
+    <additional_attributes/>
+  </element>
+  <element>
+    <id>UMLClass</id>
+    <coordinates>
+      <x>582</x>
+      <y>360</y>
+      <w>132</w>
+      <h>120</h>
+    </coordinates>
+    <panel_attributes>&lt;&lt;controllers&gt;&gt;
+PersonController
+--
+-view: PersonView
+-person: Person
+-personDAO: PersonDAO
+-ticketDAO: TicketDAO
+-alert: AlertDialog
+-fullName, birthplace, nationality, BSN, documentNumber: TextField
+-sex: ComboBox&lt;String&gt;
+-birthdate: DatePicker
+-listView: ListView&lt;Person&gt;
+-data: Object[]
+-observableListPersons: ObservableList&lt;Person&gt;
+-inputHandler: InputHandler
+--
++PersonController()
++getView(): View
+-getInputDataFromView(): void
+-handleMenuSaveButton(event: ActionEvent): void
+-handleMenuLoadButton(event: ActionEvent): void
+-handleSaveButton(event: ActionEvent): void
+-handleNewButton(event: ActionEvent): void
+-handleDeleteButton(event: ActionEvent): void
+-handleSwitchButton(event: ActionEvent): void</panel_attributes>
+    <additional_attributes/>
+  </element>
+  <element>
+    <id>UMLClass</id>
+    <coordinates>
+      <x>720</x>
+      <y>360</y>
+      <w>102</w>
+      <h>129</h>
+    </coordinates>
+    <panel_attributes>&lt;&lt;controllers&gt;&gt;
+TicketController
+--
+-view: TicketView
+-ticket: Ticket
+-ticketDAO: TicketDAO
+-personDAO: PersonDAO
+-alert: AlertDialog
+-belongsTo: ComboBox&lt;Person&gt;
+-startDate, endDate: DatePicker
+-cost: TextField
+-checkedIn: CheckBox
+-listView: ListView&lt;Ticket&gt;
+-data: Object[]
+-observableListPersons: ObservableList&lt;Person&gt;
+-observableListTickets: ObservableList&lt;Ticket&gt;
+-inputHandler: InputHandler
+--
++TicketController()
++getView(): View
+-getInputDataFromView(): void
+-handleMenuSaveButton(event: ActionEvent): void
+-handleMenuLoadButton(event: ActionEvent): void
+-handleSaveButton(event: ActionEvent): void
+-handleNewButton(event: ActionEvent): void
+-handleDeleteButton(event: ActionEvent): void
+-handleSwitchButton(event: ActionEvent): void</panel_attributes>
+    <additional_attributes/>
+  </element>
+  <element>
+    <id>UMLNote</id>
+    <coordinates>
+      <x>1194</x>
+      <y>363</y>
+      <w>27</w>
+      <h>9</h>
+    </coordinates>
+    <panel_attributes>DetailView
+bg=blue
+</panel_attributes>
+    <additional_attributes/>
+  </element>
+  <element>
+    <id>Relation</id>
+    <coordinates>
+      <x>603</x>
+      <y>324</y>
+      <w>81</w>
+      <h>42</h>
+    </coordinates>
+    <panel_attributes>lt=&lt;&lt;-</panel_attributes>
+    <additional_attributes>250.0;10.0;10.0;120.0</additional_attributes>
+  </element>
+  <element>
+    <id>Relation</id>
+    <coordinates>
+      <x>684</x>
+      <y>324</y>
+      <w>66</w>
+      <h>42</h>
+    </coordinates>
+    <panel_attributes>lt=&lt;&lt;-</panel_attributes>
+    <additional_attributes>10.0;10.0;200.0;120.0</additional_attributes>
+  </element>
+  <element>
+    <id>UMLNote</id>
+    <coordinates>
+      <x>675</x>
+      <y>351</y>
+      <w>39</w>
+      <h>9</h>
+    </coordinates>
+    <panel_attributes>MasterController
+bg=blue</panel_attributes>
+    <additional_attributes/>
+  </element>
+  <element>
+    <id>UMLNote</id>
+    <coordinates>
+      <x>786</x>
+      <y>351</y>
+      <w>36</w>
+      <h>9</h>
+    </coordinates>
+    <panel_attributes>DetailController
+bg=blue
+</panel_attributes>
+    <additional_attributes/>
+  </element>
+  <element>
+    <id>Relation</id>
+    <coordinates>
+      <x>603</x>
+      <y>477</y>
+      <w>9</w>
+      <h>36</h>
+    </coordinates>
+    <panel_attributes>lt=&lt;-</panel_attributes>
+    <additional_attributes>10.0;100.0;10.0;10.0</additional_attributes>
+  </element>
+  <element>
+    <id>Relation</id>
+    <coordinates>
+      <x>756</x>
+      <y>486</y>
+      <w>9</w>
+      <h>27</h>
+    </coordinates>
+    <panel_attributes>lt=&lt;-</panel_attributes>
+    <additional_attributes>10.0;70.0;10.0;10.0</additional_attributes>
+  </element>
+  <element>
+    <id>UMLClass</id>
+    <coordinates>
+      <x>264</x>
+      <y>192</y>
+      <w>63</w>
+      <h>42</h>
+    </coordinates>
+    <panel_attributes>&lt;&lt;data&gt;&gt;
+DAO&lt;T&gt;
+--
++getAll(): List&lt;T&gt;
++addOrUpdate(object: T): void
++remove(object: T): void
++save(): boolean
++load(): boolean</panel_attributes>
+    <additional_attributes/>
+  </element>
+  <element>
+    <id>UMLClass</id>
+    <coordinates>
+      <x>117</x>
+      <y>264</y>
+      <w>93</w>
+      <h>66</h>
+    </coordinates>
+    <panel_attributes>&lt;&lt;data&gt;&gt;
+PersonDAO
+--
+#persons: List&lt;Person&gt;
+_-APP_DATA_DIRECTORY: String = "App_data"_
+--
++PersonDAO()
++getById(id int): Person
++getIdFor(person Person): int
++getAll(): List&lt;Person&gt;
++addOrUpdate(person Person): void
++remove(person Person): void
+/+load(): boolean/
+/+save(): boolean/</panel_attributes>
+    <additional_attributes/>
+  </element>
+  <element>
+    <id>UMLClass</id>
+    <coordinates>
+      <x>81</x>
+      <y>360</y>
+      <w>63</w>
+      <h>27</h>
+    </coordinates>
+    <panel_attributes>&lt;&lt;data&gt;&gt;
+DummyPersonDAO
+--
++load(): boolean
++save(): boolean
+</panel_attributes>
+    <additional_attributes/>
+  </element>
+  <element>
+    <id>Relation</id>
+    <coordinates>
+      <x>207</x>
+      <y>231</y>
+      <w>75</w>
+      <h>45</h>
+    </coordinates>
+    <panel_attributes>lt=&lt;&lt;.</panel_attributes>
+    <additional_attributes>230.0;10.0;10.0;130.0</additional_attributes>
+  </element>
+  <element>
+    <id>Relation</id>
+    <coordinates>
+      <x>312</x>
+      <y>231</y>
+      <w>45</w>
+      <h>42</h>
+    </coordinates>
+    <panel_attributes>lt=&lt;&lt;.</panel_attributes>
+    <additional_attributes>10.0;10.0;130.0;120.0</additional_attributes>
+  </element>
+  <element>
+    <id>UMLNote</id>
+    <coordinates>
+      <x>180</x>
+      <y>255</y>
+      <w>30</w>
+      <h>9</h>
+    </coordinates>
+    <panel_attributes>MasterDAO
+bg=blue</panel_attributes>
+    <additional_attributes/>
+  </element>
+  <element>
+    <id>UMLClass</id>
+    <coordinates>
+      <x>351</x>
+      <y>261</y>
+      <w>93</w>
+      <h>72</h>
+    </coordinates>
+    <panel_attributes>&lt;&lt;data&gt;&gt;
+TicketDAO
+--
+#tickets: List&lt;Ticket&gt;
+#personDAO: PersonDAO = getPersonDAO()
+_-APP_DATA_DIRECTORY: String = "App_data"_
+--
++TicketDAO()
++getAllFor(person Person): List&lt;Ticket&gt;
++removeAllFor(person Person): void
++getAll(): List&lt;Ticket&gt;
++addOrUpdate(ticket Ticket): void
++remove(ticket Ticket): void
+/+load(): boolean/
+/+save(): boolean/</panel_attributes>
+    <additional_attributes/>
+  </element>
+  <element>
+    <id>UMLNote</id>
+    <coordinates>
+      <x>411</x>
+      <y>252</y>
+      <w>30</w>
+      <h>9</h>
+    </coordinates>
+    <panel_attributes>DetailDAO
+bg=blue</panel_attributes>
+    <additional_attributes/>
+  </element>
+  <element>
+    <id>UMLNote</id>
+    <coordinates>
+      <x>102</x>
+      <y>351</y>
+      <w>42</w>
+      <h>9</h>
+    </coordinates>
+    <panel_attributes>DummyMasterDAO
+bg=blue</panel_attributes>
+    <additional_attributes/>
+  </element>
+  <element>
+    <id>UMLClass</id>
+    <coordinates>
+      <x>318</x>
+      <y>360</y>
+      <w>63</w>
+      <h>27</h>
+    </coordinates>
+    <panel_attributes>&lt;&lt;data&gt;&gt;
+DummyTicketDAO
+--
++save(): boolean
++load(): boolean</panel_attributes>
+    <additional_attributes/>
+  </element>
+  <element>
+    <id>UMLNote</id>
+    <coordinates>
+      <x>339</x>
+      <y>351</y>
+      <w>42</w>
+      <h>9</h>
+    </coordinates>
+    <panel_attributes>DummyDetailDAO
+bg=blue</panel_attributes>
+    <additional_attributes/>
+  </element>
+  <element>
+    <id>Relation</id>
+    <coordinates>
+      <x>93</x>
+      <y>327</y>
+      <w>36</w>
+      <h>39</h>
+    </coordinates>
+    <panel_attributes>lt=&lt;&lt;-</panel_attributes>
+    <additional_attributes>100.0;10.0;10.0;110.0</additional_attributes>
+  </element>
+  <element>
+    <id>Relation</id>
+    <coordinates>
+      <x>330</x>
+      <y>330</y>
+      <w>33</w>
+      <h>36</h>
+    </coordinates>
+    <panel_attributes>lt=&lt;&lt;-</panel_attributes>
+    <additional_attributes>90.0;10.0;10.0;100.0</additional_attributes>
+  </element>
+  <element>
+    <id>Relation</id>
+    <coordinates>
+      <x>207</x>
+      <y>180</y>
+      <w>375</w>
+      <h>108</h>
+    </coordinates>
+    <panel_attributes>lt=-&gt;</panel_attributes>
+    <additional_attributes>1230.0;10.0;10.0;340.0</additional_attributes>
+  </element>
+  <element>
+    <id>Relation</id>
+    <coordinates>
+      <x>441</x>
+      <y>186</y>
+      <w>141</w>
+      <h>87</h>
+    </coordinates>
+    <panel_attributes>lt=-&gt;</panel_attributes>
+    <additional_attributes>450.0;10.0;10.0;270.0</additional_attributes>
+  </element>
+  <element>
+    <id>Relation</id>
+    <coordinates>
+      <x>678</x>
+      <y>276</y>
+      <w>9</w>
+      <h>36</h>
+    </coordinates>
+    <panel_attributes>lt=&lt;-</panel_attributes>
+    <additional_attributes>10.0;100.0;10.0;10.0</additional_attributes>
+  </element>
+  <element>
+    <id>UMLClass</id>
+    <coordinates>
+      <x>150</x>
+      <y>360</y>
+      <w>144</w>
+      <h>45</h>
+    </coordinates>
+    <panel_attributes>&lt;&lt;data&gt;&gt;
+TextPersonDAO
+--
+_-DIRECTORY_NAME: String = getAppDataDirectory()_
+_-FILE_NAME: String = "Persons.txt"_
+_-FILE_PATH: String = DIRECTORY_NAME + File.separator + FILE_NAME_
+_-UTF8_BOM: String = "\uFEFF"_
+--
++load(): boolean
++save(): boolean
+</panel_attributes>
+    <additional_attributes/>
+  </element>
+  <element>
+    <id>UMLNote</id>
+    <coordinates>
+      <x>252</x>
+      <y>351</y>
+      <w>42</w>
+      <h>9</h>
+    </coordinates>
+    <panel_attributes>TextMasterDAO
+bg=blue</panel_attributes>
+    <additional_attributes/>
+  </element>
+  <element>
+    <id>Relation</id>
+    <coordinates>
+      <x>201</x>
+      <y>327</y>
+      <w>24</w>
+      <h>39</h>
+    </coordinates>
+    <panel_attributes>lt=&lt;&lt;-</panel_attributes>
+    <additional_attributes>10.0;10.0;60.0;110.0</additional_attributes>
+  </element>
+  <element>
+    <id>UMLClass</id>
+    <coordinates>
+      <x>387</x>
+      <y>360</y>
+      <w>144</w>
+      <h>45</h>
+    </coordinates>
+    <panel_attributes>&lt;&lt;data&gt;&gt;
+TextTicketDAO
+--
+_-DIRECTORY_NAME: String = getAppDataDirectory()_
+_-FILE_NAME: String = "Tickets.txt"_
+_-FILE_PATH: String = DIRECTORY_NAME + File.separator + FILE_NAME_
+_-UTF8_BOM: String = "\uFEFF"_
+--
++load(): boolean
++save(): boolean
+</panel_attributes>
+    <additional_attributes/>
+  </element>
+  <element>
+    <id>UMLNote</id>
+    <coordinates>
+      <x>489</x>
+      <y>351</y>
+      <w>42</w>
+      <h>9</h>
+    </coordinates>
+    <panel_attributes>TextDetailDAO
+bg=blue</panel_attributes>
+    <additional_attributes/>
+  </element>
+  <element>
+    <id>Relation</id>
+    <coordinates>
+      <x>435</x>
+      <y>330</y>
+      <w>27</w>
+      <h>36</h>
+    </coordinates>
+    <panel_attributes>lt=&lt;&lt;-</panel_attributes>
+    <additional_attributes>10.0;10.0;70.0;100.0</additional_attributes>
+  </element>
+</diagram>

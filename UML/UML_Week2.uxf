@@ -1,0 +1,211 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<diagram program="umlet" version="15.0.0">
+  <zoom_level>7</zoom_level>
+  <element>
+    <id>UMLClass</id>
+    <coordinates>
+      <x>924</x>
+      <y>84</y>
+      <w>98</w>
+      <h>28</h>
+    </coordinates>
+    <panel_attributes>&lt;&lt;javafx.application&gt;&gt;
+Application</panel_attributes>
+    <additional_attributes/>
+  </element>
+  <element>
+    <id>UMLClass</id>
+    <coordinates>
+      <x>392</x>
+      <y>84</y>
+      <w>490</w>
+      <h>231</h>
+    </coordinates>
+    <panel_attributes>MainApplication
+--
+_-TITLE: String = String.format("Practicumopdracht OOP2 - %s - %d", getStudentName(), getStudentNumber())_
+_-WIDTH: int = 640_
+_-HEIGHT: int = 480_
+_-WIDTH_OVERFLOW: double = 15.3043823242188_
+_-HEIGHT_OVERFLOW: double = 37.5652465820312_
+_-VISUAL_BOUNDS: Rectangle2D = Screen.getPrimary().getVisualBounds()_
+_-RESOURCE_LOADER: ResourceLoader = new ResourceLoader()_
+_-APP_ICON: Image = nnew Image(RESOURCE_LOADER.getInputStream("images/icon.png"))_
+_-APP_CSS: String = RESOURCE_LOADER.getResourceDir("/style.css")_
+_-DATE_FORMAT: String = "dd-MM-yyyy"_
+_-DATE_TIME_FORMATTER: DateTimeFormatter = DateTimeFormatter.ofPattern(DATE_FORMAT)_
+_-stage: Stage_
+_-scene: Scene_
+_-personDAO: PersonDAO_
+_-ticketDAO: TicketDAO_
+_+DEBUG: boolean = false_
+--
++start(stage: Stage): void
+_+switchController(controller: Controller): void_</panel_attributes>
+    <additional_attributes/>
+  </element>
+  <element>
+    <id>Relation</id>
+    <coordinates>
+      <x>875</x>
+      <y>84</y>
+      <w>63</w>
+      <h>21</h>
+    </coordinates>
+    <panel_attributes>lt=&lt;&lt;-</panel_attributes>
+    <additional_attributes>70.0;10.0;10.0;10.0</additional_attributes>
+  </element>
+  <element>
+    <id>UMLClass</id>
+    <coordinates>
+      <x>581</x>
+      <y>350</y>
+      <w>112</w>
+      <h>84</h>
+    </coordinates>
+    <panel_attributes>&lt;&lt;views&gt;&gt;
+/View/
+--
+-root: Parent
+--
++View()
+/#initializeView(): Parent/
++getRoot(): Parent</panel_attributes>
+    <additional_attributes/>
+  </element>
+  <element>
+    <id>UMLClass</id>
+    <coordinates>
+      <x>924</x>
+      <y>126</y>
+      <w>203</w>
+      <h>98</h>
+    </coordinates>
+    <panel_attributes>Main
+--
+_-STUDENT_NAME: String = "Remzi Cavdar"_
+_-STUDENT_NUMBER: int = 500714645_
+_-YES_I_ACCEPT: boolean = true_
+_+launchedFromMain_
+--
+_+main(args: String[]): void_
+_-showDeclarationOfIntegrity(): void_</panel_attributes>
+    <additional_attributes/>
+  </element>
+  <element>
+    <id>Relation</id>
+    <coordinates>
+      <x>875</x>
+      <y>133</y>
+      <w>63</w>
+      <h>21</h>
+    </coordinates>
+    <panel_attributes>lt=&lt;-</panel_attributes>
+    <additional_attributes>10.0;10.0;70.0;10.0</additional_attributes>
+  </element>
+  <element>
+    <id>UMLClass</id>
+    <coordinates>
+      <x>245</x>
+      <y>504</y>
+      <w>497</w>
+      <h>154</h>
+    </coordinates>
+    <panel_attributes>&lt;&lt;views&gt;&gt;
+PersonView
+--
+-labelName, labelSex, labelBirthdate, labelBirthplace, labelNationality, labelBSN, labelDocumentNumber: Label
+-txtFieldName, txtFieldBirthplace, txtFieldNationality, txtFieldBSN, txtFieldDocumentNumber: TextField
+-datePickerBirthdate: DatePicker
+-comboBoxSex: ComboBox&lt;String&gt;
+-saveButton, newButton, deleteButton, switchButton: Button
+-listView: ListView&lt;Person&gt;
+_-MAX_LENGTH_BSN: int = 9_
+-menuItemSave, menuItemLoad, menuItemClose: MenuItem
+--
++PersonView()
+#initializeView(): Parent</panel_attributes>
+    <additional_attributes/>
+  </element>
+  <element>
+    <id>UMLClass</id>
+    <coordinates>
+      <x>770</x>
+      <y>504</y>
+      <w>364</w>
+      <h>154</h>
+    </coordinates>
+    <panel_attributes>&lt;&lt;views&gt;&gt;
+TicketView
+--
+-labelBelongsTo, labelStartDate, labelEndDate, labelCost, labelCheckedIn: Label
+-txtFieldCost: TextField
+-datePickerStartDate, datePickerEndDate: DatePicker
+-checkBoxCheckedIn: CheckBox
+-comboBoxBelongsTo: ComboBox&lt;Person&gt;
+-saveButton, newButton, deleteButton, switchButton: Button
+-listview: ListView&lt;Ticket&gt;
+-menuItemSave, menuItemLoad, menuItemClose: MenuItem
+--
+#initializeView(): Parent</panel_attributes>
+    <additional_attributes/>
+  </element>
+  <element>
+    <id>UMLNote</id>
+    <coordinates>
+      <x>672</x>
+      <y>483</y>
+      <w>70</w>
+      <h>21</h>
+    </coordinates>
+    <panel_attributes>MasterView
+bg=blue</panel_attributes>
+    <additional_attributes/>
+  </element>
+  <element>
+    <id>Relation</id>
+    <coordinates>
+      <x>287</x>
+      <y>427</y>
+      <w>329</w>
+      <h>91</h>
+    </coordinates>
+    <panel_attributes>lt=&lt;&lt;-</panel_attributes>
+    <additional_attributes>450.0;10.0;10.0;110.0</additional_attributes>
+  </element>
+  <element>
+    <id>Relation</id>
+    <coordinates>
+      <x>665</x>
+      <y>427</y>
+      <w>182</w>
+      <h>91</h>
+    </coordinates>
+    <panel_attributes>lt=&lt;&lt;-</panel_attributes>
+    <additional_attributes>10.0;10.0;240.0;110.0</additional_attributes>
+  </element>
+  <element>
+    <id>UMLNote</id>
+    <coordinates>
+      <x>1071</x>
+      <y>483</y>
+      <w>63</w>
+      <h>21</h>
+    </coordinates>
+    <panel_attributes>DetailView
+bg=blue
+</panel_attributes>
+    <additional_attributes/>
+  </element>
+  <element>
+    <id>Relation</id>
+    <coordinates>
+      <x>630</x>
+      <y>308</y>
+      <w>21</w>
+      <h>56</h>
+    </coordinates>
+    <panel_attributes>lt=&lt;-</panel_attributes>
+    <additional_attributes>10.0;60.0;10.0;10.0</additional_attributes>
+  </element>
+</diagram>

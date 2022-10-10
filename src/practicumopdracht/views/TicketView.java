@@ -2,6 +2,7 @@ package practicumopdracht.views;
 
 import javafx.geometry.Insets;
 import javafx.geometry.Pos;
+import javafx.scene.Parent;
 import javafx.scene.control.*;
 import javafx.scene.layout.*;
 import practicumopdracht.MainApplication;
@@ -17,16 +18,14 @@ public class TicketView extends View {
     private Label labelBelongsTo, labelStartDate, labelEndDate, labelCost, labelCheckedIn;
     private TextField txtFieldCost;
     private DatePicker datePickerStartDate, datePickerEndDate;
-    private CheckBox CheckBoxcheckedIn;
-    private ComboBox<Person> ComboBoxBelongsTo;
+    private CheckBox checkBoxCheckedIn;
+    private ComboBox<Person> comboBoxBelongsTo;
     private Button saveButton, newButton, deleteButton, switchButton;
     private ListView<Ticket> listview;
-    private MenuItem menuItemSave;
-    private MenuItem menuItemLoad;
-    private MenuItem menuItemClose;
+    private MenuItem menuItemSave, menuItemLoad, menuItemClose;
 
     @Override
-    protected void initializeView() {
+    protected Parent initializeView() {
         // Root
         BorderPane rootBorderPane = new BorderPane();
         rootBorderPane.getStyleClass().add("root-container");
@@ -67,9 +66,9 @@ public class TicketView extends View {
         // Belongs to
         labelBelongsTo = new Label("Persoon:");
 
-        ComboBoxBelongsTo = new ComboBox<>();
+        comboBoxBelongsTo = new ComboBox<>();
         gridpane.add(labelBelongsTo, 0, 0);
-        gridpane.add(ComboBoxBelongsTo, 1, 0);
+        gridpane.add(comboBoxBelongsTo, 1, 0);
 
         // Start date
         labelStartDate = new Label("Datum vanaf:");
@@ -91,9 +90,9 @@ public class TicketView extends View {
 
         // Checkbox checkedIn
         labelCheckedIn = new Label("Checked in:");
-        CheckBoxcheckedIn = new CheckBox("(verplicht)");
+        checkBoxCheckedIn = new CheckBox("(verplicht)");
         gridpane.add(labelCheckedIn, 0, 5);
-        gridpane.add(CheckBoxcheckedIn, 1, 5);
+        gridpane.add(checkBoxCheckedIn, 1, 5);
 
         // Save button
         HBox hboxSaveButton = new HBox();
@@ -132,7 +131,7 @@ public class TicketView extends View {
         // Root
         rootBorderPane.setTop(menuBar);
         rootBorderPane.setCenter(vboxContainer);
-        root = rootBorderPane;
+        return rootBorderPane;
     }
 
     // All getters and setters
@@ -212,20 +211,20 @@ public class TicketView extends View {
         this.datePickerEndDate = datePickerEndDate;
     }
 
-    public CheckBox getCheckBoxcheckedIn() {
-        return CheckBoxcheckedIn;
+    public CheckBox getCheckBoxCheckedIn() {
+        return checkBoxCheckedIn;
     }
 
-    public void setCheckBoxcheckedIn(CheckBox checkBoxcheckedIn) {
-        CheckBoxcheckedIn = checkBoxcheckedIn;
+    public void setCheckBoxCheckedIn(CheckBox checkBoxCheckedIn) {
+        this.checkBoxCheckedIn = checkBoxCheckedIn;
     }
 
     public ComboBox<Person> getComboBoxBelongsTo() {
-        return ComboBoxBelongsTo;
+        return comboBoxBelongsTo;
     }
 
     public void setComboBoxBelongsTo(ComboBox<Person> comboBoxBelongsTo) {
-        ComboBoxBelongsTo = comboBoxBelongsTo;
+        this.comboBoxBelongsTo = comboBoxBelongsTo;
     }
 
     public Button getSaveButton() {

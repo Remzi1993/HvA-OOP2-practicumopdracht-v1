@@ -2,6 +2,7 @@ package practicumopdracht.views;
 
 import javafx.geometry.Insets;
 import javafx.geometry.Pos;
+import javafx.scene.Parent;
 import javafx.scene.control.*;
 import javafx.scene.layout.*;
 import practicumopdracht.MainApplication;
@@ -17,17 +18,18 @@ public class PersonView extends View {
     private Label labelName, labelSex, labelBirthdate, labelBirthplace, labelNationality, labelBSN, labelDocumentNumber;
     private TextField txtFieldName, txtFieldBirthplace, txtFieldNationality, txtFieldBSN, txtFieldDocumentNumber;
     private DatePicker datePickerBirthdate;
-    private ComboBox<String> ComboBoxSex;
+    private ComboBox<String> comboBoxSex;
     private Button saveButton, newButton, deleteButton, switchButton;
     private ListView<Person> listView;
-    private TextFieldLimiter textFieldLimiter;
     private static final int MAX_LENGTH_BSN = 9;
-    private MenuItem menuItemSave;
-    private MenuItem menuItemLoad;
-    private MenuItem menuItemClose;
+    private MenuItem menuItemSave, menuItemLoad, menuItemClose;
+
+    public PersonView() {
+        new TextFieldLimiter(txtFieldBSN, MAX_LENGTH_BSN);
+    }
 
     @Override
-    protected void initializeView() {
+    protected Parent initializeView() {
         // Root
         BorderPane rootBorderPane = new BorderPane();
         rootBorderPane.getStyleClass().add("root-container");
@@ -73,11 +75,11 @@ public class PersonView extends View {
 
         // Sex
         labelSex = new Label("Geslacht:");
-        ComboBoxSex = new ComboBox<>();
-        ComboBoxSex.getItems().add("Man");
-        ComboBoxSex.getItems().add("Vrouw");
+        comboBoxSex = new ComboBox<>();
+        comboBoxSex.getItems().add("Man");
+        comboBoxSex.getItems().add("Vrouw");
         gridpane.add(labelSex, 0, 1);
-        gridpane.add(ComboBoxSex, 1, 1);
+        gridpane.add(comboBoxSex, 1, 1);
 
         // Birthdate
         labelBirthdate = new Label("Geboortedatum:");
@@ -100,7 +102,6 @@ public class PersonView extends View {
         // BSN
         labelBSN = new Label("BSN:");
         txtFieldBSN = new TextField();
-        textFieldLimiter = new TextFieldLimiter(txtFieldBSN, MAX_LENGTH_BSN);
         gridpane.add(labelBSN, 0, 5);
         gridpane.add(txtFieldBSN, 1, 5);
 
@@ -147,7 +148,7 @@ public class PersonView extends View {
         // Root
         rootBorderPane.setTop(menuBar);
         rootBorderPane.setCenter(vboxContainer);
-        root = rootBorderPane;
+        return rootBorderPane;
     }
 
     // All getters and setters
@@ -268,11 +269,11 @@ public class PersonView extends View {
     }
 
     public ComboBox<String> getComboBoxSex() {
-        return ComboBoxSex;
+        return comboBoxSex;
     }
 
     public void setComboBoxSex(ComboBox<String> comboBoxSex) {
-        ComboBoxSex = comboBoxSex;
+        this.comboBoxSex = comboBoxSex;
     }
 
     public Button getSaveButton() {
