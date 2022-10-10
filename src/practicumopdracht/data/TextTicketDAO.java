@@ -17,12 +17,13 @@ import static practicumopdracht.MainApplication.*;
 public class TextTicketDAO extends TicketDAO {
     private static final String DIRECTORY_NAME = getAppDataDirectory();
     private static final String FILE_NAME = "Tickets.txt";
+    private static final String FILE_PATH = DIRECTORY_NAME + File.separator + FILE_NAME;
     private static final String UTF8_BOM = "\uFEFF";
 
     @Override
     public boolean load() {
         File directory = new File(DIRECTORY_NAME);
-        File file = new File(DIRECTORY_NAME + "/" + FILE_NAME);
+        File file = new File(FILE_PATH);
 
         if (DEBUG) {
             System.out.println("\nApp data directory: " + directory.getAbsolutePath());
@@ -68,8 +69,7 @@ public class TextTicketDAO extends TicketDAO {
         }
 
         try (
-                FileReader fileReader = new FileReader(DIRECTORY_NAME + "/" + FILE_NAME,
-                        StandardCharsets.UTF_8);
+                FileReader fileReader = new FileReader(FILE_PATH, StandardCharsets.UTF_8);
                 BufferedReader bufferedReader = new BufferedReader(fileReader);
         ) {
             // Clear the list
@@ -130,7 +130,7 @@ public class TextTicketDAO extends TicketDAO {
         }
 
         try (
-                FileWriter fileWriter = new FileWriter(FILE_NAME, StandardCharsets.UTF_8);
+                FileWriter fileWriter = new FileWriter(FILE_PATH, StandardCharsets.UTF_8);
                 BufferedWriter bufferedWriter = new BufferedWriter(fileWriter);
         ) {
             for (Ticket ticket : tickets) {
