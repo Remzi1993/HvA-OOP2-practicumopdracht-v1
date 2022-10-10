@@ -13,6 +13,7 @@ import java.util.List;
 
 public abstract class PersonDAO implements DAO<Person> {
     protected List<Person> persons;
+    private static final String APP_DATA_DIRECTORY = "App_data";
 
     public PersonDAO() {
         persons = new ArrayList<>();
@@ -20,8 +21,10 @@ public abstract class PersonDAO implements DAO<Person> {
 
     public Person getById(int id) {
         try {
-            Integer.valueOf(id);
             return persons.get(id);
+        } catch (IndexOutOfBoundsException e) {
+            System.out.println("ID is not in the list");
+            return null;
         } catch (Exception e) {
             System.err.println("PersonDAO getById(): Something went wrong!");
             return null;
@@ -55,4 +58,8 @@ public abstract class PersonDAO implements DAO<Person> {
 
     @Override
     public abstract boolean save();
+
+    public static String getAppDataDirectory() {
+        return APP_DATA_DIRECTORY;
+    }
 }

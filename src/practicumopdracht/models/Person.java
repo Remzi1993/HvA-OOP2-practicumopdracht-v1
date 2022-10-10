@@ -1,7 +1,7 @@
 package practicumopdracht.models;
 
 import java.time.LocalDate;
-import static practicumopdracht.MainApplication.getDateFormat;
+import static practicumopdracht.MainApplication.getDateTimeFormatter;
 
 /**
  * Person model - MasterModel
@@ -29,12 +29,12 @@ public class Person {
     public String toString() {
         return String.format("Naam: %s - Geslacht: %s - Geboortedatum: %s - Geboorteplaats: %s - " +
                         "Nationaliteit: %s - BSN: %d - Documentnummer: %s]",
-                name, sex, getDateFormat().format(birthdate), birthplace, nationality, BSN, documentNumber);
+                name, sex, getDateTimeFormatter().format(birthdate), birthplace, nationality, BSN, documentNumber);
     }
 
     public String toStringTextFile() {
         // Name, Sex, Birthdate, Birthplace, Nationality, BSN, Document number
-        return String.format("%s,%s,%s,%s,%s,%d,%s", name, sex, getDateFormat().format(birthdate), birthplace,
+        return String.format("%s,%s,%s,%s,%s,%d,%s", name, sex, getDateTimeFormatter().format(birthdate), birthplace,
                 nationality, BSN, documentNumber);
     }
 

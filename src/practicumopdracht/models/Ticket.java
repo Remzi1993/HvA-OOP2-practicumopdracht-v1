@@ -4,7 +4,7 @@ import practicumopdracht.data.PersonDAO;
 import java.time.LocalDate;
 import java.util.Locale;
 
-import static practicumopdracht.MainApplication.getDateFormat;
+import static practicumopdracht.MainApplication.getDateTimeFormatter;
 import static practicumopdracht.MainApplication.getPersonDAO;
 
 /**
@@ -31,14 +31,14 @@ public class Ticket {
     @Override
     public String toString() {
         return String.format("Ticket: [Datum vanaf: %s - Datum tot: %s - Kosten: %.2f - Checked in: %b]",
-                getDateFormat().format(startDate), getDateFormat().format(endDate), cost, checkedIn);
+                getDateTimeFormatter().format(startDate), getDateTimeFormatter().format(endDate), cost, checkedIn);
     }
 
     public String toStringTextFile() {
         // belongsTo, startDate, endDate, cost, checkedIn
         // Locale is set to US because we use comma as a separator
         return String.format(Locale.US, "%d,%s,%s,%.2f,%b", personDAO.getIdFor(belongsTo),
-                getDateFormat().format(startDate), getDateFormat().format(endDate), cost, checkedIn);
+                getDateTimeFormatter().format(startDate), getDateTimeFormatter().format(endDate), cost, checkedIn);
     }
 
     // Getters and setters

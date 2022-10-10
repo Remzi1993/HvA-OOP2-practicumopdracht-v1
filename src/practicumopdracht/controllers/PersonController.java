@@ -33,8 +33,8 @@ public class PersonController extends Controller {
     private ListView<Person> listView;
     private Object[] data;
     private static InputHandler inputHandler;
-    private DatePickerConverter datePickerConverter;
     private ObservableList<Person> observableListPersons;
+    private DatePickerConverter datePickerConverter;
 
     public PersonController() {
         personDAO = getPersonDAO();
@@ -67,16 +67,18 @@ public class PersonController extends Controller {
         view.getDeleteButton().setOnAction(this::handleDeleteButton);
         view.getSwitchButton().setOnAction(this::handleSwitchButton);
 
+        // ObservableList which controls the ListView
+        observableListPersons = FXCollections.observableArrayList(personDAO.getAll());
+        view.getListView().setItems(observableListPersons);
+
         // Datepicker
         birthdate = view.getDatePickerBirthdate();
-        // Date Pattern
-        String pattern = "dd-MM-yyyy";
         // Create the DateConverter
-        datePickerConverter = new DatePickerConverter(pattern);
+        datePickerConverter = new DatePickerConverter(getDateFormat());
         // Add the Converter to the DatePicker
         birthdate.setConverter(datePickerConverter);
         // Set the Date in the Prompt
-        birthdate.setPromptText(pattern.toUpperCase());
+        birthdate.setPromptText(getDateFormat().toUpperCase());
 
         birthdate.focusedProperty().addListener((observable, wasFocused, isFocused) -> {
             if (!isFocused) {
@@ -89,10 +91,6 @@ public class PersonController extends Controller {
                 }
             }
         });
-
-        // ObservableList which controls the ListView
-        observableListPersons = FXCollections.observableArrayList(personDAO.getAll());
-        view.getListView().setItems(observableListPersons);
     }
 
     @Override
@@ -262,6 +260,11 @@ public class PersonController extends Controller {
         alert.show();
 
         if (alert.getResult() == ButtonType.OK) {
+            getInputDataFromView();
+            if (data == null) {
+                System.err.println("Data is null");
+                return;
+            }
             // Clear everything
             inputHandler.clearValues(data, true);
             // Clear warnings

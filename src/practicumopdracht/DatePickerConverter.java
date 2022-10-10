@@ -7,17 +7,10 @@ import java.time.format.DateTimeParseException;
 import static practicumopdracht.MainApplication.DEBUG;
 
 public class DatePickerConverter extends StringConverter<LocalDate> {
-    // Default Date Pattern
-    private String pattern = "dd-MM-yyyy";
     // The Date Time Converter
     private DateTimeFormatter dateTimeFormatter;
 
-    public DatePickerConverter() {
-        dateTimeFormatter = DateTimeFormatter.ofPattern(pattern);
-    }
-
     public DatePickerConverter(String pattern) {
-        this.pattern = pattern;
         dateTimeFormatter = DateTimeFormatter.ofPattern(pattern);
     }
 
@@ -37,7 +30,9 @@ public class DatePickerConverter extends StringConverter<LocalDate> {
         try {
             return LocalDate.parse(string, dateTimeFormatter);
         } catch (DateTimeParseException e) {
-            System.err.println("Error parsing LocalDate: " + e.getMessage());
+            if (DEBUG) {
+                System.err.println("Error parsing LocalDate: " + e.getMessage());
+            }
             return null;
         } catch (Exception e) {
             if (DEBUG) {

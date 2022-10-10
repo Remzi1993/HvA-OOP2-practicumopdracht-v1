@@ -7,7 +7,7 @@ import java.time.DateTimeException;
 import java.time.LocalDate;
 import java.util.Arrays;
 import static practicumopdracht.MainApplication.DEBUG;
-import static practicumopdracht.MainApplication.getDateFormat;
+import static practicumopdracht.MainApplication.getDateTimeFormatter;
 
 /**
  * TextPersonDAO - TextMasterDAO
@@ -16,39 +16,58 @@ import static practicumopdracht.MainApplication.getDateFormat;
  */
 
 public class TextPersonDAO extends PersonDAO {
-    private static final String FILENAME = "Persons.txt";
+    private static final String DIRECTORY_NAME = getAppDataDirectory();
+    private static final String FILE_NAME = "Persons.txt";
     private static final String UTF8_BOM = "\uFEFF";
 
     @Override
     public boolean load() {
-        File file = new File(FILENAME);
+        File directory = new File(DIRECTORY_NAME);
+        File file = new File(DIRECTORY_NAME + "/" + FILE_NAME);
 
         if (DEBUG) {
-            System.out.println("Data directory: " + file.getAbsolutePath().replace(FILENAME, ""));
+            System.out.println("App data directory: " + directory.getAbsolutePath());
         }
 
-        // Safety check - check if the file already exists and if not create an empty file
+        /*
+         * 1. Check if the directory exists
+         * 2. If not, create the directory
+         * 3. Check if the file exists
+         * 4. If not, create the file
+         */
         try {
-            if (file.createNewFile()) {
+            if (directory.mkdir()) {
                 if (DEBUG) {
-                    System.out.println("File created: " + FILENAME);
+                    System.out.println("Directory created: " + DIRECTORY_NAME);
                 }
             } else {
                 if (DEBUG) {
-                    System.out.println("File already exists: " + FILENAME);
+                    System.out.println("Directory already exists: " + DIRECTORY_NAME);
                 }
             }
+
+            if (file.createNewFile()) {
+                if (DEBUG) {
+                    System.out.println("File created: " + FILE_NAME);
+                }
+            } else {
+                if (DEBUG) {
+                    System.out.println("File already exists: " + FILE_NAME);
+                }
+            }
+        } catch (SecurityException se) {
+            System.out.println("SecurityException: " + se.getMessage());
         } catch (IOException e) {
             System.out.println("An error occurred.");
-            e.printStackTrace();
         }
 
         if (DEBUG) {
-            System.out.println("Loading data: " + FILENAME);
+            System.out.println("Loading data: " + FILE_NAME);
         }
 
         try (
-                FileReader fileReader = new FileReader(FILENAME, StandardCharsets.UTF_8);
+                FileReader fileReader = new FileReader(DIRECTORY_NAME + "/" + FILE_NAME,
+                        StandardCharsets.UTF_8);
                 BufferedReader bufferedReader = new BufferedReader(fileReader);
         ) {
             // Clear the list in RAM
@@ -60,14 +79,16 @@ public class TextPersonDAO extends PersonDAO {
                     line = line.substring(1);
                 }
                 String[] values = line.split(",");
-                System.out.println(Arrays.toString(values));
+                if (DEBUG) {
+                    System.out.println(Arrays.toString(values));
+                }
 
                 // Name, Sex, Birthdate, Birthplace, Nationality, BSN, Document number
                 try {
                     persons.add(new Person(
                             values[0],
                             values[1],
-                            LocalDate.parse(values[2], getDateFormat()),
+                            LocalDate.parse(values[2], getDateTimeFormatter()),
                             values[3],
                             values[4],
                             Integer.parseInt(values[5]),
@@ -85,12 +106,12 @@ public class TextPersonDAO extends PersonDAO {
 
             // Successful load
             if (DEBUG) {
-                System.out.println("Loading complete: " + FILENAME);
+                System.out.println("Loading complete: " + FILE_NAME);
                 System.out.println(Arrays.toString(persons.toArray()));
             }
             return true;
         } catch (FileNotFoundException e) {
-            System.err.println("File not found! - " + FILENAME);
+            System.err.println("File not found! - " + FILE_NAME);
         } catch (IOException e) {
             System.err.println("Something went wrong while reading the file!");
             e.printStackTrace();
@@ -105,11 +126,11 @@ public class TextPersonDAO extends PersonDAO {
     @Override
     public boolean save() {
         if (DEBUG) {
-            System.out.println("Saving data: " + FILENAME);
+            System.out.println("Saving data: " + FILE_NAME);
         }
 
         try (
-                FileWriter fileWriter = new FileWriter(FILENAME, StandardCharsets.UTF_8);
+                FileWriter fileWriter = new FileWriter(FILE_NAME, StandardCharsets.UTF_8);
                 BufferedWriter bufferedWriter = new BufferedWriter(fileWriter);
         ) {
             for (Person person : persons) {
@@ -120,11 +141,11 @@ public class TextPersonDAO extends PersonDAO {
 
             // Successful save
             if (DEBUG) {
-                System.out.println("Saving complete: " + FILENAME);
+                System.out.println("Saving complete: " + FILE_NAME);
             }
             return true;
         } catch (FileNotFoundException e) {
-            System.err.println("File not found! - " + FILENAME);
+            System.err.println("File not found! - " + FILE_NAME);
         } catch (IOException e) {
             System.err.println("Something went wrong while saving the file!");
             e.printStackTrace();

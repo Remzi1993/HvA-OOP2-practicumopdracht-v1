@@ -10,12 +10,11 @@ public class Main {
     public static boolean launchedFromMain;
 
     public static void main(String[] args) {
-        launchedFromMain = true;
         if(!YES_I_ACCEPT) {
             showDeclarationOfIntegrity();
             return;
         }
-
+        launchedFromMain = true;
         Application.launch(MainApplication.class, args);
     }
 

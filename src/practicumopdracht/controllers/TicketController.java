@@ -5,10 +5,7 @@ import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.event.ActionEvent;
 import javafx.scene.control.*;
-import practicumopdracht.AlertDialog;
-import practicumopdracht.InputHandler;
-import practicumopdracht.IsNumeric;
-import practicumopdracht.MainApplication;
+import practicumopdracht.*;
 import practicumopdracht.data.PersonDAO;
 import practicumopdracht.data.TicketDAO;
 import practicumopdracht.models.Person;
@@ -40,24 +37,13 @@ public class TicketController extends Controller {
     private static InputHandler inputHandler;
     private ObservableList<Person> observableListPersons;
     private ObservableList<Ticket> observableListTickets;
+    private DatePickerConverter datePickerConverter;
 
     public TicketController(Person person) {
         ticketDAO = getTicketDAO();
         personDAO = getPersonDAO();
         view = new TicketView();
         inputHandler = new InputHandler();
-
-        view.getListView().getSelectionModel().selectedItemProperty().addListener((
-                observableValue, oldTicket, newTicket) -> {
-            if (newTicket != null) {
-                getInputDataFromView();
-                belongsTo.setValue(newTicket.getBelongsTo());
-                startDate.setValue(newTicket.getStartDate());
-                endDate.setValue(newTicket.getEndDate());
-                cost.setText(String.valueOf(newTicket.getCost()));
-                checkedIn.selectedProperty().set(newTicket.isCheckedIn());
-            }
-        });
 
         // Menubar items
         view.getMenuItemSave().setOnAction(this::handleMenuSaveButton);
@@ -69,8 +55,6 @@ public class TicketController extends Controller {
         view.getNewButton().setOnAction(this::handleNewButton);
         view.getDeleteButton().setOnAction(this::handleDeleteButton);
         view.getSwitchButton().setOnAction(this::handleSwitchButton);
-        // Belongs to combobox bind to listView
-        view.getComboBoxBelongsTo().setOnAction(this::handleUpdateListView);
 
         // All the persons in the DAO
         observableListPersons = FXCollections.observableArrayList(personDAO.getAll());
@@ -83,6 +67,61 @@ public class TicketController extends Controller {
                 view.getComboBoxBelongsTo().getSelectionModel().getSelectedItem()
         ));
         view.getListView().setItems(observableListTickets);
+
+        view.getListView().getSelectionModel().selectedItemProperty().addListener((
+                observableValue, oldTicket, newTicket) -> {
+            if (newTicket != null) {
+                getInputDataFromView();
+                belongsTo.getSelectionModel().select(newTicket.getBelongsTo());
+                startDate.setValue(newTicket.getStartDate());
+                endDate.setValue(newTicket.getEndDate());
+                cost.setText(String.valueOf(newTicket.getCost()));
+                checkedIn.selectedProperty().set(newTicket.isCheckedIn());
+            }
+        });
+
+        view.getComboBoxBelongsTo().getSelectionModel().selectedItemProperty().addListener((
+                observableValue, oldBelongsTo, newBelongsTo) -> {
+            if (newBelongsTo != null) {
+                observableListTickets.setAll(ticketDAO.getAllFor(newBelongsTo));
+            }
+        });
+
+        // Datepickers
+        startDate = view.getDatePickerStartDate();
+        endDate = view.getDatePickerEndDate();
+        // Create the DateConverter
+        datePickerConverter = new DatePickerConverter(getDateFormat());
+        // Add the Converter to the DatePicker
+        startDate.setConverter(datePickerConverter);
+        endDate.setConverter(datePickerConverter);
+        // Set the Date in the Prompt
+        startDate.setPromptText(getDateFormat().toUpperCase());
+        endDate.setPromptText(getDateFormat().toUpperCase());
+
+        startDate.focusedProperty().addListener((observable, wasFocused, isFocused) -> {
+            if (!isFocused) {
+                try {
+                    // Set typed text to DatePicker value
+                    startDate.setValue(startDate.getConverter().fromString(startDate.getEditor().getText()));
+                } catch (Exception e) {
+                    // For wrong input return old value
+                    startDate.getEditor().setText(startDate.getConverter().toString(startDate.getValue()));
+                }
+            }
+        });
+
+        endDate.focusedProperty().addListener((observable, wasFocused, isFocused) -> {
+            if (!isFocused) {
+                try {
+                    // Set typed text to DatePicker value
+                    endDate.setValue(endDate.getConverter().fromString(endDate.getEditor().getText()));
+                } catch (Exception e) {
+                    // For wrong input return old value
+                    endDate.getEditor().setText(endDate.getConverter().toString(endDate.getValue()));
+                }
+            }
+        });
     }
 
     @Override
@@ -107,25 +146,27 @@ public class TicketController extends Controller {
 
     private void handleMenuLoadButton(ActionEvent event) {
         try {
+            view.getComboBoxBelongsTo().getSelectionModel().clearSelection();
+            view.getListView().getSelectionModel().clearSelection();
+
             // Load data from data sources
             personDAO.load();
             ticketDAO.load();
 
             // Update the observable list with the new data
             observableListPersons.setAll(personDAO.getAll());
-            observableListTickets.setAll(ticketDAO.getAll());
+            observableListTickets.setAll(ticketDAO.getAllFor(
+                    view.getComboBoxBelongsTo().getSelectionModel().getSelectedItem()
+            ));
         } catch (FileNotFoundException e) {
             System.err.println("Couldn't load data!");
             Platform.exit();
             System.exit(0);
+        } catch (Exception e) {
+            System.err.println("Something went wrong!");
+            Platform.exit();
+            System.exit(0);
         }
-    }
-
-    private void handleUpdateListView(ActionEvent event) {
-        observableListTickets.setAll(ticketDAO.getAllFor(
-                view.getComboBoxBelongsTo().getSelectionModel().getSelectedItem()
-        ));
-        inputHandler.clearValues(data, false);
     }
 
     private void handleSaveButton(ActionEvent event) {
@@ -232,6 +273,11 @@ public class TicketController extends Controller {
         alert.show();
 
         if (alert.getResult() == ButtonType.OK) {
+            getInputDataFromView();
+            if (data == null) {
+                System.err.println("Data is null");
+                return;
+            }
             // Clear everything
             inputHandler.clearValues(data, false);
             // Clear warnings

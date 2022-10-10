@@ -1,12 +1,12 @@
 package practicumopdracht.data;
 
-import practicumopdracht.MainApplication;
 import practicumopdracht.models.Person;
 import practicumopdracht.models.Ticket;
 import java.io.FileNotFoundException;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Objects;
+import static practicumopdracht.MainApplication.getPersonDAO;
 
 /**
  * TicketDAO - DetailDAO
@@ -16,7 +16,8 @@ import java.util.Objects;
 
 public abstract class TicketDAO implements DAO<Ticket> {
     protected List<Ticket> tickets;
-    protected PersonDAO personDAO = MainApplication.getPersonDAO();
+    protected PersonDAO personDAO = getPersonDAO();
+    private static final String APP_DATA_DIRECTORY = "App_data";
 
     public TicketDAO() {
         tickets = new ArrayList<>();
@@ -59,4 +60,8 @@ public abstract class TicketDAO implements DAO<Ticket> {
 
     @Override
     public abstract boolean save();
+
+    public static String getAppDataDirectory() {
+        return APP_DATA_DIRECTORY;
+    }
 }

@@ -10,13 +10,18 @@ import javafx.stage.Stage;
 import org.jetbrains.annotations.NotNull;
 import practicumopdracht.controllers.Controller;
 import practicumopdracht.controllers.PersonController;
-import practicumopdracht.data.*;
+import practicumopdracht.data.PersonDAO;
+import practicumopdracht.data.TextPersonDAO;
+import practicumopdracht.data.TextTicketDAO;
+import practicumopdracht.data.TicketDAO;
+
 import java.io.FileNotFoundException;
+import java.io.IOException;
 import java.nio.charset.Charset;
 import java.time.format.DateTimeFormatter;
 import java.util.Objects;
-import static practicumopdracht.Main.getStudentName;
-import static practicumopdracht.Main.getStudentNumber;
+
+import static practicumopdracht.Main.*;
 
 public class MainApplication extends Application {
     private static final String TITLE = String.format("Practicumopdracht OOP2 - %s - %d", getStudentName(),
@@ -27,12 +32,13 @@ public class MainApplication extends Application {
     private static final double WIDTH_OVERFLOW = 15.3043823242188;
     private static final double HEIGHT_OVERFLOW = 37.5652465820312;
     // Visual bounds - usable area of the screen (no task bars etc.)
-    private static final Rectangle2D visualBounds = Screen.getPrimary().getVisualBounds();
+    private static final Rectangle2D VISUAL_BOUNDS = Screen.getPrimary().getVisualBounds();
     // Resources - see README.md if this fails
     private static final ResourceLoader RESOURCE_LOADER = new ResourceLoader();
     private static final Image APP_ICON = new Image(RESOURCE_LOADER.getInputStream("images/icon.png"));
     private static final String APP_CSS = RESOURCE_LOADER.getResourceDir("/style.css");
-    private static final DateTimeFormatter dateFormat = DateTimeFormatter.ofPattern("dd-MM-yyyy");
+    private static final String DATE_FORMAT = "dd-MM-yyyy";
+    private static final DateTimeFormatter DATE_TIME_FORMATTER = DateTimeFormatter.ofPattern(DATE_FORMAT);
     private static Stage stage;
     private static Scene scene;
     // PersonDAO - MasterDAO
@@ -44,8 +50,8 @@ public class MainApplication extends Application {
 
     @Override
     public void start(Stage stage) {
-        if (!Main.launchedFromMain) {
-            System.err.println("Je moet deze applicatie opstarten vanuit de Main-class, niet de MainApplication-class!");
+        if (!launchedFromMain) {
+            System.err.println("You must start this application from the Main class, not the MainApplication class!");
             System.exit(1337);
             return;
         }
@@ -74,6 +80,8 @@ public class MainApplication extends Application {
             stage.close();
             Platform.exit();
             System.exit(0);
+        } catch (Exception e) {
+            System.err.println("Something went wrong while loading data!");
         }
 
         // Start/default controller with default associated view
@@ -146,8 +154,12 @@ public class MainApplication extends Application {
         return APP_CSS;
     }
 
-    public static DateTimeFormatter getDateFormat() {
-        return dateFormat;
+    public static String getDateFormat() {
+        return DATE_FORMAT;
+    }
+
+    public static DateTimeFormatter getDateTimeFormatter() {
+        return DATE_TIME_FORMATTER;
     }
 
     public static PersonDAO getPersonDAO() {
@@ -159,6 +171,6 @@ public class MainApplication extends Application {
     }
 
     public static double getMaxWidthScreen() {
-        return visualBounds.getWidth();
+        return VISUAL_BOUNDS.getWidth();
     }
 }
