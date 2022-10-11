@@ -3,6 +3,10 @@ package practicumopdracht;
 import java.io.*;
 import java.util.Objects;
 
+/**
+ * Class for loading resources.
+ * @author Remzi Cavdar - remzi.cavdar@hva.nl
+ */
 public class ResourceLoader {
     private final Class<?> CURRENT_CLASS = new Object() { }.getClass().getEnclosingClass();
     private InputStream inputStream;

@@ -3,6 +3,10 @@ package practicumopdracht;
 import javafx.application.Application;
 import java.time.LocalDate;
 
+/**
+ * Main class for starting up the JavaFX application with a call to launch MainApplication.
+ * @author Remzi Cavdar - remzi.cavdar@hva.nl
+ */
 public class Main {
     private static final String STUDENT_NAME = "Remzi Cavdar";
     private static final int STUDENT_NUMBER = 500714645;

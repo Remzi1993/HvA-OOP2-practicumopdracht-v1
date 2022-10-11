@@ -11,7 +11,7 @@ import static practicumopdracht.MainApplication.getDateTimeFormatter;
 
 /**
  * TextPersonDAO - TextMasterDAO
- *
+ * This is a DAO class which handles loading and saving data to a text file for the Person model.
  * @author Remzi Cavdar - remzi.cavdar@hva.nl
  */
 
@@ -138,7 +138,9 @@ public class TextPersonDAO extends PersonDAO {
         ) {
             for (Person person : persons) {
                 // Name, Sex, Birthdate, Birthplace, Nationality, BSN, Document number
-                bufferedWriter.append(person.toStringTextFile());
+                bufferedWriter.append(String.format("%s,%s,%s,%s,%s,%d,%s", person.getName(), person.getSex(),
+                        getDateTimeFormatter().format(person.getBirthdate()), person.getBirthdate(),
+                        person.getNationality(), person.getBSN(), person.getDocumentNumber()));
                 bufferedWriter.newLine();
             }
 

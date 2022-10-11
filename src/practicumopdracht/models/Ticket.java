@@ -1,10 +1,7 @@
 package practicumopdracht.models;
 
-import practicumopdracht.data.PersonDAO;
 import java.time.LocalDate;
-import java.util.Locale;
 import static practicumopdracht.MainApplication.getDateTimeFormatter;
-import static practicumopdracht.MainApplication.getPersonDAO;
 
 /**
  * Ticket model - DetailModel
@@ -16,7 +13,6 @@ public class Ticket {
     private LocalDate startDate, endDate;
     private double cost;
     private boolean checkedIn;
-    private PersonDAO personDAO;
 
     public Ticket(Person belongsTo, LocalDate startDate, LocalDate endDate, double cost, boolean checkedIn) {
         this.belongsTo = belongsTo;
@@ -24,20 +20,13 @@ public class Ticket {
         this.endDate = endDate;
         this.cost = cost;
         this.checkedIn = checkedIn;
-        personDAO = getPersonDAO();
     }
 
     @Override
     public String toString() {
         return String.format("Ticket: [Datum vanaf: %s - Datum tot: %s - Kosten: %.2f - Checked in: %b]",
-                getDateTimeFormatter().format(startDate), getDateTimeFormatter().format(endDate), cost, checkedIn);
-    }
-
-    public String toStringTextFile() {
-        // belongsTo, startDate, endDate, cost, checkedIn
-        // Locale is set to US because we use comma as a separator
-        return String.format(Locale.US, "%d,%s,%s,%.2f,%b", personDAO.getIdFor(belongsTo),
-                getDateTimeFormatter().format(startDate), getDateTimeFormatter().format(endDate), cost, checkedIn);
+                getDateTimeFormatter().format(startDate), getDateTimeFormatter().format(endDate), cost,
+                checkedIn);
     }
 
     // Getters and setters
@@ -77,7 +66,7 @@ public class Ticket {
         return checkedIn;
     }
 
-    public void setcheckedIn(boolean checkedIn) {
+    public void setCheckedIn(boolean checkedIn) {
         this.checkedIn = checkedIn;
     }
 }

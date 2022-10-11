@@ -6,6 +6,7 @@ import static practicumopdracht.MainApplication.getDateTimeFormatter;
 
 /**
  * DummyPersonDAO - DummyMasterDAO
+ * This is a dummy DAO class that is used to test the application.
  * @author Remzi Cavdar - remzi.cavdar@hva.nl
  */
 

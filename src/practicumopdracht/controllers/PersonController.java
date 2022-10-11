@@ -16,7 +16,6 @@ import static practicumopdracht.MainApplication.*;
 
 /**
  * PersonController - MasterController
- *
  * @author Remzi Cavdar - remzi.cavdar@hva.nl
  */
 
@@ -58,7 +57,7 @@ public class PersonController extends Controller {
         // Menubar items
         view.getMenuItemSave().setOnAction(this::handleMenuSaveButton);
         view.getMenuItemLoad().setOnAction(this::handleMenuLoadButton);
-        view.getMenuItemClose().setOnAction(actionEvent -> Platform.exit());
+        view.getMenuItemClose().setOnAction(this::handleMenuCloseButton);
 
         // Buttons
         view.getSaveButton().setOnAction(this::handleSaveButton);
@@ -110,20 +109,65 @@ public class PersonController extends Controller {
     }
 
     private void handleMenuSaveButton(ActionEvent event) {
-        personDAO.save();
-        ticketDAO.save();
+        alert = new AlertDialog("CONFIRMATION", "Data opslaan in het bestand",
+                "Weet u zeker dat u de data wilt opslaan in het bestand?");
+        alert.show();
+
+        if (alert.getResult() == ButtonType.OK) {
+            if(personDAO.save() && ticketDAO.save()) {
+                menuAlert(true, "Data is succesvol opgeslagen",
+                        "De data is succesvol opgeslagen in het bestand.");
+            } else {
+                menuAlert(false, "Error bij opslaan data!",
+                        "Er is een fout opgetreden tijdens het opslaan van de data naar het bestand.");
+            }
+        }
     }
 
     private void handleMenuLoadButton(ActionEvent event) {
-        try {
-            // Load data from data sources
-            personDAO.load();
-            ticketDAO.load();
+        alert = new AlertDialog("CONFIRMATION", "Data laden van het bestand",
+                "Weet u zeker dat u de data wilt laden van het bestand?");
+        alert.show();
 
-            // Update the observable list with the new data
-            observableListPersons.setAll(personDAO.getAll());
-        } catch (FileNotFoundException e) {
-            System.err.println("Couldn't load data!");
+        if (alert.getResult() == ButtonType.OK) {
+            try {
+                // Load data from data sources and confirm if successful
+                if(personDAO.load() && ticketDAO.load()) {
+                    menuAlert(true, "Data is succesvol ingeladen",
+                            "De data is succesvol geladen van het bestand.");
+                } else {
+                    menuAlert(false, "Error bij laden data!",
+                            "Er is een fout opgetreden tijdens het laden van de data van het bestand.");
+                }
+
+                // Update the observable list with the new data
+                observableListPersons.setAll(personDAO.getAll());
+            } catch (FileNotFoundException e) {
+                System.err.println("Couldn't load data!");
+                Platform.exit();
+                System.exit(0);
+            }
+        }
+    }
+
+    private void menuAlert(boolean result, String title, String contextText) {
+        if(result) {
+            alert = new AlertDialog("INFORMATION", title,
+                    contextText);
+            alert.show();
+        } else {
+            alert = new AlertDialog("ERROR", title,
+                    contextText);
+            alert.show();
+        }
+    }
+
+    private void handleMenuCloseButton(ActionEvent event) {
+        alert = new AlertDialog("CONFIRMATION", "Afsluiten",
+                "Weet u zeker dat u de app wilt afsluiten?");
+        alert.show();
+
+        if (alert.getResult() == ButtonType.OK) {
             Platform.exit();
             System.exit(0);
         }
@@ -261,7 +305,9 @@ public class PersonController extends Controller {
         if (alert.getResult() == ButtonType.OK) {
             getInputDataFromView();
             if (data == null) {
-                System.err.println("Data is null");
+                if (DEBUG) {
+                    System.err.println("Data is null");
+                }
                 return;
             }
             // Clear everything

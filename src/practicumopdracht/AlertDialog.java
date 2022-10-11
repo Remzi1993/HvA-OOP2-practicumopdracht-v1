@@ -15,10 +15,7 @@ import java.util.Objects;
  * @author Remzi Cavdar - remzi.cavdar@hva.nl
  */
 public class AlertDialog {
-    private String type;
-    private String title;
-    private String headerText;
-    private String contentText;
+    private String type, title, headerText, contentText;
     private Alert alert = new Alert(Alert.AlertType.NONE);
     private DialogPane dialog;
     private static final Image DIALOG_ICON = MainApplication.getAppIcon();

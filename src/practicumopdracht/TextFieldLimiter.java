@@ -2,6 +2,10 @@ package practicumopdracht;
 
 import javafx.scene.control.TextField;
 
+/**
+ * Class for limiting the amount of characters in a text field.
+ * @author Remzi Cavdar - remzi.cavdar@hva.nl
+ */
 public class TextFieldLimiter {
     public TextFieldLimiter(final TextField textField, final int maxLength) {
         textField.textProperty().addListener((observableValue, oldValue, newValue) -> {

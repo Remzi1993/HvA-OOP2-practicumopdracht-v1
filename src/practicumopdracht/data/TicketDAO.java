@@ -6,17 +6,15 @@ import java.io.FileNotFoundException;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Objects;
-import static practicumopdracht.MainApplication.getPersonDAO;
 
 /**
  * TicketDAO - DetailDAO
- *
+ * Abstract class for TicketDAO - subclasses will implement save and load methods.
  * @author Remzi Cavdar - remzi.cavdar@hva.nl
  */
 
 public abstract class TicketDAO implements DAO<Ticket> {
     protected List<Ticket> tickets;
-    protected PersonDAO personDAO = getPersonDAO();
     private static final String APP_DATA_DIRECTORY = "App_data";
 
     public TicketDAO() {

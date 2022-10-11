@@ -32,12 +32,6 @@ public class Person {
                 name, sex, getDateTimeFormatter().format(birthdate), birthplace, nationality, BSN, documentNumber);
     }
 
-    public String toStringTextFile() {
-        // Name, Sex, Birthdate, Birthplace, Nationality, BSN, Document number
-        return String.format("%s,%s,%s,%s,%s,%d,%s", name, sex, getDateTimeFormatter().format(birthdate), birthplace,
-                nationality, BSN, documentNumber);
-    }
-
     // Getters and setters
     public String getName() {
         return name;

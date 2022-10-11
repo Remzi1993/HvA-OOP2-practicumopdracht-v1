@@ -17,7 +17,6 @@ import static practicumopdracht.MainApplication.*;
 
 /**
  * TicketController - DetailController
- *
  * @author Remzi Cavdar - remzi.cavdar@hva.nl
  */
 
@@ -47,7 +46,7 @@ public class TicketController extends Controller {
         // Menubar items
         view.getMenuItemSave().setOnAction(this::handleMenuSaveButton);
         view.getMenuItemLoad().setOnAction(this::handleMenuLoadButton);
-        view.getMenuItemClose().setOnAction(actionEvent -> Platform.exit());
+        view.getMenuItemClose().setOnAction(this::handleMenuCloseButton);
 
         // Buttons
         view.getSaveButton().setOnAction(this::handleSaveButton);
@@ -139,8 +138,19 @@ public class TicketController extends Controller {
     }
 
     private void handleMenuSaveButton(ActionEvent event) {
-        personDAO.save();
-        ticketDAO.save();
+        alert = new AlertDialog("CONFIRMATION", "Data opslaan in het bestand",
+                "Weet u zeker dat u de data wilt opslaan in het bestand?");
+        alert.show();
+
+        if (alert.getResult() == ButtonType.OK) {
+            if(personDAO.save() && ticketDAO.save()) {
+                menuAlert(true, "Data is succesvol opgeslagen",
+                        "De data is succesvol opgeslagen in het bestand.");
+            } else {
+                menuAlert(false, "Error bij opslaan data!",
+                        "Er is een fout opgetreden tijdens het opslaan van de data naar het bestand.");
+            }
+        }
     }
 
     private void handleMenuLoadButton(ActionEvent event) {
@@ -148,9 +158,16 @@ public class TicketController extends Controller {
             view.getComboBoxBelongsTo().getSelectionModel().clearSelection();
             view.getListView().getSelectionModel().clearSelection();
 
-            // Load data from data sources
-            personDAO.load();
-            ticketDAO.load();
+            // Load data from data sources and confirm if successful
+            if(personDAO.load() && ticketDAO.load()) {
+                menuAlert(true, "Data is succesvol ingeladen",
+                        """
+                                De data is succesvol geladen van het bestand.
+                                Selecteer een persoon om de tickets te zien.""");
+            } else {
+                menuAlert(false, "Error bij laden data!",
+                        "Er is een fout opgetreden tijdens het laden van de data van het bestand.");
+            }
 
             // Update the observable list with the new data
             observableListPersons.setAll(personDAO.getAll());
@@ -163,6 +180,29 @@ public class TicketController extends Controller {
             System.exit(0);
         } catch (Exception e) {
             System.err.println("Something went wrong!");
+            Platform.exit();
+            System.exit(0);
+        }
+    }
+
+    private void menuAlert(boolean result, String title, String contextText) {
+        if(result) {
+            alert = new AlertDialog("INFORMATION", title,
+                    contextText);
+            alert.show();
+        } else {
+            alert = new AlertDialog("ERROR", title,
+                    contextText);
+            alert.show();
+        }
+    }
+
+    private void handleMenuCloseButton(ActionEvent event) {
+        alert = new AlertDialog("CONFIRMATION", "Afsluiten",
+                "Weet u zeker dat u de app wilt afsluiten?");
+        alert.show();
+
+        if (alert.getResult() == ButtonType.OK) {
             Platform.exit();
             System.exit(0);
         }
@@ -243,7 +283,7 @@ public class TicketController extends Controller {
             ticket.setStartDate(startDate.getValue());
             ticket.setEndDate(endDate.getValue());
             ticket.setCost(Double.parseDouble(cost.getText()));
-            ticket.setcheckedIn(checkedIn.isSelected());
+            ticket.setCheckedIn(checkedIn.isSelected());
 
             // Alert title and text
             alert.setTitle("Ticket bijgewerkt");

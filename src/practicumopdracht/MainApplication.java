@@ -7,22 +7,24 @@ import javafx.scene.Scene;
 import javafx.scene.image.Image;
 import javafx.stage.Screen;
 import javafx.stage.Stage;
-import org.jetbrains.annotations.NotNull;
 import practicumopdracht.controllers.Controller;
 import practicumopdracht.controllers.PersonController;
 import practicumopdracht.data.PersonDAO;
 import practicumopdracht.data.TextPersonDAO;
 import practicumopdracht.data.TextTicketDAO;
 import practicumopdracht.data.TicketDAO;
-
 import java.io.FileNotFoundException;
-import java.io.IOException;
 import java.nio.charset.Charset;
 import java.time.format.DateTimeFormatter;
 import java.util.Objects;
-
 import static practicumopdracht.Main.*;
 
+/**
+ * Main class for the JavaFX application.
+ * This class is responsible for starting the JavaFX application and starting the default view.
+ * Switching between views is done by the controllers. Whereby the controllers use the switchController method.
+ * @author Remzi Cavdar - remzi.cavdar@hva.nl
+ */
 public class MainApplication extends Application {
     private static final String TITLE = String.format("Practicumopdracht OOP2 - %s - %d", getStudentName(),
             getStudentNumber());
@@ -77,11 +79,13 @@ public class MainApplication extends Application {
             ticketDAO.load();
         } catch (FileNotFoundException e) {
             System.err.println("Couldn't load data!");
-            stage.close();
             Platform.exit();
             System.exit(0);
         } catch (Exception e) {
             System.err.println("Something went wrong while loading data!");
+            e.printStackTrace();
+            Platform.exit();
+            System.exit(0);
         }
 
         // Start/default controller with default associated view
@@ -90,13 +94,12 @@ public class MainApplication extends Application {
 
     /**
      * switchController for switching scenes
-     *
      * @param controller needs a controller as a parameter/argument and can't be null
      */
-    public static void switchController(@NotNull Controller controller) {
-        // Debugging window sizes
-        // System.out.println("Width: " + stage.getWidth() + " Height: " + stage.getHeight());
-
+    public static void switchController(Controller controller) {
+        if (controller == null) {
+            throw new IllegalArgumentException("switchController() expects a Controller as an argument and can't be null!");
+        }
         /* (Temporary) Windows 11 window overflow bugfix
          * There is a window overflow around 15 is added to the width and around 37 to the height.
          * This might be a Windows 11 window border problem. Windows 11 has a lot of issues with their rounded
@@ -109,7 +112,7 @@ public class MainApplication extends Application {
          * Width: 15.3043823242188
          * Height: 37.5652465820312
          *
-         * Disclaimer. I use Windows 11 for programming and testing. I used Linux before that, but I couldn't use
+         * Disclaimer: I use Windows 11 for programming and testing. I used Linux before that, but I couldn't use
          * certain specific programs, so I switched to Windows 11. That means that this dirty fix could cause (potential)
          * issues on Windows 10 and older, macOS and/or Linux. Maybe someone else can extend this dirty fix with a
          * better check(s) and clarify what's exactly going on.

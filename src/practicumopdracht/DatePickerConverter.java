@@ -6,6 +6,11 @@ import java.time.format.DateTimeFormatter;
 import java.time.format.DateTimeParseException;
 import static practicumopdracht.MainApplication.DEBUG;
 
+/**
+ * JavaFX DatePicker converter
+ * I made this custom DatePicker converter class because I wanted to suppress and handle many errors that can occur.
+ * @author Remzi Cavdar - remzi.cavdar@hva.nl
+ */
 public class DatePickerConverter extends StringConverter<LocalDate> {
     // The Date Time Converter
     private DateTimeFormatter dateTimeFormatter;

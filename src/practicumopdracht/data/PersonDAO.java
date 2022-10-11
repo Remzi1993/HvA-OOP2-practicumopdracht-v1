@@ -7,7 +7,7 @@ import java.util.List;
 
 /**
  * PersonDAO - MasterDAO
- *
+ * Abstract class for PersonDAO - subclasses will implement save and load methods.
  * @author Remzi Cavdar - remzi.cavdar@hva.nl
  */
 

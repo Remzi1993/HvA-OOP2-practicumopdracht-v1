@@ -134,7 +134,7 @@ public class TicketView extends View {
         return rootBorderPane;
     }
 
-    // All getters and setters
+    // All getters
     public MenuItem getMenuItemSave() {
         return menuItemSave;
     }
@@ -147,123 +147,43 @@ public class TicketView extends View {
         return menuItemClose;
     }
 
-    public Label getLabelBelongsTo() {
-        return labelBelongsTo;
-    }
-
-    public void setLabelBelongsTo(Label labelBelongsTo) {
-        this.labelBelongsTo = labelBelongsTo;
-    }
-
-    public Label getLabelStartDate() {
-        return labelStartDate;
-    }
-
-    public void setLabelStartDate(Label labelStartDate) {
-        this.labelStartDate = labelStartDate;
-    }
-
-    public Label getLabelEndDate() {
-        return labelEndDate;
-    }
-
-    public void setLabelEndDate(Label labelEndDate) {
-        this.labelEndDate = labelEndDate;
-    }
-
-    public Label getLabelCost() {
-        return labelCost;
-    }
-
-    public void setLabelCost(Label labelCost) {
-        this.labelCost = labelCost;
-    }
-
-    public Label getLabelCheckedIn() {
-        return labelCheckedIn;
-    }
-
-    public void setLabelCheckedIn(Label labelCheckedIn) {
-        this.labelCheckedIn = labelCheckedIn;
-    }
-
     public TextField getTxtFieldCost() {
         return txtFieldCost;
-    }
-
-    public void setTxtFieldCost(TextField txtFieldCost) {
-        this.txtFieldCost = txtFieldCost;
     }
 
     public DatePicker getDatePickerStartDate() {
         return datePickerStartDate;
     }
 
-    public void setDatePickerStartDate(DatePicker datePickerStartDate) {
-        this.datePickerStartDate = datePickerStartDate;
-    }
-
     public DatePicker getDatePickerEndDate() {
         return datePickerEndDate;
-    }
-
-    public void setDatePickerEndDate(DatePicker datePickerEndDate) {
-        this.datePickerEndDate = datePickerEndDate;
     }
 
     public CheckBox getCheckBoxCheckedIn() {
         return checkBoxCheckedIn;
     }
 
-    public void setCheckBoxCheckedIn(CheckBox checkBoxCheckedIn) {
-        this.checkBoxCheckedIn = checkBoxCheckedIn;
-    }
-
     public ComboBox<Person> getComboBoxBelongsTo() {
         return comboBoxBelongsTo;
-    }
-
-    public void setComboBoxBelongsTo(ComboBox<Person> comboBoxBelongsTo) {
-        this.comboBoxBelongsTo = comboBoxBelongsTo;
     }
 
     public Button getSaveButton() {
         return saveButton;
     }
 
-    public void setSaveButton(Button saveButton) {
-        this.saveButton = saveButton;
-    }
-
     public Button getNewButton() {
         return newButton;
-    }
-
-    public void setNewButton(Button newButton) {
-        this.newButton = newButton;
     }
 
     public Button getDeleteButton() {
         return deleteButton;
     }
 
-    public void setDeleteButton(Button deleteButton) {
-        this.deleteButton = deleteButton;
-    }
-
     public Button getSwitchButton() {
         return switchButton;
     }
 
-    public void setSwitchButton(Button switchButton) {
-        this.switchButton = switchButton;
-    }
-
     public ListView<Ticket> getListView() {
         return listview;
-    }
-
-    public void setListview(ListView<Ticket> listview) {
-        this.listview = listview;
     }
 }

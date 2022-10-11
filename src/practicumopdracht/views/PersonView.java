@@ -151,7 +151,7 @@ public class PersonView extends View {
         return rootBorderPane;
     }
 
-    // All getters and setters
+    // All getters
     public MenuItem getMenuItemSave() {
         return menuItemSave;
     }
@@ -164,155 +164,51 @@ public class PersonView extends View {
         return menuItemClose;
     }
 
-    public Label getLabelName() {
-        return labelName;
-    }
-
-    public void setLabelName(Label labelName) {
-        this.labelName = labelName;
-    }
-
-    public Label getLabelSex() {
-        return labelSex;
-    }
-
-    public void setLabelSex(Label labelSex) {
-        this.labelSex = labelSex;
-    }
-
-    public Label getLabelBirthdate() {
-        return labelBirthdate;
-    }
-
-    public void setLabelBirthdate(Label labelBirthdate) {
-        this.labelBirthdate = labelBirthdate;
-    }
-
-    public Label getLabelBirthplace() {
-        return labelBirthplace;
-    }
-
-    public void setLabelBirthplace(Label labelBirthplace) {
-        this.labelBirthplace = labelBirthplace;
-    }
-
-    public Label getLabelNationality() {
-        return labelNationality;
-    }
-
-    public void setLabelNationality(Label labelNationality) {
-        this.labelNationality = labelNationality;
-    }
-
-    public Label getLabelBSN() {
-        return labelBSN;
-    }
-
-    public void setLabelBSN(Label labelBSN) {
-        this.labelBSN = labelBSN;
-    }
-
-    public Label getLabelDocumentNumber() {
-        return labelDocumentNumber;
-    }
-
-    public void setLabelDocumentNumber(Label labelDocumentNumber) {
-        this.labelDocumentNumber = labelDocumentNumber;
-    }
-
     public TextField getTxtFieldName() {
         return txtFieldName;
-    }
-
-    public void setTxtFieldName(TextField txtFieldName) {
-        this.txtFieldName = txtFieldName;
     }
 
     public TextField getTxtFieldBirthplace() {
         return txtFieldBirthplace;
     }
 
-    public void setTxtFieldBirthplace(TextField txtFieldBirthplace) {
-        this.txtFieldBirthplace = txtFieldBirthplace;
-    }
-
     public TextField getTxtFieldNationality() {
         return txtFieldNationality;
-    }
-
-    public void setTxtFieldNationality(TextField txtFieldNationality) {
-        this.txtFieldNationality = txtFieldNationality;
     }
 
     public TextField getTxtFieldBSN() {
         return txtFieldBSN;
     }
 
-    public void setTxtFieldBSN(TextField txtFieldBSN) {
-        this.txtFieldBSN = txtFieldBSN;
-    }
-
     public TextField getTxtFieldDocumentNumber() {
         return txtFieldDocumentNumber;
-    }
-
-    public void setTxtFieldDocumentNumber(TextField txtFieldDocumentNumber) {
-        this.txtFieldDocumentNumber = txtFieldDocumentNumber;
     }
 
     public DatePicker getDatePickerBirthdate() {
         return datePickerBirthdate;
     }
 
-    public void setDatePickerBirthdate(DatePicker datePickerBirthdate) {
-        this.datePickerBirthdate = datePickerBirthdate;
-    }
-
     public ComboBox<String> getComboBoxSex() {
         return comboBoxSex;
-    }
-
-    public void setComboBoxSex(ComboBox<String> comboBoxSex) {
-        this.comboBoxSex = comboBoxSex;
     }
 
     public Button getSaveButton() {
         return saveButton;
     }
 
-    public void setSaveButton(Button saveButton) {
-        this.saveButton = saveButton;
-    }
-
     public Button getNewButton() {
         return newButton;
-    }
-
-    public void setNewButton(Button newButton) {
-        this.newButton = newButton;
     }
 
     public Button getDeleteButton() {
         return deleteButton;
     }
 
-    public void setDeleteButton(Button deleteButton) {
-        this.deleteButton = deleteButton;
-    }
-
     public Button getSwitchButton() {
         return switchButton;
     }
 
-    public void setSwitchButton(Button switchButton) {
-        this.switchButton = switchButton;
-    }
-
     public ListView<Person> getListView() {
         return listView;
-    }
-
-    public void setListView(ListView<Person> listView) {
-        this.listView = listView;
     }
 }

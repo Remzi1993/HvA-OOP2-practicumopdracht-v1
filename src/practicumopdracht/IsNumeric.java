@@ -1,7 +1,12 @@
 package practicumopdracht;
 
+/**
+ * Utility class for checking if a string is numeric.
+ * @author Remzi Cavdar - remzi.cavdar@hva.nl
+ */
 public class IsNumeric {
-    private static final boolean DEBUG = false; // Debug setting for getting error messages in the console
+    // Debug setting for getting error messages in the console
+    private static final boolean DEBUG = MainApplication.DEBUG;
 
     /**
      * @param string will be checked if it's an int.

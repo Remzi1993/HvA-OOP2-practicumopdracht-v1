@@ -6,11 +6,12 @@ import java.nio.charset.StandardCharsets;
 import java.time.DateTimeException;
 import java.time.LocalDate;
 import java.util.Arrays;
+import java.util.Locale;
 import static practicumopdracht.MainApplication.*;
 
 /**
  * TextTicketDAO - TextDetailDAO
- *
+ * This is a DAO class which handles loading and saving data to a text file for the Ticket model.
  * @author Remzi Cavdar - remzi.cavdar@hva.nl
  */
 
@@ -135,7 +136,11 @@ public class TextTicketDAO extends TicketDAO {
         ) {
             for (Ticket ticket : tickets) {
                 // belongsTo, startDate, endDate, cost, checkedIn
-                bufferedWriter.append(ticket.toStringTextFile());
+                bufferedWriter.append(String.format(Locale.US, "%d,%s,%s,%.2f,%b",
+                        getPersonDAO().getIdFor(ticket.getBelongsTo()),
+                        getDateTimeFormatter().format(ticket.getStartDate()),
+                        getDateTimeFormatter().format(ticket.getEndDate()), ticket.getCost(),
+                        ticket.isCheckedIn()));
                 bufferedWriter.newLine();
             }
 

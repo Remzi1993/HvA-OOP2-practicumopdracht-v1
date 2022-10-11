@@ -4,6 +4,12 @@ import javafx.scene.control.*;
 import javafx.scene.layout.Border;
 import javafx.scene.paint.Color;
 
+/**
+ * Class InputHandler
+ * Handles/checks all kinds of inputs (JavaFX UI Controls) and clears all inputs. There are also methods to check inputs
+ * for double and int
+ * @author Remzi Cavdar - remzi.cavdar@hva.nl
+ */
 public class InputHandler {
     private static final Border BORDER = Border.stroke(Color.RED);
     private static final IsNumeric IS_NUMERIC = new IsNumeric();
