@@ -115,7 +115,7 @@ public class TicketView extends View {
         HBox hboxBottomButtons = new HBox();
         newButton = new Button("Nieuw");
         deleteButton = new Button("Verwijderen");
-        switchButton = new Button("Terug naar overzicht personen");
+        switchButton = new Button("Terug naar personen");
         hboxBottomButtons.getChildren().addAll(newButton, deleteButton, switchButton);
         hboxBottomButtons.getStyleClass().add("bg-4");
         hboxBottomButtons.setSpacing(10);

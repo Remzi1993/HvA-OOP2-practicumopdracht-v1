@@ -18,16 +18,15 @@ import static practicumopdracht.MainApplication.getDateTimeFormatter;
 public class TextPersonDAO extends PersonDAO {
     private static final String DIRECTORY_NAME = getAppDataDirectory();
     private static final String FILE_NAME = "Persons.txt";
-    private static final String FILE_PATH = DIRECTORY_NAME + File.separator + FILE_NAME;
+    private static final File DIRECTORY = new File(DIRECTORY_NAME);
+    private static final File FILE = new File(DIRECTORY_NAME + File.separator + FILE_NAME);
     private static final String UTF8_BOM = "\uFEFF";
 
     @Override
     public boolean load() {
-        File directory = new File(DIRECTORY_NAME);
-        File file = new File(FILE_PATH);
-
         if (DEBUG) {
-            System.out.println("\nApp data directory: " + directory.getAbsolutePath());
+            System.out.printf("%n******** Debug info%n* App data directory: %s%n* Full path to file: %s%n********%n%n",
+                    DIRECTORY.getAbsolutePath(), FILE.getAbsolutePath());
         }
 
         /*
@@ -37,7 +36,7 @@ public class TextPersonDAO extends PersonDAO {
          * 4. If not, create the file
          */
         try {
-            if (directory.mkdir()) {
+            if (DIRECTORY.mkdir()) {
                 if (DEBUG) {
                     System.out.println("Directory created: " + DIRECTORY_NAME);
                 }
@@ -47,7 +46,7 @@ public class TextPersonDAO extends PersonDAO {
                 }
             }
 
-            if (file.createNewFile()) {
+            if (FILE.createNewFile()) {
                 if (DEBUG) {
                     System.out.println("File created: " + FILE_NAME);
                 }
@@ -57,11 +56,11 @@ public class TextPersonDAO extends PersonDAO {
                 }
             }
         } catch (SecurityException e) {
-            System.out.println("SecurityException: " + e.getMessage());
+            System.err.println("SecurityException: " + e.getMessage());
         } catch (IOException e) {
-            System.out.println("An error occurred.");
+            System.err.println("An error occurred.");
         } catch (Exception e) {
-            System.out.println("Something went wrong. An unexpected error occurred.");
+            System.err.println("Something went wrong. An unexpected error occurred.");
             e.printStackTrace();
         }
 
@@ -70,7 +69,7 @@ public class TextPersonDAO extends PersonDAO {
         }
 
         try (
-                FileReader fileReader = new FileReader(FILE_PATH, StandardCharsets.UTF_8);
+                FileReader fileReader = new FileReader(FILE, StandardCharsets.UTF_8);
                 BufferedReader bufferedReader = new BufferedReader(fileReader);
         ) {
             // Clear the list
@@ -87,7 +86,7 @@ public class TextPersonDAO extends PersonDAO {
                     System.out.println(Arrays.toString(values));
                 }
 
-                // Name, Sex, Birthdate, Birthplace, Nationality, BSN, Document number
+                // Name, Sex, Birthdate, Birthplace, Nationality, SSN, Document number
                 try {
                     persons.add(new Person(
                             values[0],
@@ -133,14 +132,14 @@ public class TextPersonDAO extends PersonDAO {
         }
 
         try (
-                FileWriter fileWriter = new FileWriter(FILE_PATH, StandardCharsets.UTF_8);
+                FileWriter fileWriter = new FileWriter(FILE, StandardCharsets.UTF_8);
                 BufferedWriter bufferedWriter = new BufferedWriter(fileWriter);
         ) {
             for (Person person : persons) {
-                // Name, Sex, Birthdate, Birthplace, Nationality, BSN, Document number
+                // Name, Sex, Birthdate, Birthplace, Nationality, SSN, Document number
                 bufferedWriter.append(String.format("%s,%s,%s,%s,%s,%d,%s", person.getName(), person.getSex(),
                         getDateTimeFormatter().format(person.getBirthdate()), person.getBirthdate(),
-                        person.getNationality(), person.getBSN(), person.getDocumentNumber()));
+                        person.getNationality(), person.getSSN(), person.getDocumentNumber()));
                 bufferedWriter.newLine();
             }
 

@@ -1,26 +1,16 @@
 package practicumopdracht.data;
 
-import practicumopdracht.models.Ticket;
+import practicumopdracht.models.Person;
 import java.io.*;
-import java.nio.charset.StandardCharsets;
-import java.time.DateTimeException;
 import java.time.LocalDate;
-import java.util.Arrays;
-import java.util.Locale;
-import static practicumopdracht.MainApplication.*;
+import static practicumopdracht.MainApplication.DEBUG;
+import static practicumopdracht.MainApplication.getDateTimeFormatter;
 
-/**
- * TextTicketDAO - TextDetailDAO
- * This is a DAO class which handles loading and saving data to a text file for the Ticket model.
- * @author Remzi Cavdar - remzi.cavdar@hva.nl
- */
-
-public class TextTicketDAO extends TicketDAO {
+public class BinaryPersonDAO extends PersonDAO {
     private static final String DIRECTORY_NAME = getAppDataDirectory();
-    private static final String FILE_NAME = "Tickets.txt";
+    private static final String FILE_NAME = "Persons.dat";
     private static final File DIRECTORY = new File(DIRECTORY_NAME);
     private static final File FILE = new File(DIRECTORY_NAME + File.separator + FILE_NAME);
-    private static final String UTF8_BOM = "\uFEFF";
 
     @Override
     public boolean load() {
@@ -69,43 +59,30 @@ public class TextTicketDAO extends TicketDAO {
         }
 
         try (
-                FileReader fileReader = new FileReader(FILE, StandardCharsets.UTF_8);
-                BufferedReader bufferedReader = new BufferedReader(fileReader);
+                FileInputStream fileInputStream = new FileInputStream(FILE);
+                DataInputStream dataInputStream = new DataInputStream(fileInputStream);
         ) {
-            // Clear the list
-            tickets.clear();
-
-            String line = bufferedReader.readLine();
-            while (line != null) {
-                if (line.startsWith(UTF8_BOM)) {
-                    line = line.substring(1);
-                }
-                String[] values = line.split(",");
-
+            if(dataInputStream.available() == 0) {
                 if (DEBUG) {
-                    System.out.println(Arrays.toString(values));
+                    System.out.println("File is empty");
                 }
+                return true;
+            }
 
-                // belongsTo, startDate, endDate, cost, checkedIn
-                try {
-                    tickets.add(new Ticket(
-                            getPersonDAO().getById(Integer.parseInt(values[0])),
-                            LocalDate.parse(values[1], getDateTimeFormatter()),
-                            LocalDate.parse(values[2], getDateTimeFormatter()),
-                            Double.parseDouble(values[3]),
-                            Boolean.parseBoolean(values[4])
-                    ));
-                } catch (DateTimeException e) {
-                    System.err.println("Error parsing date: " + e.getMessage());
-                } catch (NumberFormatException e) {
-                    System.err.println("Error parsing number: " + e.getMessage());
-                } catch (Exception e) {
-                    System.err.println("Something went wrong: " + e.getMessage());
-                    e.printStackTrace();
-                }
+            // Clear the list
+            persons.clear();
 
-                // read next line
-                line = bufferedReader.readLine();
+            int arraySize = dataInputStream.readInt();
+            for (int i = 0; i < arraySize; i++) {
+                persons.add(new Person(
+                        dataInputStream.readUTF(),
+                        dataInputStream.readUTF(),
+                        LocalDate.parse(dataInputStream.readUTF(), getDateTimeFormatter()),
+                        dataInputStream.readUTF(),
+                        dataInputStream.readUTF(),
+                        dataInputStream.readInt(),
+                        dataInputStream.readUTF()
+                ));
             }
 
             // Successful load
@@ -133,17 +110,20 @@ public class TextTicketDAO extends TicketDAO {
         }
 
         try (
-                FileWriter fileWriter = new FileWriter(FILE, StandardCharsets.UTF_8);
-                BufferedWriter bufferedWriter = new BufferedWriter(fileWriter);
+                FileOutputStream fileOutputStream = new FileOutputStream(FILE);
+                DataOutputStream dataOutputStream = new DataOutputStream(fileOutputStream);
         ) {
-            for (Ticket ticket : tickets) {
-                // belongsTo, startDate, endDate, cost, checkedIn
-                bufferedWriter.append(String.format(Locale.US, "%d,%s,%s,%.2f,%b",
-                        getPersonDAO().getIdFor(ticket.getBelongsTo()),
-                        getDateTimeFormatter().format(ticket.getStartDate()),
-                        getDateTimeFormatter().format(ticket.getEndDate()), ticket.getCost(),
-                        ticket.isCheckedIn()));
-                bufferedWriter.newLine();
+            dataOutputStream.writeInt(persons.size());
+
+            for (Person person : persons) {
+                // Name, Sex, Birthdate, Birthplace, Nationality, SSN, Document number
+                dataOutputStream.writeUTF(person.getName());
+                dataOutputStream.writeUTF(person.getSex());
+                dataOutputStream.writeUTF(person.getBirthdate().format(getDateTimeFormatter()));
+                dataOutputStream.writeUTF(person.getBirthplace());
+                dataOutputStream.writeUTF(person.getNationality());
+                dataOutputStream.writeInt(person.getSSN());
+                dataOutputStream.writeUTF(person.getDocumentNumber());
             }
 
             // Successful save

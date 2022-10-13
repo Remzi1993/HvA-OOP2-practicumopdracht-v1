@@ -23,7 +23,7 @@ public abstract class PersonDAO implements DAO<Person> {
         try {
             return persons.get(id);
         } catch (IndexOutOfBoundsException e) {
-            System.out.println("ID is not in the list");
+            System.err.println("ID is not in the list");
             return null;
         } catch (Exception e) {
             System.err.println("PersonDAO getById(): Something went wrong!");

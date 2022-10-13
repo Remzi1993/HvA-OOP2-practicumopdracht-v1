@@ -138,50 +138,56 @@ public class TicketController extends Controller {
     }
 
     private void handleMenuSaveButton(ActionEvent event) {
-        alert = new AlertDialog("CONFIRMATION", "Data opslaan in het bestand",
-                "Weet u zeker dat u de data wilt opslaan in het bestand?");
+        alert = new AlertDialog("CONFIRMATION", "Data opslaan",
+                "Wilt u de data opslaan?");
         alert.show();
 
         if (alert.getResult() == ButtonType.OK) {
             if(personDAO.save() && ticketDAO.save()) {
-                menuAlert(true, "Data is succesvol opgeslagen",
-                        "De data is succesvol opgeslagen in het bestand.");
+                menuAlert(true, "Data succesvol opgeslagen",
+                        "De data is succesvol opgeslagen.");
             } else {
                 menuAlert(false, "Error bij opslaan data!",
-                        "Er is een fout opgetreden tijdens het opslaan van de data naar het bestand.");
+                        "Er is een fout opgetreden tijdens het opslaan van de data.");
             }
         }
     }
 
     private void handleMenuLoadButton(ActionEvent event) {
-        try {
-            view.getComboBoxBelongsTo().getSelectionModel().clearSelection();
-            view.getListView().getSelectionModel().clearSelection();
+        alert = new AlertDialog("CONFIRMATION", "Data laden",
+                "Wilt u de data laden?");
+        alert.show();
 
-            // Load data from data sources and confirm if successful
-            if(personDAO.load() && ticketDAO.load()) {
-                menuAlert(true, "Data is succesvol ingeladen",
-                        """
-                                De data is succesvol geladen van het bestand.
-                                Selecteer een persoon om de tickets te zien.""");
-            } else {
-                menuAlert(false, "Error bij laden data!",
-                        "Er is een fout opgetreden tijdens het laden van de data van het bestand.");
+        if (alert.getResult() == ButtonType.OK) {
+            try {
+                view.getComboBoxBelongsTo().getSelectionModel().clearSelection();
+                view.getListView().getSelectionModel().clearSelection();
+
+                // Load data from data sources and confirm if successful
+                if(personDAO.load() && ticketDAO.load()) {
+                    menuAlert(true, "Data succesvol opgehaald",
+                            """
+                                    De data is succesvol opgehaald.
+                                    Selecteer een persoon om de vliegtickets te zien.""");
+                } else {
+                    menuAlert(false, "Error bij laden data!",
+                            "Er is een fout opgetreden tijdens het laden van de data.");
+                }
+
+                // Update the observable list with the new data
+                observableListPersons.setAll(personDAO.getAll());
+                observableListTickets.setAll(ticketDAO.getAllFor(
+                        view.getComboBoxBelongsTo().getSelectionModel().getSelectedItem()
+                ));
+            } catch (FileNotFoundException e) {
+                System.err.println("Couldn't load data!");
+                Platform.exit();
+                System.exit(0);
+            } catch (Exception e) {
+                System.err.println("Something went wrong!");
+                Platform.exit();
+                System.exit(0);
             }
-
-            // Update the observable list with the new data
-            observableListPersons.setAll(personDAO.getAll());
-            observableListTickets.setAll(ticketDAO.getAllFor(
-                    view.getComboBoxBelongsTo().getSelectionModel().getSelectedItem()
-            ));
-        } catch (FileNotFoundException e) {
-            System.err.println("Couldn't load data!");
-            Platform.exit();
-            System.exit(0);
-        } catch (Exception e) {
-            System.err.println("Something went wrong!");
-            Platform.exit();
-            System.exit(0);
         }
     }
 
@@ -215,7 +221,7 @@ public class TicketController extends Controller {
         getInputDataFromView();
 
         // String builder
-        StringBuilder sb = new StringBuilder("De volgende invoerveld(en) heeft u niet of onjuist ingevuld:");
+        StringBuilder sb = new StringBuilder("Invoerveld(en) niet of onjuist ingevuld:");
 
         // Reset and clear warnings
         inputHandler.setTotalErrorValues(0);
@@ -232,30 +238,29 @@ public class TicketController extends Controller {
             inputHandler.checkIsDouble(cost);
 
             if (belongsTo.getSelectionModel().isEmpty()) {
-                sb.append("\nU heeft geen persoon geselecteerd.");
+                sb.append("\nGeen persoon geselecteerd.");
             }
             if (startDate.getValue() == null) {
-                sb.append("\nU heeft geen datum vanaf ingevuld.");
+                sb.append("\nGeen datum vanaf ingevuld.");
             }
             if (endDate.getValue() == null) {
-                sb.append("\nU heeft geen datum tot ingevuld.");
+                sb.append("\nGeen datum tot ingevuld.");
             }
             if (cost.getText().isBlank()) {
-                sb.append("\nU heeft geen kosten ingevuld.");
+                sb.append("\nGeen kosten ingevuld.");
             }
             if (!isNumeric.isDouble(cost.getText())) {
-                sb.append("\nU heeft een onjuist nummer ingevoerd bij het kosten invoerveld.");
-                sb.append("\nU kunt alleen nummers invoeren in het kosten invoerveld.");
+                sb.append("\nOnjuist nummer ingevoerd bij kosten.");
             }
             if (!checkedIn.isSelected()) {
-                sb.append("\nU heeft de checkbox niet aangevinkt.");
+                sb.append("\nCheckbox niet aangevinkt.");
             }
 
             alert = new AlertDialog("WARNING");
             if (inputHandler.getTotalErrorValues() > 1) {
-                alert.setTitle("Bepaalde invoervelden zijn niet of onjuist ingevuld");
+                alert.setTitle("Invoervelden zijn niet/onjuist ingevuld");
             } else {
-                alert.setTitle("Er is een invoerveld niet of onjuist ingevuld");
+                alert.setTitle("Een invoerveld niet/onjuist ingevuld");
             }
             sb.append("\n\nProbeer het opnieuw.");
             alert.setContentText(String.valueOf(sb));
@@ -307,7 +312,7 @@ public class TicketController extends Controller {
         }
 
         alert = new AlertDialog("CONFIRMATION", "Ticket aanmaken",
-                "Wilt u een nieuwe ticket aanmaken?");
+                "Wilt u een nieuw ticket aanmaken?");
         alert.show();
 
         if (alert.getResult() == ButtonType.OK) {
@@ -336,13 +341,13 @@ public class TicketController extends Controller {
         // If nothing is selected in the listview
         if (ticket == null) {
             alert = new AlertDialog("Selecteer ticket",
-                    "Selecteer een ticket die u wilt verwijderen.");
+                    "Selecteer een ticket dat u wilt verwijderen.");
             alert.show();
             return;
         }
 
         alert = new AlertDialog("CONFIRMATION", "Ticket verwijderen",
-                "Weet u zeker dat u deze ticket wilt verwijderen?");
+                "Wilt u dit vliegticket verwijderen?");
         alert.show();
 
         if (alert.getResult() == ButtonType.OK) {

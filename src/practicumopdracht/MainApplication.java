@@ -9,10 +9,8 @@ import javafx.stage.Screen;
 import javafx.stage.Stage;
 import practicumopdracht.controllers.Controller;
 import practicumopdracht.controllers.PersonController;
-import practicumopdracht.data.PersonDAO;
-import practicumopdracht.data.TextPersonDAO;
-import practicumopdracht.data.TextTicketDAO;
-import practicumopdracht.data.TicketDAO;
+import practicumopdracht.data.*;
+
 import java.io.FileNotFoundException;
 import java.nio.charset.Charset;
 import java.time.format.DateTimeFormatter;
@@ -28,8 +26,8 @@ import static practicumopdracht.Main.*;
 public class MainApplication extends Application {
     private static final String TITLE = String.format("Practicumopdracht OOP2 - %s - %d", getStudentName(),
             getStudentNumber());
-    private static final int WIDTH = 720;
-    private static final int HEIGHT = 560;
+    private static final int WIDTH = 800;
+    private static final int HEIGHT = 600;
     // Windows 11 window overflow bug
     private static final double WIDTH_OVERFLOW = 15.3043823242188;
     private static final double HEIGHT_OVERFLOW = 37.5652465820312;
@@ -72,8 +70,8 @@ public class MainApplication extends Application {
         stage.setMinWidth(WIDTH);
         stage.setMinHeight(HEIGHT);
 
-        personDAO = new TextPersonDAO();
-        ticketDAO = new TextTicketDAO();
+        personDAO = new BinaryPersonDAO();
+        ticketDAO = new ObjectTicketDAO();
         try {
             personDAO.load();
             ticketDAO.load();

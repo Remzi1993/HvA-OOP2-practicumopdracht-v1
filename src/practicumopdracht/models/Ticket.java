@@ -1,5 +1,6 @@
 package practicumopdracht.models;
 
+import java.io.Serializable;
 import java.time.LocalDate;
 import static practicumopdracht.MainApplication.getDateTimeFormatter;
 
@@ -8,7 +9,7 @@ import static practicumopdracht.MainApplication.getDateTimeFormatter;
  * @author Remzi Cavdar - remzi.cavdar@hva.nl
  */
 
-public class Ticket {
+public class Ticket implements Serializable {
     private Person belongsTo;
     private LocalDate startDate, endDate;
     private double cost;

@@ -26,7 +26,7 @@ public class PersonController extends Controller {
     private TicketDAO ticketDAO;
     private AlertDialog alert;
     // All the inputs from the view
-    private TextField fullName, birthplace, nationality, BSN, documentNumber;
+    private TextField fullName, birthplace, nationality, SSN, documentNumber;
     private ComboBox<String> sex;
     private DatePicker birthdate;
     private ListView<Person> listView;
@@ -49,7 +49,7 @@ public class PersonController extends Controller {
                 birthdate.setValue(newPerson.getBirthdate());
                 birthplace.setText(String.valueOf(newPerson.getBirthplace()));
                 nationality.setText(String.valueOf(newPerson.getNationality()));
-                BSN.setText(String.valueOf(newPerson.getBSN()));
+                SSN.setText(String.valueOf(newPerson.getSSN()));
                 documentNumber.setText(String.valueOf(newPerson.getDocumentNumber()));
             }
         });
@@ -102,42 +102,42 @@ public class PersonController extends Controller {
         birthdate = view.getDatePickerBirthdate();
         birthplace = view.getTxtFieldBirthplace();
         nationality = view.getTxtFieldNationality();
-        BSN = view.getTxtFieldBSN();
+        SSN = view.getTxtFieldSSN();
         documentNumber = view.getTxtFieldDocumentNumber();
         listView = view.getListView();
-        data = new Object[]{fullName, sex, birthdate, birthplace, nationality, BSN, documentNumber, listView};
+        data = new Object[]{fullName, sex, birthdate, birthplace, nationality, SSN, documentNumber, listView};
     }
 
     private void handleMenuSaveButton(ActionEvent event) {
-        alert = new AlertDialog("CONFIRMATION", "Data opslaan in het bestand",
-                "Weet u zeker dat u de data wilt opslaan in het bestand?");
+        alert = new AlertDialog("CONFIRMATION", "Data opslaan",
+                "Wilt u de data opslaan?");
         alert.show();
 
         if (alert.getResult() == ButtonType.OK) {
             if(personDAO.save() && ticketDAO.save()) {
-                menuAlert(true, "Data is succesvol opgeslagen",
-                        "De data is succesvol opgeslagen in het bestand.");
+                menuAlert(true, "Data succesvol opgeslagen",
+                        "De data is succesvol opgeslagen.");
             } else {
                 menuAlert(false, "Error bij opslaan data!",
-                        "Er is een fout opgetreden tijdens het opslaan van de data naar het bestand.");
+                        "Er is een fout opgetreden tijdens het opslaan van de data.");
             }
         }
     }
 
     private void handleMenuLoadButton(ActionEvent event) {
-        alert = new AlertDialog("CONFIRMATION", "Data laden van het bestand",
-                "Weet u zeker dat u de data wilt laden van het bestand?");
+        alert = new AlertDialog("CONFIRMATION", "Data laden",
+                "Wilt u de data laden?");
         alert.show();
 
         if (alert.getResult() == ButtonType.OK) {
             try {
                 // Load data from data sources and confirm if successful
                 if(personDAO.load() && ticketDAO.load()) {
-                    menuAlert(true, "Data is succesvol ingeladen",
-                            "De data is succesvol geladen van het bestand.");
+                    menuAlert(true, "Data succesvol opgehaald",
+                            "De data is succesvol opgehaald.");
                 } else {
                     menuAlert(false, "Error bij laden data!",
-                            "Er is een fout opgetreden tijdens het laden van de data van het bestand.");
+                            "Er is een fout opgetreden tijdens het laden van de data.");
                 }
 
                 // Update the observable list with the new data
@@ -164,7 +164,7 @@ public class PersonController extends Controller {
 
     private void handleMenuCloseButton(ActionEvent event) {
         alert = new AlertDialog("CONFIRMATION", "Afsluiten",
-                "Weet u zeker dat u de app wilt afsluiten?");
+                "Wilt u de app afsluiten?");
         alert.show();
 
         if (alert.getResult() == ButtonType.OK) {
@@ -180,7 +180,7 @@ public class PersonController extends Controller {
         getInputDataFromView();
 
         // String builder
-        StringBuilder sb = new StringBuilder("De volgende invoerveld(en) heeft u niet of onjuist ingevuld:");
+        StringBuilder sb = new StringBuilder("Invoerveld(en) niet of onjuist ingevuld:");
 
         // Reset and clear warnings
         inputHandler.setTotalErrorValues(0);
@@ -197,55 +197,55 @@ public class PersonController extends Controller {
                             Birthdate: %s
                             Birthplace: %s
                             Nationality: %s
-                            BSN: %s
+                            SSN: %s
                             Document number: %s
                                                 
                             """, fullName.getText().strip(), sex.getSelectionModel().getSelectedItem(), birthdate.getValue(),
-                    birthplace.getText().strip(), nationality.getText().strip(), BSN.getText().strip(),
+                    birthplace.getText().strip(), nationality.getText().strip(), SSN.getText().strip(),
                     documentNumber.getText().strip());
         }
 
         if (fullName.getText().isBlank() || sex.getSelectionModel().isEmpty() || birthplace.getText().isBlank() ||
-                nationality.getText().isBlank() || BSN.getText().isBlank() || !isNumeric.isInt(BSN.getText()) ||
+                nationality.getText().isBlank() || SSN.getText().isBlank() || !isNumeric.isInt(SSN.getText()) ||
                 documentNumber.getText().isBlank() || birthdate.getValue() == null) {
 
             /* Show warnings if inputs are empty and/or have incorrect values - empty and/or incorrect inputs get a
             red border */
             inputHandler.checkValues(data);
-            inputHandler.checkIsInt(BSN);
+            inputHandler.checkIsInt(SSN);
 
             if (fullName.getText().isBlank()) {
-                sb.append("\nU heeft geen naam ingevuld.");
+                sb.append("\nGeen naam ingevuld.");
             }
             if (sex.getSelectionModel().isEmpty()) {
-                sb.append("\nU heeft geen geslacht geselecteerd.");
+                sb.append("\nGeen geslacht geselecteerd.");
             }
             if (birthdate.getValue() == null) {
-                sb.append("\nU heeft geen of een onjuist geboortedatum ingevuld.");
+                sb.append("\nGeen/onjuist geboortedatum ingevuld.");
             }
             if (birthplace.getText().isBlank()) {
-                sb.append("\nU heeft geen geboorteplaats ingevuld.");
+                sb.append("\nGeen geboorteplaats ingevuld.");
             }
             if (nationality.getText().isBlank()) {
-                sb.append("\nU heeft geen nationaliteit ingevuld.");
+                sb.append("\nGeen nationaliteit ingevuld.");
             }
-            if (!isNumeric.isInt(BSN.getText())) {
-                if (BSN.getText().isBlank()) {
-                    sb.append("\nU heeft geen BSN ingevuld.");
+            if (!isNumeric.isInt(SSN.getText())) {
+                if (SSN.getText().isBlank()) {
+                    sb.append("\nGeen BSN ingevuld.");
                 } else {
-                    sb.append("\nU heeft een onjuist nummer ingevoerd bij het BSN invoerveld.");
-                    sb.append("\nU kunt alleen gehele nummers invoeren in het BSN invoerveld.");
+                    sb.append("\nOnjuist nummer ingevoerd bij het BSN.");
+                    sb.append("\nAlleen gehele getallen invoeren bij het BSN.");
                 }
             }
             if (documentNumber.getText().isBlank()) {
-                sb.append("\nU heeft geen documentnummer ingevuld.");
+                sb.append("\nGeen documentnummer ingevuld.");
             }
 
             alert = new AlertDialog("WARNING");
             if (inputHandler.getTotalErrorValues() > 1) {
-                alert.setTitle("Bepaalde invoervelden zijn niet of onjuist ingevuld");
+                alert.setTitle("Invoervelden zijn niet/onjuist ingevuld");
             } else {
-                alert.setTitle("Er is een invoerveld niet of onjuist ingevuld");
+                alert.setTitle("Een invoerveld niet/onjuist ingevuld");
             }
             sb.append("\n\nProbeer het opnieuw.");
             alert.setContentText(String.valueOf(sb));
@@ -258,15 +258,15 @@ public class PersonController extends Controller {
 
         alert = new AlertDialog("INFORMATION");
         if (person == null) {
-            // Create new person - Name, Sex, Birthdate, Birthplace, Nationality, BSN, Document number
+            // Create new person - Name, Sex, Birthdate, Birthplace, Nationality, SSN, Document number
             person = new Person(fullName.getText(), sex.getSelectionModel().getSelectedItem(),
                     birthdate.getValue(), birthplace.getText(), nationality.getText(),
-                    Integer.parseInt(BSN.getText()), documentNumber.getText());
+                    Integer.parseInt(SSN.getText()), documentNumber.getText());
             // Update ListView
             observableListPersons.add(person);
             // Alert title and text
-            alert.setTitle("Persoon aangemaakt");
-            alert.setContentText("De persoon is aangemaakt.");
+            alert.setTitle("Persoon toegevoegd");
+            alert.setContentText("Persoon is toegevoegd.");
         } else {
             // Update person
             person.setName(fullName.getText());
@@ -274,12 +274,12 @@ public class PersonController extends Controller {
             person.setBirthdate(birthdate.getValue());
             person.setBirthplace(birthplace.getText());
             person.setNationality(nationality.getText());
-            person.setBSN(Integer.parseInt(BSN.getText()));
+            person.setSSN(Integer.parseInt(SSN.getText()));
             person.setDocumentNumber(documentNumber.getText());
 
             // Alert title and text
             alert.setTitle("Persoon bijgewerkt");
-            alert.setContentText("De persoon is bijgewerkt.");
+            alert.setContentText("Persoon is bijgewerkt.");
         }
 
         // Update DAO
@@ -299,7 +299,7 @@ public class PersonController extends Controller {
         }
 
         alert = new AlertDialog("CONFIRMATION", "Persoon aanmaken",
-                "Wilt u een nieuw persoon aanmaken?");
+                "Wilt u een nieuwe persoon aanmaken?");
         alert.show();
 
         if (alert.getResult() == ButtonType.OK) {
@@ -336,7 +336,7 @@ public class PersonController extends Controller {
         }
 
         alert = new AlertDialog("CONFIRMATION", "Persoon verwijderen",
-                "Weet u zeker dat u deze persoon wilt verwijderen?");
+                "Wilt u deze persoon verwijderen?");
         alert.show();
 
         if (alert.getResult() == ButtonType.OK) {
@@ -356,7 +356,7 @@ public class PersonController extends Controller {
         person = view.getListView().getSelectionModel().getSelectedItem();
         if (person == null) {
             alert = new AlertDialog("WARNING", "Persoon selecteren",
-                    "U dient een persoon te selecteren voordat u verder kan gaan naar het tickets-overzicht.");
+                    "Selecteer een persoon voordat u verder gaat naar vliegtickets.");
             alert.show();
             return;
         }

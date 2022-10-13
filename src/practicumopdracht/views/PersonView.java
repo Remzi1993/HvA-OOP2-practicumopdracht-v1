@@ -15,17 +15,17 @@ import practicumopdracht.models.Person;
  */
 
 public class PersonView extends View {
-    private Label labelName, labelSex, labelBirthdate, labelBirthplace, labelNationality, labelBSN, labelDocumentNumber;
-    private TextField txtFieldName, txtFieldBirthplace, txtFieldNationality, txtFieldBSN, txtFieldDocumentNumber;
+    private Label labelName, labelSex, labelBirthdate, labelBirthplace, labelNationality, labelSSN, labelDocumentNumber;
+    private TextField txtFieldName, txtFieldBirthplace, txtFieldNationality, txtFieldSSN, txtFieldDocumentNumber;
     private DatePicker datePickerBirthdate;
     private ComboBox<String> comboBoxSex;
     private Button saveButton, newButton, deleteButton, switchButton;
     private ListView<Person> listView;
-    private static final int MAX_LENGTH_BSN = 9;
+    private static final int MAX_LENGTH_SSN = 9;
     private MenuItem menuItemSave, menuItemLoad, menuItemClose;
 
     public PersonView() {
-        new TextFieldLimiter(txtFieldBSN, MAX_LENGTH_BSN);
+        new TextFieldLimiter(txtFieldSSN, MAX_LENGTH_SSN);
     }
 
     @Override
@@ -99,11 +99,11 @@ public class PersonView extends View {
         gridpane.add(labelNationality, 0, 4);
         gridpane.add(txtFieldNationality, 1, 4);
 
-        // BSN
-        labelBSN = new Label("BSN:");
-        txtFieldBSN = new TextField();
-        gridpane.add(labelBSN, 0, 5);
-        gridpane.add(txtFieldBSN, 1, 5);
+        // SSN
+        labelSSN = new Label("BSN:");
+        txtFieldSSN = new TextField();
+        gridpane.add(labelSSN, 0, 5);
+        gridpane.add(txtFieldSSN, 1, 5);
 
         // Passport or ID document number
         labelDocumentNumber = new Label("Documentnummer:");
@@ -132,7 +132,7 @@ public class PersonView extends View {
         HBox hboxBottomButtons = new HBox();
         newButton = new Button("Nieuw");
         deleteButton = new Button("Verwijderen");
-        switchButton = new Button("Tickets");
+        switchButton = new Button("Vliegtickets");
         hboxBottomButtons.getChildren().addAll(newButton, deleteButton, switchButton);
         hboxBottomButtons.getStyleClass().add("bg-4");
         hboxBottomButtons.setSpacing(10);
@@ -176,8 +176,8 @@ public class PersonView extends View {
         return txtFieldNationality;
     }
 
-    public TextField getTxtFieldBSN() {
-        return txtFieldBSN;
+    public TextField getTxtFieldSSN() {
+        return txtFieldSSN;
     }
 
     public TextField getTxtFieldDocumentNumber() {

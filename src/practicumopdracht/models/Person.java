@@ -11,17 +11,17 @@ import static practicumopdracht.MainApplication.getDateTimeFormatter;
 public class Person {
     private String name, sex, birthplace, nationality, documentNumber;
     private LocalDate birthdate;
-    private int BSN;
+    private int SSN; // Social Security Number (SSN)
 
-    // Name, Sex, Birthdate, Birthplace, Nationality, BSN, Document number
-    public Person(String name, String sex, LocalDate birthdate, String birthplace, String nationality, int BSN,
+    // Name, Sex, Birthdate, Birthplace, Nationality, SSN, Document number
+    public Person(String name, String sex, LocalDate birthdate, String birthplace, String nationality, int SSN,
                   String documentNumber) {
         this.name = name;
         this.sex = sex;
         this.birthdate = birthdate;
         this.birthplace = birthplace;
         this.nationality = nationality;
-        this.BSN = BSN;
+        this.SSN = SSN;
         this.documentNumber = documentNumber;
     }
 
@@ -29,7 +29,7 @@ public class Person {
     public String toString() {
         return String.format("Naam: %s - Geslacht: %s - Geboortedatum: %s - Geboorteplaats: %s - " +
                         "Nationaliteit: %s - BSN: %d - Documentnummer: %s]",
-                name, sex, getDateTimeFormatter().format(birthdate), birthplace, nationality, BSN, documentNumber);
+                name, sex, getDateTimeFormatter().format(birthdate), birthplace, nationality, SSN, documentNumber);
     }
 
     // Getters and setters
@@ -81,11 +81,11 @@ public class Person {
         this.birthdate = birthdate;
     }
 
-    public int getBSN() {
-        return BSN;
+    public int getSSN() {
+        return SSN;
     }
 
-    public void setBSN(int BSN) {
-        this.BSN = BSN;
+    public void setSSN(int SSN) {
+        this.SSN = SSN;
     }
 }

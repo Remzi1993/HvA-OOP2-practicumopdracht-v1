@@ -4,3 +4,4 @@ Berkant de Jong,Man,07-08-1983,1983-08-07,Nederlandse,342453566,OIHBN
 Ali de Groot,Man,11-06-1987,1987-06-11,Nederlandse,342453566,OIHBN
 Mohamed de Veteraan,Man,11-06-1999,1999-06-11,Nederlandse,342453566,HFWDWDEWD
 Sarah Moon,Vrouw,09-06-2003,2003-06-09,Nederlandse,342453566,QXCFD
+Liza Moon,Vrouw,09-06-2003,2003-06-09,Nederlandse,342453566,QXCFD

@@ -13,7 +13,7 @@ import static practicumopdracht.MainApplication.getDateTimeFormatter;
 public class DummyPersonDAO extends PersonDAO {
     @Override
     public boolean load() {
-        // Name, Sex, Birthdate, Birthplace, Nationality, BSN, Document number
+        // Name, Sex, Birthdate, Birthplace, Nationality, SSN, Document number
         persons.add(new Person("Remzi Cavdar", "Man",
                 LocalDate.parse("11-06-1993", getDateTimeFormatter()), "Amsterdam",
                 "Nederlandse", 987654, "HGJH3864"));
