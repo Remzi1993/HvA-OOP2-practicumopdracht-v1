@@ -138,7 +138,7 @@ public class TextPersonDAO extends PersonDAO {
             for (Person person : persons) {
                 // Name, Sex, Birthdate, Birthplace, Nationality, SSN, Document number
                 bufferedWriter.append(String.format("%s,%s,%s,%s,%s,%d,%s", person.getName(), person.getSex(),
-                        getDateTimeFormatter().format(person.getBirthdate()), person.getBirthdate(),
+                        getDateTimeFormatter().format(person.getBirthdate()), person.getBirthplace(),
                         person.getNationality(), person.getSSN(), person.getDocumentNumber()));
                 bufferedWriter.newLine();
             }
