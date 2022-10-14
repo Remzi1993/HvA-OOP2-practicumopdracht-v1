@@ -98,7 +98,7 @@ public class TicketView extends View {
         gridpane.add(txtFieldCost, 1, 4);
 
         // Checkbox checkedIn
-        labelCheckedIn = new Label("Checked in:");
+        labelCheckedIn = new Label("Ingecheckt:");
         checkBoxCheckedIn = new CheckBox("(Niet verplicht)");
         gridpane.add(labelCheckedIn, 0, 5);
         gridpane.add(checkBoxCheckedIn, 1, 5);

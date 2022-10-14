@@ -59,9 +59,9 @@ public class MainApplication extends Application {
         }
 
         if (DEBUG) {
-            System.out.printf("Resources directory: %s%nDefault charset: %s%nDefault locale: %s",
+            System.out.printf("Resources directory: %s%nDefault charset: %s%nDefault locale: %s%n",
                     RESOURCE_LOADER.getResourceDir("/"), Charset.defaultCharset().displayName(),
-                    Locale.getDefault());
+                    Locale.getDefault().getDisplayName());
         }
 
         MainApplication.stage = stage;

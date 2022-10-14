@@ -90,6 +90,9 @@ public class InputHandler {
             if (input instanceof TextField) {
                 ((TextField) input).clear();
             }
+            if (input instanceof TextArea) {
+                ((TextArea) input).clear();
+            }
             if (input instanceof DatePicker) {
                 ((DatePicker) input).getEditor().clear();
                 ((DatePicker) input).setValue(null);
