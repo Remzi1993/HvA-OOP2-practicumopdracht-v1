@@ -21,6 +21,7 @@ public class TextTicketDAO extends TicketDAO {
     private static final File DIRECTORY = new File(DIRECTORY_NAME);
     private static final File FILE = new File(DIRECTORY_NAME + File.separator + FILE_NAME);
     private static final String UTF8_BOM = "\uFEFF";
+    private static final String SEPARATOR = ";";
 
     @Override
     public boolean load() {
@@ -80,20 +81,24 @@ public class TextTicketDAO extends TicketDAO {
                 if (line.startsWith(UTF8_BOM)) {
                     line = line.substring(1);
                 }
-                String[] values = line.split(",");
+                String[] values = line.split(SEPARATOR);
 
                 if (DEBUG) {
                     System.out.println(Arrays.toString(values));
                 }
 
-                // belongsTo, startDate, endDate, cost, checkedIn
+
+
                 try {
+                    // belongsTo, destination, startDate, endDate, cost, checkedIn, description
                     tickets.add(new Ticket(
                             getPersonDAO().getById(Integer.parseInt(values[0])),
-                            LocalDate.parse(values[1], getDateTimeFormatter()),
+                            values[1],
                             LocalDate.parse(values[2], getDateTimeFormatter()),
-                            Double.parseDouble(values[3]),
-                            Boolean.parseBoolean(values[4])
+                            LocalDate.parse(values[3], getDateTimeFormatter()),
+                            Double.parseDouble(values[4]),
+                            Boolean.parseBoolean(values[5]),
+                            values[6]
                     ));
                 } catch (DateTimeException e) {
                     System.err.println("Error parsing date: " + e.getMessage());
@@ -137,12 +142,23 @@ public class TextTicketDAO extends TicketDAO {
                 BufferedWriter bufferedWriter = new BufferedWriter(fileWriter);
         ) {
             for (Ticket ticket : tickets) {
-                // belongsTo, startDate, endDate, cost, checkedIn
-                bufferedWriter.append(String.format(Locale.US, "%d,%s,%s,%.2f,%b",
+                // belongsTo, destination, startDate, endDate, cost, checkedIn, description
+                bufferedWriter.append(String.format(
+                        Locale.US, "%d%s%s%s%s%s%s%s%.2f%s%b%s%s",
                         getPersonDAO().getIdFor(ticket.getBelongsTo()),
+                        SEPARATOR,
+                        ticket.getDestination(),
+                        SEPARATOR,
                         getDateTimeFormatter().format(ticket.getStartDate()),
-                        getDateTimeFormatter().format(ticket.getEndDate()), ticket.getCost(),
-                        ticket.isCheckedIn()));
+                        SEPARATOR,
+                        getDateTimeFormatter().format(ticket.getEndDate()),
+                        SEPARATOR,
+                        ticket.getCost(),
+                        SEPARATOR,
+                        ticket.isCheckedIn(),
+                        SEPARATOR,
+                        ticket.getDescription()
+                ));
                 bufferedWriter.newLine();
             }
 

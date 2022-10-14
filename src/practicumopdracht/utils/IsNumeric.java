@@ -1,4 +1,6 @@
-package practicumopdracht;
+package practicumopdracht.utils;
+
+import practicumopdracht.MainApplication;
 
 /**
  * Utility class for checking if a string is numeric.

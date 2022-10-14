@@ -1,4 +1,4 @@
-package practicumopdracht;
+package practicumopdracht.utils;
 
 import javafx.scene.control.*;
 import javafx.scene.layout.Border;
@@ -34,12 +34,6 @@ public class InputHandler {
             if (input instanceof DatePicker) {
                 if (((DatePicker) input).getValue() == null && ((DatePicker) input).isEditable()) {
                     ((DatePicker) input).setBorder(BORDER);
-                    ++totalErrorValues;
-                }
-            }
-            if (input instanceof CheckBox) {
-                if (!((CheckBox) input).isSelected()) {
-                    ((CheckBox) input).setBorder(BORDER);
                     ++totalErrorValues;
                 }
             }
@@ -122,9 +116,6 @@ public class InputHandler {
             }
             if (input instanceof DatePicker) {
                 ((DatePicker) input).setBorder(null);
-            }
-            if (input instanceof CheckBox) {
-                ((CheckBox) input).setBorder(null);
             }
         }
     }

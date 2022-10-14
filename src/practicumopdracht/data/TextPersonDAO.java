@@ -21,6 +21,7 @@ public class TextPersonDAO extends PersonDAO {
     private static final File DIRECTORY = new File(DIRECTORY_NAME);
     private static final File FILE = new File(DIRECTORY_NAME + File.separator + FILE_NAME);
     private static final String UTF8_BOM = "\uFEFF";
+    private static final String SEPARATOR = ";";
 
     @Override
     public boolean load() {
@@ -80,7 +81,7 @@ public class TextPersonDAO extends PersonDAO {
                 if (line.startsWith(UTF8_BOM)) {
                     line = line.substring(1);
                 }
-                String[] values = line.split(",");
+                String[] values = line.split(SEPARATOR);
 
                 if (DEBUG) {
                     System.out.println(Arrays.toString(values));
@@ -137,9 +138,20 @@ public class TextPersonDAO extends PersonDAO {
         ) {
             for (Person person : persons) {
                 // Name, Sex, Birthdate, Birthplace, Nationality, SSN, Document number
-                bufferedWriter.append(String.format("%s,%s,%s,%s,%s,%d,%s", person.getName(), person.getSex(),
-                        getDateTimeFormatter().format(person.getBirthdate()), person.getBirthplace(),
-                        person.getNationality(), person.getSSN(), person.getDocumentNumber()));
+                bufferedWriter.append(String.format("%s%s%s%s%s%s%s%s%s%s%d%s%s",
+                        person.getName(),
+                        SEPARATOR,
+                        person.getSex(),
+                        SEPARATOR,
+                        getDateTimeFormatter().format(person.getBirthdate()),
+                        SEPARATOR,
+                        person.getBirthplace(),
+                        SEPARATOR,
+                        person.getNationality(),
+                        SEPARATOR,
+                        person.getSSN(),
+                        SEPARATOR,
+                        person.getDocumentNumber()));
                 bufferedWriter.newLine();
             }
 

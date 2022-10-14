@@ -1,4 +1,4 @@
-package practicumopdracht;
+package practicumopdracht.utils;
 
 import javafx.util.StringConverter;
 import java.time.LocalDate;

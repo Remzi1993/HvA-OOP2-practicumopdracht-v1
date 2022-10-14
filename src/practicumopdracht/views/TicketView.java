@@ -8,6 +8,7 @@ import javafx.scene.layout.*;
 import practicumopdracht.MainApplication;
 import practicumopdracht.models.Person;
 import practicumopdracht.models.Ticket;
+import practicumopdracht.utils.NumericTextField;
 
 /**
  * TicketView - DetailView
@@ -15,8 +16,9 @@ import practicumopdracht.models.Ticket;
  */
 
 public class TicketView extends View {
-    private Label labelBelongsTo, labelStartDate, labelEndDate, labelCost, labelCheckedIn;
-    private TextField txtFieldCost;
+    private Label labelBelongsTo, labelDestination, labelStartDate, labelEndDate, labelCost, labelCheckedIn, labelDescription;
+    private TextField txtDestination, txtFieldCost;
+    private TextArea textAreaDescription;
     private DatePicker datePickerStartDate, datePickerEndDate;
     private CheckBox checkBoxCheckedIn;
     private ComboBox<Person> comboBoxBelongsTo;
@@ -32,12 +34,13 @@ public class TicketView extends View {
         // Create the menu bar.
         MenuBar menuBar = new MenuBar();
         menuBar.getStyleClass().add("menu-bar");
-        // Create the File menu.
+        // Create the file menu.
         Menu fileMenu = new Menu("Bestand");
         menuItemSave = new MenuItem("Opslaan");
         menuItemLoad = new MenuItem("Laden");
         menuItemClose = new MenuItem("Afsluiten");
         fileMenu.getItems().addAll(menuItemSave, menuItemLoad, new SeparatorMenuItem(), menuItemClose);
+        // Add the menu to the menu bar.
         menuBar.getMenus().add(fileMenu);
 
         // VBox parent container
@@ -70,29 +73,42 @@ public class TicketView extends View {
         gridpane.add(labelBelongsTo, 0, 0);
         gridpane.add(comboBoxBelongsTo, 1, 0);
 
+        // Destination
+        labelDestination = new Label("Reisbestemming:");
+        txtDestination = new TextField();
+        gridpane.add(labelDestination, 0, 1);
+        gridpane.add(txtDestination, 1, 1);
+
         // Start date
         labelStartDate = new Label("Datum vanaf:");
         datePickerStartDate = new DatePicker();
-        gridpane.add(labelStartDate, 0, 1);
-        gridpane.add(datePickerStartDate, 1, 1);
+        gridpane.add(labelStartDate, 0, 2);
+        gridpane.add(datePickerStartDate, 1, 2);
 
         // End date
         labelEndDate = new Label("Datum tot:");
         datePickerEndDate = new DatePicker();
-        gridpane.add(labelEndDate, 0, 2);
-        gridpane.add(datePickerEndDate, 1, 2);
+        gridpane.add(labelEndDate, 0, 3);
+        gridpane.add(datePickerEndDate, 1, 3);
 
         // Cost
         labelCost = new Label("Kosten:");
-        txtFieldCost = new TextField();
+        txtFieldCost = new NumericTextField();
         gridpane.add(labelCost, 0, 4);
         gridpane.add(txtFieldCost, 1, 4);
 
         // Checkbox checkedIn
         labelCheckedIn = new Label("Checked in:");
-        checkBoxCheckedIn = new CheckBox("(verplicht)");
+        checkBoxCheckedIn = new CheckBox("(Niet verplicht)");
         gridpane.add(labelCheckedIn, 0, 5);
         gridpane.add(checkBoxCheckedIn, 1, 5);
+
+        // Description
+        labelDescription = new Label("Beschrijving:");
+        textAreaDescription = new TextArea();
+        textAreaDescription.setPromptText("(Optioneel)");
+        gridpane.add(labelDescription, 0, 6);
+        gridpane.add(textAreaDescription, 1, 6);
 
         // Save button
         HBox hboxSaveButton = new HBox();
@@ -115,7 +131,7 @@ public class TicketView extends View {
         HBox hboxBottomButtons = new HBox();
         newButton = new Button("Nieuw");
         deleteButton = new Button("Verwijderen");
-        switchButton = new Button("Terug naar personen");
+        switchButton = new Button("Terug naar overzicht");
         hboxBottomButtons.getChildren().addAll(newButton, deleteButton, switchButton);
         hboxBottomButtons.getStyleClass().add("bg-4");
         hboxBottomButtons.setSpacing(10);
@@ -165,6 +181,14 @@ public class TicketView extends View {
 
     public ComboBox<Person> getComboBoxBelongsTo() {
         return comboBoxBelongsTo;
+    }
+
+    public TextField getTxtDestination() {
+        return txtDestination;
+    }
+
+    public TextArea getTextAreaDescription() {
+        return textAreaDescription;
     }
 
     public Button getSaveButton() {

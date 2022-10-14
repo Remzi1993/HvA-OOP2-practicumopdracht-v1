@@ -1,7 +1,7 @@
-Remzi Cavdar,Man,11-06-1993,Amsterdam,Nederlandse,342453566,OIHBN
-Jeroen van der Heijden,Man,19-03-1987,Volendam,Nederlandse,342453566,OIHBN
-Berkant de Jong,Man,07-08-1983,Monnickendam,Nederlandse,342453566,OIHBN
-Ali de Groot,Man,11-06-1987,Zaandam,Nederlandse,342453566,OIHBN
-Mohamed de Veteraan,Man,11-06-1999,Haarlem,Nederlandse,342453566,HFWDWDEWD
-Sarah Moon,Vrouw,09-06-2003,Alkmaar,Nederlandse,342453566,QXCFD
-Liza Moon,Vrouw,09-06-2003,Hoorn,Nederlandse,342453566,QXCFD
+Remzi Cavdar;Man;11-06-1993;Amsterdam;Nederlandse;342453566;OIHBN
+Jeroen van der Heijden;Man;19-03-1987;Volendam;Nederlandse;342453566;OIHBN
+Berkant de Jong;Man;07-08-1983;Monnickendam;Nederlandse;342453566;OIHBN
+Ali de Groot;Man;11-06-1987;Zaandam;Nederlandse;342453566;OIHBN
+Mohamed de Veteraan;Man;11-06-1999;Haarlem;Nederlandse;342453566;HFWDWDEWD
+Sarah Moon;Vrouw;09-06-2003;Alkmaar;Nederlandse;342453566;QXCFD
+Liza Moon;Vrouw;09-06-2003;Hoorn;Nederlandse;342453566;QXCFD

@@ -11,23 +11,28 @@ import static practicumopdracht.MainApplication.getDateTimeFormatter;
 
 public class Ticket implements Serializable {
     private Person belongsTo;
+    private String destination, description;
     private LocalDate startDate, endDate;
     private double cost;
     private boolean checkedIn;
 
-    public Ticket(Person belongsTo, LocalDate startDate, LocalDate endDate, double cost, boolean checkedIn) {
+    public Ticket(Person belongsTo, String destination, LocalDate startDate, LocalDate endDate, double cost,
+                  boolean checkedIn, String description) {
         this.belongsTo = belongsTo;
+        this.destination = destination;
         this.startDate = startDate;
         this.endDate = endDate;
         this.cost = cost;
         this.checkedIn = checkedIn;
+        this.description = description;
     }
 
     @Override
     public String toString() {
-        return String.format("Ticket: [Datum vanaf: %s - Datum tot: %s - Kosten: %.2f - Checked in: %b]",
-                getDateTimeFormatter().format(startDate), getDateTimeFormatter().format(endDate), cost,
-                checkedIn);
+        return String.format("Ticket: [Bestemming: %s - Datum vanaf: %s - Datum tot: %s - Kosten: %.2f - Checked in: %b]" +
+                        "%nBeschrijving: %s",
+                destination, getDateTimeFormatter().format(startDate),
+                getDateTimeFormatter().format(endDate), cost, checkedIn, description);
     }
 
     // Getters and setters
@@ -37,6 +42,14 @@ public class Ticket implements Serializable {
 
     public void setBelongsTo(Person belongsTo) {
         this.belongsTo = belongsTo;
+    }
+
+    public String getDestination() {
+        return destination;
+    }
+
+    public void setDestination(String destination) {
+        this.destination = destination;
     }
 
     public LocalDate getStartDate() {
@@ -69,5 +82,13 @@ public class Ticket implements Serializable {
 
     public void setCheckedIn(boolean checkedIn) {
         this.checkedIn = checkedIn;
+    }
+
+    public String getDescription() {
+        return description;
+    }
+
+    public void setDescription(String description) {
+        this.description = description;
     }
 }

@@ -10,10 +10,11 @@ import javafx.stage.Stage;
 import practicumopdracht.controllers.Controller;
 import practicumopdracht.controllers.PersonController;
 import practicumopdracht.data.*;
-
+import practicumopdracht.utils.ResourceLoader;
 import java.io.FileNotFoundException;
 import java.nio.charset.Charset;
 import java.time.format.DateTimeFormatter;
+import java.util.Locale;
 import java.util.Objects;
 import static practicumopdracht.Main.*;
 
@@ -21,6 +22,7 @@ import static practicumopdracht.Main.*;
  * Main class for the JavaFX application.
  * This class is responsible for starting the JavaFX application and starting the default view.
  * Switching between views is done by the controllers. Whereby the controllers use the switchController method.
+ *
  * @author Remzi Cavdar - remzi.cavdar@hva.nl
  */
 public class MainApplication extends Application {
@@ -57,8 +59,9 @@ public class MainApplication extends Application {
         }
 
         if (DEBUG) {
-            System.out.println("Resources directory: " + RESOURCE_LOADER.getResourceDir("/"));
-            System.out.println("Default charset: " + Charset.defaultCharset().displayName());
+            System.out.printf("Resources directory: %s%nDefault charset: %s%nDefault locale: %s",
+                    RESOURCE_LOADER.getResourceDir("/"), Charset.defaultCharset().displayName(),
+                    Locale.getDefault());
         }
 
         MainApplication.stage = stage;
@@ -70,8 +73,8 @@ public class MainApplication extends Application {
         stage.setMinWidth(WIDTH);
         stage.setMinHeight(HEIGHT);
 
-        personDAO = new TextPersonDAO();
-        ticketDAO = new TextTicketDAO();
+        personDAO = new BinaryPersonDAO();
+        ticketDAO = new ObjectTicketDAO();
         try {
             personDAO.load();
             ticketDAO.load();
@@ -92,6 +95,7 @@ public class MainApplication extends Application {
 
     /**
      * switchController for switching scenes
+     *
      * @param controller needs a controller as a parameter/argument and can't be null
      */
     public static void switchController(Controller controller) {

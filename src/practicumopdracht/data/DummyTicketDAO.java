@@ -14,30 +14,52 @@ import static practicumopdracht.MainApplication.getPersonDAO;
 public class DummyTicketDAO extends TicketDAO {
     @Override
     public boolean load() {
-        tickets.add(new Ticket(getPersonDAO().getById(0),
+        // belongsTo, destination, startDate, endDate, cost, checkedIn, description
+        tickets.add(new Ticket(getPersonDAO().getById(0), "Ankara, Turkije",
                 LocalDate.parse("23-07-2022", getDateTimeFormatter()),
-                LocalDate.parse("23-07-2022", getDateTimeFormatter()), 446, true));
-        tickets.add(new Ticket(getPersonDAO().getById(0),
+                LocalDate.parse("23-07-2022", getDateTimeFormatter()), 446, true,
+                "Vlucht van Amsterdam naar Ankara. Vluchtcode TK 1234"));
+
+        tickets.add(new Ticket(getPersonDAO().getById(0), "İzmir, Turkije",
                 LocalDate.parse("23-07-2022", getDateTimeFormatter()),
-                LocalDate.parse("23-07-2022", getDateTimeFormatter()), 446, true));
-        tickets.add(new Ticket(getPersonDAO().getById(0),
+                LocalDate.parse("23-07-2022", getDateTimeFormatter()), 446, true,
+                "Vlucht van Amsterdam naar İzmir. Vluchtcode TK 6479"));
+
+        tickets.add(new Ticket(getPersonDAO().getById(0), "Amaroo, Australië",
                 LocalDate.parse("23-07-2022", getDateTimeFormatter()),
-                LocalDate.parse("23-07-2022", getDateTimeFormatter()), 446, true));
-        tickets.add(new Ticket(getPersonDAO().getById(1),
+                LocalDate.parse("23-07-2022", getDateTimeFormatter()), 446, true,
+                "Vlucht van Amsterdam naar Amaroo. Vluchtcode TK 8542"));
+
+        tickets.add(new Ticket(getPersonDAO().getById(1), "Tenerife, Spanje",
                 LocalDate.parse("23-07-2022", getDateTimeFormatter()),
-                LocalDate.parse("23-07-2022", getDateTimeFormatter()), 446, true));
-        tickets.add(new Ticket(getPersonDAO().getById(2),
+                LocalDate.parse("23-07-2022", getDateTimeFormatter()), 446, true,
+                "Vlucht van Amsterdam naar Tenerife. Vluchtcode TK 6433"));
+
+        tickets.add(new Ticket(getPersonDAO().getById(2), "Madrid, Spanje",
                 LocalDate.parse("23-07-2022", getDateTimeFormatter()),
-                LocalDate.parse("23-07-2022", getDateTimeFormatter()), 446, true));
-        tickets.add(new Ticket(getPersonDAO().getById(3),
+                LocalDate.parse("23-07-2022", getDateTimeFormatter()), 446, true,
+                "Vlucht van Amsterdam naar Madrid. Vluchtcode TK 6354"));
+
+        tickets.add(new Ticket(getPersonDAO().getById(3), "Barcelona, Spanje",
                 LocalDate.parse("23-07-2022", getDateTimeFormatter()),
-                LocalDate.parse("23-07-2022", getDateTimeFormatter()), 446, true));
-        tickets.add(new Ticket(getPersonDAO().getById(4),
+                LocalDate.parse("23-07-2022", getDateTimeFormatter()), 446, true,
+                "Vlucht van Amsterdam naar Barcelona. Vluchtcode TK 3524"));
+
+        tickets.add(new Ticket(getPersonDAO().getById(4), "Marrakesh, Marokko",
                 LocalDate.parse("23-07-2022", getDateTimeFormatter()),
-                LocalDate.parse("23-07-2022", getDateTimeFormatter()), 446, true));
-        tickets.add(new Ticket(getPersonDAO().getById(5),
+                LocalDate.parse("23-07-2022", getDateTimeFormatter()), 446, true,
+                "Vlucht van Amsterdam naar Marrakesh. Vluchtcode TK 4534"));
+
+        tickets.add(new Ticket(getPersonDAO().getById(5), "Rabat, Marokko",
                 LocalDate.parse("23-07-2022", getDateTimeFormatter()),
-                LocalDate.parse("23-07-2022", getDateTimeFormatter()), 446, true));
+                LocalDate.parse("23-07-2022", getDateTimeFormatter()), 446, true,
+                "Vlucht van Amsterdam naar Amaroo. Vluchtcode TK 1234"));
+
+        tickets.add(new Ticket(getPersonDAO().getById(6), "Istanboel, Turkije",
+                LocalDate.parse("23-07-2022", getDateTimeFormatter()),
+                LocalDate.parse("23-07-2022", getDateTimeFormatter()), 446, true,
+                "Vlucht van Amsterdam naar Amaroo. Vluchtcode TK 1234"));
+
         return true;
     }
 

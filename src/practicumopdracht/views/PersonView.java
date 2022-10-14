@@ -6,7 +6,7 @@ import javafx.scene.Parent;
 import javafx.scene.control.*;
 import javafx.scene.layout.*;
 import practicumopdracht.MainApplication;
-import practicumopdracht.TextFieldLimiter;
+import practicumopdracht.utils.TextFieldLimiter;
 import practicumopdracht.models.Person;
 
 /**
@@ -22,7 +22,7 @@ public class PersonView extends View {
     private Button saveButton, newButton, deleteButton, switchButton;
     private ListView<Person> listView;
     private static final int MAX_LENGTH_SSN = 9;
-    private MenuItem menuItemSave, menuItemLoad, menuItemClose;
+    private MenuItem menuItemSave, menuItemLoad, menuItemClose, menuItemSortAZ, menuItemSortZA;
 
     public PersonView() {
         new TextFieldLimiter(txtFieldSSN, MAX_LENGTH_SSN);
@@ -36,13 +36,19 @@ public class PersonView extends View {
         // Create the menu bar.
         MenuBar menuBar = new MenuBar();
         menuBar.getStyleClass().add("menu-bar");
-        // Create the File menu.
+        // Create the file menu.
         Menu fileMenu = new Menu("Bestand");
         menuItemSave = new MenuItem("Opslaan");
         menuItemLoad = new MenuItem("Laden");
         menuItemClose = new MenuItem("Afsluiten");
         fileMenu.getItems().addAll(menuItemSave, menuItemLoad, new SeparatorMenuItem(), menuItemClose);
-        menuBar.getMenus().add(fileMenu);
+        // Create the sort menu.
+        Menu sortMenu = new Menu("Sorteren");
+        menuItemSortAZ = new MenuItem("Naam (A-Z)");
+        menuItemSortZA = new MenuItem("Naam (Z-A)");
+        sortMenu.getItems().addAll(menuItemSortAZ, menuItemSortZA);
+        // Add the menus to the menu bar.
+        menuBar.getMenus().addAll(fileMenu, sortMenu);
 
         // VBox parent container
         VBox vboxContainer = new VBox();
@@ -132,7 +138,7 @@ public class PersonView extends View {
         HBox hboxBottomButtons = new HBox();
         newButton = new Button("Nieuw");
         deleteButton = new Button("Verwijderen");
-        switchButton = new Button("Vliegtickets");
+        switchButton = new Button("Bekijk details");
         hboxBottomButtons.getChildren().addAll(newButton, deleteButton, switchButton);
         hboxBottomButtons.getStyleClass().add("bg-4");
         hboxBottomButtons.setSpacing(10);
@@ -162,6 +168,14 @@ public class PersonView extends View {
 
     public MenuItem getMenuItemClose() {
         return menuItemClose;
+    }
+
+    public MenuItem getMenuItemSortAZ() {
+        return menuItemSortAZ;
+    }
+
+    public MenuItem getMenuItemSortZA() {
+        return menuItemSortZA;
     }
 
     public TextField getTxtFieldName() {

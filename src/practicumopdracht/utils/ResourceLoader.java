@@ -1,4 +1,4 @@
-package practicumopdracht;
+package practicumopdracht.utils;
 
 import java.io.*;
 import java.util.Objects;

@@ -5,10 +5,14 @@ import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.event.ActionEvent;
 import javafx.scene.control.*;
-import practicumopdracht.*;
+import practicumopdracht.comparators.NameComparator;
 import practicumopdracht.data.PersonDAO;
 import practicumopdracht.data.TicketDAO;
 import practicumopdracht.models.Person;
+import practicumopdracht.utils.AlertDialog;
+import practicumopdracht.utils.DatePickerConverter;
+import practicumopdracht.utils.InputHandler;
+import practicumopdracht.utils.IsNumeric;
 import practicumopdracht.views.PersonView;
 import practicumopdracht.views.View;
 import java.io.FileNotFoundException;
@@ -32,6 +36,7 @@ public class PersonController extends Controller {
     private ListView<Person> listView;
     private Object[] data;
     private ObservableList<Person> observableListPersons;
+    private boolean personNameAscending;
     private static InputHandler inputHandler;
 
     public PersonController() {
@@ -58,6 +63,8 @@ public class PersonController extends Controller {
         view.getMenuItemSave().setOnAction(this::handleMenuSaveButton);
         view.getMenuItemLoad().setOnAction(this::handleMenuLoadButton);
         view.getMenuItemClose().setOnAction(this::handleMenuCloseButton);
+        view.getMenuItemSortAZ().setOnAction(this::handleMenuSortAZButton);
+        view.getMenuItemSortZA().setOnAction(this::handleMenuSortZAButton);
 
         // Buttons
         view.getSaveButton().setOnAction(this::handleSaveButton);
@@ -65,8 +72,12 @@ public class PersonController extends Controller {
         view.getDeleteButton().setOnAction(this::handleDeleteButton);
         view.getSwitchButton().setOnAction(this::handleSwitchButton);
 
-        // ObservableList which controls the ListView
+        // ObservableList which will automatically update the ListView if changed
         observableListPersons = FXCollections.observableArrayList(personDAO.getAll());
+        // Default sorting from A to Z
+        observableListPersons.sort(new NameComparator(true));
+        personNameAscending = true;
+        // Set the observableList to the ListView
         view.getListView().setItems(observableListPersons);
 
         // Datepicker
@@ -171,6 +182,16 @@ public class PersonController extends Controller {
             Platform.exit();
             System.exit(0);
         }
+    }
+
+    private void handleMenuSortAZButton(ActionEvent event) {
+        observableListPersons.sort(new NameComparator(true));
+        personNameAscending = true;
+    }
+
+    private void handleMenuSortZAButton(ActionEvent event) {
+        observableListPersons.sort(new NameComparator(false));
+        personNameAscending = false;
     }
 
     private void handleSaveButton(ActionEvent event) {
@@ -360,6 +381,6 @@ public class PersonController extends Controller {
             alert.show();
             return;
         }
-        switchController(new TicketController(person));
+        switchController(new TicketController(person, personNameAscending));
     }
 }

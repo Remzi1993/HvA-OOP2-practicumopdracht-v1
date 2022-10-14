@@ -73,12 +73,15 @@ public class ObjectTicketDAO extends TicketDAO {
 
             int arraySize = dataInputStream.readInt();
             for (int i = 0; i < arraySize; i++) {
+                // belongsTo, destination, startDate, endDate, cost, checkedIn, description
                 tickets.add(new Ticket(
                         getPersonDAO().getById(dataInputStream.readInt()),
+                        dataInputStream.readUTF(),
                         LocalDate.parse(dataInputStream.readUTF(), getDateTimeFormatter()),
                         LocalDate.parse(dataInputStream.readUTF(), getDateTimeFormatter()),
                         dataInputStream.readDouble(),
-                        dataInputStream.readBoolean()
+                        dataInputStream.readBoolean(),
+                        dataInputStream.readUTF()
                 ));
             }
 
@@ -112,12 +115,14 @@ public class ObjectTicketDAO extends TicketDAO {
         ) {
             dataOutputStream.writeInt(tickets.size());
             for (Ticket ticket : tickets) {
-                // belongsTo, startDate, endDate, cost, checkedIn
+                // belongsTo, destination, startDate, endDate, cost, checkedIn, description
                 dataOutputStream.writeInt(getPersonDAO().getIdFor(ticket.getBelongsTo()));
+                dataOutputStream.writeUTF(ticket.getDestination());
                 dataOutputStream.writeUTF(ticket.getStartDate().format(getDateTimeFormatter()));
                 dataOutputStream.writeUTF(ticket.getEndDate().format(getDateTimeFormatter()));
                 dataOutputStream.writeDouble(ticket.getCost());
                 dataOutputStream.writeBoolean(ticket.isCheckedIn());
+                dataOutputStream.writeUTF(ticket.getDescription());
             }
 
             // Successful save

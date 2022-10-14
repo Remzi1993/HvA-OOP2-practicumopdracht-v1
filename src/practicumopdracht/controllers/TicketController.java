@@ -5,11 +5,15 @@ import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.event.ActionEvent;
 import javafx.scene.control.*;
-import practicumopdracht.*;
+import practicumopdracht.comparators.NameComparator;
 import practicumopdracht.data.PersonDAO;
 import practicumopdracht.data.TicketDAO;
 import practicumopdracht.models.Person;
 import practicumopdracht.models.Ticket;
+import practicumopdracht.utils.AlertDialog;
+import practicumopdracht.utils.DatePickerConverter;
+import practicumopdracht.utils.InputHandler;
+import practicumopdracht.utils.IsNumeric;
 import practicumopdracht.views.TicketView;
 import practicumopdracht.views.View;
 import java.io.FileNotFoundException;
@@ -28,16 +32,17 @@ public class TicketController extends Controller {
     private AlertDialog alert;
     // All the inputs from the view
     private ComboBox<Person> belongsTo;
+    private TextField destination, cost;
     private DatePicker startDate, endDate;
-    private TextField cost;
     private CheckBox checkedIn;
+    private TextArea description;
     private ListView<Ticket> listView;
     private Object[] data;
     private ObservableList<Person> observableListPersons;
     private ObservableList<Ticket> observableListTickets;
     private static InputHandler inputHandler;
 
-    public TicketController(Person person) {
+    public TicketController(Person person, final boolean PERSON_NAME_ASCENDING) {
         ticketDAO = getTicketDAO();
         personDAO = getPersonDAO();
         view = new TicketView();
@@ -56,6 +61,8 @@ public class TicketController extends Controller {
 
         // All the persons in the DAO
         observableListPersons = FXCollections.observableArrayList(personDAO.getAll());
+        // Sets the persons name in ascending order or descending order depending on what's passed in the constructor
+        observableListPersons.sort(new NameComparator(PERSON_NAME_ASCENDING));
         // Set the items in the belongs to combobox
         view.getComboBoxBelongsTo().setItems(observableListPersons);
         // Selected person from the previous screen
@@ -71,10 +78,12 @@ public class TicketController extends Controller {
             if (newTicket != null) {
                 getInputDataFromView();
                 belongsTo.getSelectionModel().select(newTicket.getBelongsTo());
+                destination.setText(newTicket.getDestination());
                 startDate.setValue(newTicket.getStartDate());
                 endDate.setValue(newTicket.getEndDate());
-                cost.setText(String.valueOf(newTicket.getCost()));
+                cost.setText(String.valueOf(newTicket.getCost()).replace(".", ","));
                 checkedIn.selectedProperty().set(newTicket.isCheckedIn());
+                description.setText(newTicket.getDescription());
             }
         });
 
@@ -129,12 +138,14 @@ public class TicketController extends Controller {
 
     private void getInputDataFromView() {
         belongsTo = view.getComboBoxBelongsTo();
+        destination = view.getTxtDestination();
         startDate = view.getDatePickerStartDate();
         endDate = view.getDatePickerEndDate();
         cost = view.getTxtFieldCost();
         checkedIn = view.getCheckBoxCheckedIn();
+        description = view.getTextAreaDescription();
         listView = view.getListView();
-        data = new Object[]{belongsTo, startDate, endDate, cost, checkedIn, listView};
+        data = new Object[]{belongsTo, destination, startDate, endDate, cost, checkedIn, description, listView};
     }
 
     private void handleMenuSaveButton(ActionEvent event) {
@@ -229,8 +240,9 @@ public class TicketController extends Controller {
 
         IsNumeric isNumeric = new IsNumeric();
 
-        if (belongsTo.getSelectionModel().isEmpty() || startDate.getValue() == null || endDate.getValue() == null ||
-                cost.getText().isBlank() || !checkedIn.isSelected() || !isNumeric.isDouble(cost.getText())) {
+        // Only checkedIn and description are allowed to be empty, because they are optional
+        if (belongsTo.getSelectionModel().isEmpty() || destination.getText().isBlank() || startDate.getValue() == null || endDate.getValue() == null ||
+                cost.getText().isBlank() || !isNumeric.isDouble(cost.getText().replace(",", "."))) {
 
             /* Show warnings if inputs are empty and/or have incorrect values - empty and/or incorrect inputs get a
             red border */
@@ -252,9 +264,6 @@ public class TicketController extends Controller {
             if (!isNumeric.isDouble(cost.getText())) {
                 sb.append("\nOnjuist nummer ingevoerd bij kosten.");
             }
-            if (!checkedIn.isSelected()) {
-                sb.append("\nCheckbox niet aangevinkt.");
-            }
 
             alert = new AlertDialog("WARNING");
             if (inputHandler.getTotalErrorValues() > 1) {
@@ -274,8 +283,10 @@ public class TicketController extends Controller {
         alert = new AlertDialog("INFORMATION");
         if (ticket == null) {
             // Create new ticket
-            ticket = new Ticket(belongsTo.getSelectionModel().getSelectedItem(), startDate.getValue(),
-                    endDate.getValue(), Double.parseDouble(cost.getText()), checkedIn.isSelected());
+            ticket = new Ticket(belongsTo.getSelectionModel().getSelectedItem(), destination.getText(),
+                    startDate.getValue(), endDate.getValue(),
+                    Double.parseDouble(cost.getText().replace(",", ".")),
+                    checkedIn.isSelected(), description.getText());
 
             // Update ListView
             observableListTickets.add(ticket);
@@ -285,10 +296,12 @@ public class TicketController extends Controller {
         } else {
             // Update ticket
             ticket.setBelongsTo(belongsTo.getSelectionModel().getSelectedItem());
+            ticket.setDestination(destination.getText());
             ticket.setStartDate(startDate.getValue());
             ticket.setEndDate(endDate.getValue());
-            ticket.setCost(Double.parseDouble(cost.getText()));
+            ticket.setCost(Double.parseDouble(cost.getText().replace(",", ".")));
             ticket.setCheckedIn(checkedIn.isSelected());
+            ticket.setDescription(description.getText());
 
             // Alert title and text
             alert.setTitle("Ticket bijgewerkt");

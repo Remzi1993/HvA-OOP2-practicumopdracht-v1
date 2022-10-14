@@ -1,4 +1,4 @@
-package practicumopdracht;
+package practicumopdracht.utils;
 
 import javafx.scene.control.TextField;
 
