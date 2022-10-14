@@ -5,7 +5,9 @@ import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.event.ActionEvent;
 import javafx.scene.control.*;
+import practicumopdracht.comparators.DateComparator;
 import practicumopdracht.comparators.NameComparator;
+import practicumopdracht.comparators.PriceComparator;
 import practicumopdracht.data.PersonDAO;
 import practicumopdracht.data.TicketDAO;
 import practicumopdracht.models.Person;
@@ -58,6 +60,10 @@ public class TicketController extends Controller {
         view.getNewButton().setOnAction(this::handleNewButton);
         view.getDeleteButton().setOnAction(this::handleDeleteButton);
         view.getSwitchButton().setOnAction(this::handleSwitchButton);
+        view.getRadioButtonDate1().setOnAction(this::handleRadioButtonDate1);
+        view.getRadioButtonDate2().setOnAction(this::handleRadioButtonDate2);
+        view.getRadioButtonCost1().setOnAction(this::handleRadioButtonCost1);
+        view.getRadioButtonCost2().setOnAction(this::handleRadioButtonCost2);
 
         // All the persons in the DAO
         observableListPersons = FXCollections.observableArrayList(personDAO.getAll());
@@ -71,6 +77,10 @@ public class TicketController extends Controller {
         observableListTickets = FXCollections.observableArrayList(ticketDAO.getAllFor(
                 view.getComboBoxBelongsTo().getSelectionModel().getSelectedItem()
         ));
+        // Default sorting from date ascending order
+        observableListTickets.sort(new DateComparator(true));
+        view.getRadioButtonDate1().setSelected(true);
+        // Set the items in the listview
         view.getListView().setItems(observableListTickets);
 
         view.getListView().getSelectionModel().selectedItemProperty().addListener((
@@ -373,6 +383,22 @@ public class TicketController extends Controller {
         if (DEBUG) {
             System.out.println("End action: delete");
         }
+    }
+
+    private void handleRadioButtonDate1(ActionEvent event) {
+        observableListTickets.sort(new DateComparator(true));
+    }
+
+    private void handleRadioButtonDate2(ActionEvent event) {
+        observableListTickets.sort(new DateComparator(false));
+    }
+
+    private void handleRadioButtonCost1(ActionEvent event) {
+        observableListTickets.sort(new PriceComparator(true));
+    }
+
+    private void handleRadioButtonCost2(ActionEvent event) {
+        observableListTickets.sort(new PriceComparator(false));
     }
 
     private void handleSwitchButton(ActionEvent event) {

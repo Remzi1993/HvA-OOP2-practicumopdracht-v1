@@ -16,7 +16,6 @@ import practicumopdracht.utils.NumericTextField;
  */
 
 public class TicketView extends View {
-    private Label labelBelongsTo, labelDestination, labelStartDate, labelEndDate, labelCost, labelCheckedIn, labelDescription;
     private TextField txtDestination, txtFieldCost;
     private TextArea textAreaDescription;
     private DatePicker datePickerStartDate, datePickerEndDate;
@@ -25,6 +24,7 @@ public class TicketView extends View {
     private Button saveButton, newButton, deleteButton, switchButton;
     private ListView<Ticket> listview;
     private MenuItem menuItemSave, menuItemLoad, menuItemClose;
+    private RadioButton radioButtonDate1, radioButtonDate2, radioButtonCost1, radioButtonCost2;
 
     @Override
     protected Parent initializeView() {
@@ -67,44 +67,44 @@ public class TicketView extends View {
 
         // Labels and inputs and controls
         // Belongs to
-        labelBelongsTo = new Label("Persoon:");
+        Label labelBelongsTo = new Label("Persoon:");
 
         comboBoxBelongsTo = new ComboBox<>();
         gridpane.add(labelBelongsTo, 0, 0);
         gridpane.add(comboBoxBelongsTo, 1, 0);
 
         // Destination
-        labelDestination = new Label("Reisbestemming:");
+        Label labelDestination = new Label("Reisbestemming:");
         txtDestination = new TextField();
         gridpane.add(labelDestination, 0, 1);
         gridpane.add(txtDestination, 1, 1);
 
         // Start date
-        labelStartDate = new Label("Datum vanaf:");
+        Label labelStartDate = new Label("Datum vanaf:");
         datePickerStartDate = new DatePicker();
         gridpane.add(labelStartDate, 0, 2);
         gridpane.add(datePickerStartDate, 1, 2);
 
         // End date
-        labelEndDate = new Label("Datum tot:");
+        Label labelEndDate = new Label("Datum tot:");
         datePickerEndDate = new DatePicker();
         gridpane.add(labelEndDate, 0, 3);
         gridpane.add(datePickerEndDate, 1, 3);
 
         // Cost
-        labelCost = new Label("Kosten:");
+        Label labelCost = new Label("Kosten:");
         txtFieldCost = new NumericTextField();
         gridpane.add(labelCost, 0, 4);
         gridpane.add(txtFieldCost, 1, 4);
 
         // Checkbox checkedIn
-        labelCheckedIn = new Label("Ingecheckt:");
+        Label labelCheckedIn = new Label("Ingecheckt:");
         checkBoxCheckedIn = new CheckBox("(Niet verplicht)");
         gridpane.add(labelCheckedIn, 0, 5);
         gridpane.add(checkBoxCheckedIn, 1, 5);
 
         // Description
-        labelDescription = new Label("Beschrijving:");
+        Label labelDescription = new Label("Beschrijving:");
         textAreaDescription = new TextArea();
         textAreaDescription.setPromptText("(Optioneel)");
         gridpane.add(labelDescription, 0, 6);
@@ -127,13 +127,43 @@ public class TicketView extends View {
         hboxListview.getStyleClass().add("bg-3");
         HBox.setHgrow(listview, Priority.ALWAYS);
 
+        // Radio buttons
+        HBox hboxRadioButtons = new HBox();
+        Label labelRadioButtons = new Label("Sorteren op:");
+        Tooltip tooltipDate = new Tooltip("Vertrekdatum");
+        radioButtonDate1 = new RadioButton("Datum (oud naar nieuw)");
+        radioButtonDate2 = new RadioButton("Datum (nieuw naar oud)");
+        radioButtonDate1.setTooltip(tooltipDate);
+        radioButtonDate2.setTooltip(tooltipDate);
+        radioButtonCost1 = new RadioButton("Kosten (laag naar hoog)");
+        radioButtonCost2= new RadioButton("Kosten (hoog naar laag)");
+        ToggleGroup radioGroup = new ToggleGroup();
+        radioButtonDate1.setToggleGroup(radioGroup);
+        radioButtonDate2.setToggleGroup(radioGroup);
+        radioButtonCost1.setToggleGroup(radioGroup);
+        radioButtonCost2.setToggleGroup(radioGroup);
+        hboxRadioButtons.getChildren().addAll(labelRadioButtons, radioButtonDate1, radioButtonDate2,
+                radioButtonCost1, radioButtonCost2);
+        hboxRadioButtons.getStyleClass().add("bg-4");
+        hboxRadioButtons.setSpacing(10);
+        labelRadioButtons.setMaxWidth(MainApplication.getMaxWidthScreen());
+        radioButtonDate1.setMaxWidth(MainApplication.getMaxWidthScreen());
+        radioButtonDate2.setMaxWidth(MainApplication.getMaxWidthScreen());
+        radioButtonCost1.setMaxWidth(MainApplication.getMaxWidthScreen());
+        radioButtonCost2.setMaxWidth(MainApplication.getMaxWidthScreen());
+        HBox.setHgrow(labelRadioButtons, Priority.ALWAYS);
+        HBox.setHgrow(radioButtonDate1, Priority.ALWAYS);
+        HBox.setHgrow(radioButtonDate2, Priority.ALWAYS);
+        HBox.setHgrow(radioButtonCost1, Priority.ALWAYS);
+        HBox.setHgrow(radioButtonCost2, Priority.ALWAYS);
+
         // Bottom area for buttons
         HBox hboxBottomButtons = new HBox();
         newButton = new Button("Nieuw");
         deleteButton = new Button("Verwijderen");
         switchButton = new Button("Terug naar overzicht");
         hboxBottomButtons.getChildren().addAll(newButton, deleteButton, switchButton);
-        hboxBottomButtons.getStyleClass().add("bg-4");
+        hboxBottomButtons.getStyleClass().add("bg-5");
         hboxBottomButtons.setSpacing(10);
         newButton.setMaxWidth(MainApplication.getMaxWidthScreen());
         deleteButton.setMaxWidth(MainApplication.getMaxWidthScreen());
@@ -143,7 +173,7 @@ public class TicketView extends View {
         HBox.setHgrow(switchButton, Priority.ALWAYS);
 
         // VBox container
-        vboxContainer.getChildren().addAll(gridpane, hboxSaveButton, hboxListview, hboxBottomButtons);
+        vboxContainer.getChildren().addAll(gridpane, hboxSaveButton, hboxListview, hboxRadioButtons, hboxBottomButtons);
         // Root
         rootBorderPane.setTop(menuBar);
         rootBorderPane.setCenter(vboxContainer);
@@ -209,5 +239,21 @@ public class TicketView extends View {
 
     public ListView<Ticket> getListView() {
         return listview;
+    }
+
+    public RadioButton getRadioButtonDate1() {
+        return radioButtonDate1;
+    }
+
+    public RadioButton getRadioButtonDate2() {
+        return radioButtonDate2;
+    }
+
+    public RadioButton getRadioButtonCost1() {
+        return radioButtonCost1;
+    }
+
+    public RadioButton getRadioButtonCost2() {
+        return radioButtonCost2;
     }
 }

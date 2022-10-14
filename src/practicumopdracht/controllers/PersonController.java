@@ -22,7 +22,6 @@ import static practicumopdracht.MainApplication.*;
  * PersonController - MasterController
  * @author Remzi Cavdar - remzi.cavdar@hva.nl
  */
-
 public class PersonController extends Controller {
     private PersonView view;
     private Person person;

@@ -9,7 +9,7 @@
     -fx-padding: 20;
 }
 
-.root-container, .menu-bar, .vbox-container, .bg-1, .bg-2, .bg-3, .bg-4, .dialog-pane {
+.root-container, .menu-bar, .vbox-container, .bg-1, .bg-2, .bg-3, .bg-4, .bg-5, .dialog-pane {
     -fx-background-color: white;
 }
 

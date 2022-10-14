@@ -15,7 +15,6 @@ import practicumopdracht.models.Person;
  */
 
 public class PersonView extends View {
-    private Label labelName, labelSex, labelBirthdate, labelBirthplace, labelNationality, labelSSN, labelDocumentNumber;
     private TextField txtFieldName, txtFieldBirthplace, txtFieldNationality, txtFieldSSN, txtFieldDocumentNumber;
     private DatePicker datePickerBirthdate;
     private ComboBox<String> comboBoxSex;
@@ -74,13 +73,13 @@ public class PersonView extends View {
 
         // Labels and inputs and controls
         // Name
-        labelName = new Label("Voor- en achternaam:");
+        Label labelName = new Label("Voor- en achternaam:");
         txtFieldName = new TextField();
         gridpane.add(labelName, 0, 0);
         gridpane.add(txtFieldName, 1, 0);
 
         // Sex
-        labelSex = new Label("Geslacht:");
+        Label labelSex = new Label("Geslacht:");
         comboBoxSex = new ComboBox<>();
         comboBoxSex.getItems().add("Man");
         comboBoxSex.getItems().add("Vrouw");
@@ -88,31 +87,31 @@ public class PersonView extends View {
         gridpane.add(comboBoxSex, 1, 1);
 
         // Birthdate
-        labelBirthdate = new Label("Geboortedatum:");
+        Label labelBirthdate = new Label("Geboortedatum:");
         datePickerBirthdate = new DatePicker();
         gridpane.add(labelBirthdate, 0, 2);
         gridpane.add(datePickerBirthdate, 1, 2);
 
         // Birthplace
-        labelBirthplace = new Label("Geboorteplaats:");
+        Label labelBirthplace = new Label("Geboorteplaats:");
         txtFieldBirthplace = new TextField();
         gridpane.add(labelBirthplace, 0, 3);
         gridpane.add(txtFieldBirthplace, 1, 3);
 
         // Nationality
-        labelNationality = new Label("Nationaliteit:");
+        Label labelNationality = new Label("Nationaliteit:");
         txtFieldNationality = new TextField();
         gridpane.add(labelNationality, 0, 4);
         gridpane.add(txtFieldNationality, 1, 4);
 
         // SSN
-        labelSSN = new Label("BSN:");
+        Label labelSSN = new Label("BSN:");
         txtFieldSSN = new TextField();
         gridpane.add(labelSSN, 0, 5);
         gridpane.add(txtFieldSSN, 1, 5);
 
         // Passport or ID document number
-        labelDocumentNumber = new Label("Documentnummer:");
+        Label labelDocumentNumber = new Label("Documentnummer:");
         txtFieldDocumentNumber = new TextField();
         gridpane.add(labelDocumentNumber, 0, 6);
         gridpane.add(txtFieldDocumentNumber, 1, 6);

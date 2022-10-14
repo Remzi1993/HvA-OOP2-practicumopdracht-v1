@@ -47,7 +47,7 @@ public class MainApplication extends Application {
     private static PersonDAO personDAO;
     // TicketDAO - DetailDAO
     private static TicketDAO ticketDAO;
-    // Global debug setting for getting (extra) error and/or success messages in the console
+    // Global debug setting for getting (extra) error and/or success messages in the console. Turn off for production.
     public static final boolean DEBUG = true;
 
     @Override

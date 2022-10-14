@@ -1,27 +1,28 @@
 package practicumopdracht.comparators;
 
-import practicumopdracht.models.Person;
+import practicumopdracht.models.Ticket;
 import java.util.Comparator;
 
-public class PriceComparator implements Comparator<Person> {
+public class PriceComparator implements Comparator<Ticket> {
     private final boolean ASCENDING;
 
     /**
-     * @param ASCENDING sorting alphabetically ascending (from A to Z) if TRUE or descending (from Z to A) if FALSE
+     * @param ASCENDING sorting ascending (from low to high) if TRUE or descending (from high to low) if FALSE
      */
     public PriceComparator(boolean ASCENDING) {
         this.ASCENDING = ASCENDING;
     }
 
     /**
-     * Compares 2 persons with each other by name
+     * Compares 2 tickets with each other by price
      *
-     * @param person1 a person to compare
-     * @param person2 another person to compare
+     * @param ticket1 a ticket to compare
+     * @param ticket2 another ticket to compare
      * @return returns a sorted list using a ternary operator (shorthand if else) to determine the order
      */
     @Override
-    public int compare(Person person1, Person person2) {
-        return ASCENDING ? person1.getName().compareTo(person2.getName()) : person2.getName().compareTo(person1.getName());
+    public int compare(Ticket ticket1, Ticket ticket2) {
+        return ASCENDING ? Double.compare(ticket1.getCost(), ticket2.getCost()) :
+                Double.compare(ticket2.getCost(), ticket1.getCost());
     }
 }
