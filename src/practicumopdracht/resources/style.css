@@ -16,3 +16,8 @@
 .dialog-pane {
     -fx-padding: 10 10 5 20;
 }
+
+/* The selected item in the listview is always highlighted */
+.list-view {
+    -fx-selection-bar-non-focused: -fx-selection-bar;
+}

@@ -27,6 +27,16 @@ public class Ticket implements Serializable {
         this.description = description;
     }
 
+    public Ticket(String destination, LocalDate startDate, LocalDate endDate, double cost,
+                  boolean checkedIn, String description) {
+        this.destination = destination;
+        this.startDate = startDate;
+        this.endDate = endDate;
+        this.cost = cost;
+        this.checkedIn = checkedIn;
+        this.description = description;
+    }
+
     @Override
     public String toString() {
         return String.format("Ticket: [Bestemming: %s - Datum vanaf: %s - Datum tot: %s - Kosten: %.2f - Checked in: %b]" +

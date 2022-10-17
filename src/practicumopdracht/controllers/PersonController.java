@@ -44,6 +44,11 @@ public class PersonController extends Controller {
         view = new PersonView();
         inputHandler = new InputHandler();
 
+        // By default, these buttons are disabled until a person is selected in the listViw
+        view.getNewButton().setDisable(true);
+        view.getDeleteButton().setDisable(true);
+        view.getSwitchButton().setDisable(true);
+
         view.getListView().getSelectionModel().selectedItemProperty().addListener((
                 observableValue, oldPerson, newPerson) -> {
             if (newPerson != null) {
@@ -55,6 +60,15 @@ public class PersonController extends Controller {
                 nationality.setText(String.valueOf(newPerson.getNationality()));
                 SSN.setText(String.valueOf(newPerson.getSSN()));
                 documentNumber.setText(String.valueOf(newPerson.getDocumentNumber()));
+
+                // Enable these buttons if a person is selected in the listView
+                view.getNewButton().setDisable(false);
+                view.getDeleteButton().setDisable(false);
+                view.getSwitchButton().setDisable(false);
+
+                // Reset and clear warnings when a person is selected from the listView
+                inputHandler.setTotalErrorValues(0);
+                inputHandler.clearWarnings(data);
             }
         });
 
@@ -81,7 +95,7 @@ public class PersonController extends Controller {
 
         // Datepicker
         birthdate = view.getDatePickerBirthdate();
-        // Create the DateConverter
+        // Create the dateConverter
         DatePickerConverter datePickerConverter = new DatePickerConverter(getDateFormat());
         // Add the Converter to the DatePicker
         birthdate.setConverter(datePickerConverter);
@@ -99,6 +113,7 @@ public class PersonController extends Controller {
                 }
             }
         });
+
     }
 
     @Override
@@ -220,9 +235,9 @@ public class PersonController extends Controller {
                             SSN: %s
                             Document number: %s
                                                 
-                            """, fullName.getText().strip(), sex.getSelectionModel().getSelectedItem(), birthdate.getValue(),
-                    birthplace.getText().strip(), nationality.getText().strip(), SSN.getText().strip(),
-                    documentNumber.getText().strip());
+                            """, fullName.getText().strip(), sex.getSelectionModel().getSelectedItem(),
+                    birthdate.getValue(), birthplace.getText().strip(), nationality.getText().strip(),
+                    SSN.getText().strip(), documentNumber.getText().strip());
         }
 
         if (fullName.getText().isBlank() || sex.getSelectionModel().isEmpty() || birthplace.getText().isBlank() ||
@@ -304,10 +319,16 @@ public class PersonController extends Controller {
 
         // Update DAO
         personDAO.addOrUpdate(person);
+        // Sort list
+        observableListPersons.sort(new NameComparator(personNameAscending));
         // Show confirmation
         alert.show();
         // Clear everything after successful save
         inputHandler.clearValues(data, true);
+        // Disable the buttons again until a person is selected in the listViw
+        view.getNewButton().setDisable(true);
+        view.getDeleteButton().setDisable(true);
+        view.getSwitchButton().setDisable(true);
         if (DEBUG) {
             System.out.println("End action: save");
         }
@@ -334,6 +355,10 @@ public class PersonController extends Controller {
             inputHandler.clearValues(data, true);
             // Clear warnings
             inputHandler.clearWarnings(data);
+            // Disable the buttons again until a person is selected in the listViw
+            view.getNewButton().setDisable(true);
+            view.getDeleteButton().setDisable(true);
+            view.getSwitchButton().setDisable(true);
         }
 
         if (DEBUG) {
@@ -365,6 +390,13 @@ public class PersonController extends Controller {
             ticketDAO.removeAllFor(person);
             // Update ListView
             observableListPersons.remove(person);
+            // Clear listView selection and inputs
+            view.getListView().getSelectionModel().clearSelection();
+            inputHandler.clearValues(data, true);
+            // Disable the buttons again until a person is selected in the listViw
+            view.getNewButton().setDisable(true);
+            view.getDeleteButton().setDisable(true);
+            view.getSwitchButton().setDisable(true);
         }
 
         if (DEBUG) {

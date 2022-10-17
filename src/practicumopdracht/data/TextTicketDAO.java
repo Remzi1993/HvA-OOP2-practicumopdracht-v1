@@ -145,6 +145,7 @@ public class TextTicketDAO extends TicketDAO {
                 // belongsTo, destination, startDate, endDate, cost, checkedIn, description
                 bufferedWriter.append(String.format(
                         Locale.US, "%d%s%s%s%s%s%s%s%.2f%s%b%s%s",
+                        // belongsTo is saved as a person id based on the array index of the persons list in the personDAO
                         getPersonDAO().getIdFor(ticket.getBelongsTo()),
                         SEPARATOR,
                         ticket.getDestination(),

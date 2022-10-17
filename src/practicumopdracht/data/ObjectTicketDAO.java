@@ -2,7 +2,6 @@ package practicumopdracht.data;
 
 import practicumopdracht.models.Ticket;
 import java.io.*;
-import java.time.LocalDate;
 import static practicumopdracht.MainApplication.*;
 
 public class ObjectTicketDAO extends TicketDAO {
@@ -59,9 +58,9 @@ public class ObjectTicketDAO extends TicketDAO {
 
         try (
                 FileInputStream fileInputStream = new FileInputStream(FILE);
-                DataInputStream dataInputStream = new DataInputStream(fileInputStream);
+                ObjectInputStream objectInputStream = new ObjectInputStream(fileInputStream);
         ) {
-            if(dataInputStream.available() == 0) {
+            if(objectInputStream.available() == 0) {
                 if (DEBUG) {
                     System.out.println("File is empty");
                 }
@@ -71,18 +70,17 @@ public class ObjectTicketDAO extends TicketDAO {
             // Clear the list
             tickets.clear();
 
-            int arraySize = dataInputStream.readInt();
+            int arraySize = objectInputStream.readInt();
+            if (arraySize == 0) {
+                return false;
+            }
+
             for (int i = 0; i < arraySize; i++) {
                 // belongsTo, destination, startDate, endDate, cost, checkedIn, description
-                tickets.add(new Ticket(
-                        getPersonDAO().getById(dataInputStream.readInt()),
-                        dataInputStream.readUTF(),
-                        LocalDate.parse(dataInputStream.readUTF(), getDateTimeFormatter()),
-                        LocalDate.parse(dataInputStream.readUTF(), getDateTimeFormatter()),
-                        dataInputStream.readDouble(),
-                        dataInputStream.readBoolean(),
-                        dataInputStream.readUTF()
-                ));
+                int belongsTo = objectInputStream.readInt();
+                Ticket ticket = (Ticket) objectInputStream.readObject();
+                ticket.setBelongsTo(getPersonDAO().getById(belongsTo));
+                tickets.add(ticket);
             }
 
             // Successful load
@@ -90,6 +88,17 @@ public class ObjectTicketDAO extends TicketDAO {
                 System.out.println("Loading complete: " + FILE_NAME);
             }
             return true;
+        } catch (EOFException e) {
+            /* When the file is empty, an EOFException is thrown. This happens when an empty file is created during load().
+             * This is not an error, so we can safely ignore it.
+             *
+             * Signals that an end of file or end of stream has been reached unexpectedly during input.
+             * This exception is mainly used by data input streams to signal end of stream.
+             * This exception is harmless and can be ignored.
+             */
+            if (DEBUG) {
+                System.out.println("File is empty");
+            }
         } catch (FileNotFoundException e) {
             System.err.println("File not found! - " + FILE_NAME);
         } catch (IOException e) {
@@ -111,18 +120,24 @@ public class ObjectTicketDAO extends TicketDAO {
 
         try (
                 FileOutputStream fileOutputStream = new FileOutputStream(FILE);
-                DataOutputStream dataOutputStream = new DataOutputStream(fileOutputStream);
+                ObjectOutputStream objectOutputStream = new ObjectOutputStream(fileOutputStream);
         ) {
-            dataOutputStream.writeInt(tickets.size());
+            objectOutputStream.writeInt(tickets.size());
+
             for (Ticket ticket : tickets) {
-                // belongsTo, destination, startDate, endDate, cost, checkedIn, description
-                dataOutputStream.writeInt(getPersonDAO().getIdFor(ticket.getBelongsTo()));
-                dataOutputStream.writeUTF(ticket.getDestination());
-                dataOutputStream.writeUTF(ticket.getStartDate().format(getDateTimeFormatter()));
-                dataOutputStream.writeUTF(ticket.getEndDate().format(getDateTimeFormatter()));
-                dataOutputStream.writeDouble(ticket.getCost());
-                dataOutputStream.writeBoolean(ticket.isCheckedIn());
-                dataOutputStream.writeUTF(ticket.getDescription());
+                // destination, startDate, endDate, cost, checkedIn, description
+                Ticket ticketObj = new Ticket(
+                        ticket.getDestination(),
+                        ticket.getStartDate(),
+                        ticket.getEndDate(),
+                        ticket.getCost(),
+                        ticket.isCheckedIn(),
+                        ticket.getDescription()
+                );
+                // belongsTo is saved as a person id based on the array index of the persons list in the personDAO
+                objectOutputStream.writeInt(getPersonDAO().getIdFor(ticket.getBelongsTo()));
+                // Write the Ticket object to a file (serialization)
+                objectOutputStream.writeObject(ticketObj);
             }
 
             // Successful save
@@ -133,7 +148,7 @@ public class ObjectTicketDAO extends TicketDAO {
         } catch (FileNotFoundException e) {
             System.err.println("File not found! - " + FILE_NAME);
         } catch (IOException e) {
-            System.err.println("Something went wrong while saving the file!");
+            System.err.println("Something went wrong while saving the file!" + e.getMessage());
             e.printStackTrace();
         } catch (Exception e) {
             e.printStackTrace();

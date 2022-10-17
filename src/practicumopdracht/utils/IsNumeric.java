@@ -23,7 +23,7 @@ public class IsNumeric {
         }
 
         try {
-            int i = Integer.parseInt(string);
+            Integer.parseInt(string);
         } catch (NumberFormatException e) {
             if (DEBUG) {
                 System.err.println("String is not an integer!");
@@ -47,7 +47,7 @@ public class IsNumeric {
         }
 
         try {
-            double d = Double.parseDouble(string);
+            Double.parseDouble(string);
         } catch (NumberFormatException nfe) {
             if (DEBUG) {
                 System.err.println("String is not a double!");

@@ -25,7 +25,6 @@ import static practicumopdracht.MainApplication.*;
  * TicketController - DetailController
  * @author Remzi Cavdar - remzi.cavdar@hva.nl
  */
-
 public class TicketController extends Controller {
     private TicketView view;
     private Ticket ticket;
@@ -49,6 +48,10 @@ public class TicketController extends Controller {
         personDAO = getPersonDAO();
         view = new TicketView();
         inputHandler = new InputHandler();
+
+        // By default, these buttons are disabled until a person is selected in the listViw
+        view.getNewButton().setDisable(true);
+        view.getDeleteButton().setDisable(true);
 
         // Menubar items
         view.getMenuItemSave().setOnAction(this::handleMenuSaveButton);
@@ -74,33 +77,47 @@ public class TicketController extends Controller {
         // Selected person from the previous screen
         view.getComboBoxBelongsTo().getSelectionModel().select(person);
         // Set the items in the listview
-        observableListTickets = FXCollections.observableArrayList(ticketDAO.getAllFor(
-                view.getComboBoxBelongsTo().getSelectionModel().getSelectedItem()
-        ));
+        observableListTickets = FXCollections.observableArrayList(ticketDAO.getAllFor(person));
         // Default sorting from date ascending order
         observableListTickets.sort(new DateComparator(true));
         view.getRadioButtonDate1().setSelected(true);
         // Set the items in the listview
         view.getListView().setItems(observableListTickets);
 
+        view.getComboBoxBelongsTo().getSelectionModel().selectedItemProperty().addListener((
+                observableValue, oldBelongsTo, newBelongsTo) -> {
+            if (newBelongsTo != null) {
+                observableListTickets.setAll(ticketDAO.getAllFor(newBelongsTo));
+
+                // Enable these buttons if a ticket is selected in the listView
+                view.getNewButton().setDisable(true);
+                view.getDeleteButton().setDisable(true);
+
+                // Reset and clear warnings when a ticket is selected from the listView
+                inputHandler.setTotalErrorValues(0);
+                inputHandler.clearWarnings(data);
+                inputHandler.clearValues(data, false);
+            }
+        });
+
         view.getListView().getSelectionModel().selectedItemProperty().addListener((
                 observableValue, oldTicket, newTicket) -> {
             if (newTicket != null) {
                 getInputDataFromView();
-                belongsTo.getSelectionModel().select(newTicket.getBelongsTo());
                 destination.setText(newTicket.getDestination());
                 startDate.setValue(newTicket.getStartDate());
                 endDate.setValue(newTicket.getEndDate());
                 cost.setText(String.valueOf(newTicket.getCost()).replace(".", ","));
                 checkedIn.selectedProperty().set(newTicket.isCheckedIn());
                 description.setText(newTicket.getDescription());
-            }
-        });
 
-        view.getComboBoxBelongsTo().getSelectionModel().selectedItemProperty().addListener((
-                observableValue, oldBelongsTo, newBelongsTo) -> {
-            if (newBelongsTo != null) {
-                observableListTickets.setAll(ticketDAO.getAllFor(newBelongsTo));
+                // Enable these buttons if a ticket is selected in the listView
+                view.getNewButton().setDisable(false);
+                view.getDeleteButton().setDisable(false);
+
+                // Reset and clear warnings when a ticket is selected from the listView
+                inputHandler.setTotalErrorValues(0);
+                inputHandler.clearWarnings(data);
             }
         });
 
@@ -251,8 +268,9 @@ public class TicketController extends Controller {
         IsNumeric isNumeric = new IsNumeric();
 
         // Only checkedIn and description are allowed to be empty, because they are optional
-        if (belongsTo.getSelectionModel().isEmpty() || destination.getText().isBlank() || startDate.getValue() == null || endDate.getValue() == null ||
-                cost.getText().isBlank() || !isNumeric.isDouble(cost.getText().replace(",", "."))) {
+        if (belongsTo.getSelectionModel().isEmpty() || destination.getText().isBlank() ||
+                startDate.getValue() == null || endDate.getValue() == null || cost.getText().isBlank() ||
+                !isNumeric.isDouble(cost.getText().replace(",", "."))) {
 
             /* Show warnings if inputs are empty and/or have incorrect values - empty and/or incorrect inputs get a
             red border */
@@ -324,6 +342,9 @@ public class TicketController extends Controller {
         alert.show();
         // Clear everything after successful save
         inputHandler.clearValues(data, false);
+        // Disable the buttons again until a ticket is selected in the listViw
+        view.getNewButton().setDisable(true);
+        view.getDeleteButton().setDisable(true);
         if (DEBUG) {
             System.out.println("End action: save");
         }
@@ -348,6 +369,9 @@ public class TicketController extends Controller {
             inputHandler.clearValues(data, false);
             // Clear warnings
             inputHandler.clearWarnings(data);
+            // Disable the buttons again until a ticket is selected in the listViw
+            view.getNewButton().setDisable(true);
+            view.getDeleteButton().setDisable(true);
         }
 
         if (DEBUG) {
@@ -378,6 +402,12 @@ public class TicketController extends Controller {
             ticketDAO.remove(ticket);
             // Update ListView
             observableListTickets.remove(ticket);
+            // Clear listView selection and inputs
+            view.getListView().getSelectionModel().clearSelection();
+            inputHandler.clearValues(data, false);
+            // Disable the buttons again until a ticket is selected in the listViw
+            view.getNewButton().setDisable(true);
+            view.getDeleteButton().setDisable(true);
         }
 
         if (DEBUG) {
