@@ -6,7 +6,7 @@ import javafx.scene.Parent;
 import javafx.scene.control.*;
 import javafx.scene.layout.*;
 import practicumopdracht.MainApplication;
-import practicumopdracht.utils.TextFieldLimiter;
+import practicumopdracht.utils.NumericTextField;
 import practicumopdracht.models.Person;
 
 /**
@@ -23,9 +23,9 @@ public class PersonView extends View {
     private MenuItem menuItemSave, menuItemLoad, menuItemClose, menuItemSortAZ, menuItemSortZA;
     private static final int MAX_LENGTH_SSN = 9;
 
-    public PersonView() {
-        new TextFieldLimiter(txtFieldSSN, MAX_LENGTH_SSN);
-    }
+//    public PersonView() {
+//        new TextFieldLimiter(txtFieldSSN, MAX_LENGTH_SSN);
+//    }
 
     @Override
     protected Parent initializeView() {
@@ -106,7 +106,8 @@ public class PersonView extends View {
 
         // SSN
         Label labelSSN = new Label("BSN:");
-        txtFieldSSN = new TextField();
+        //txtFieldSSN = new TextField();
+        txtFieldSSN = new NumericTextField(MAX_LENGTH_SSN);
         gridpane.add(labelSSN, 0, 5);
         gridpane.add(txtFieldSSN, 1, 5);
 

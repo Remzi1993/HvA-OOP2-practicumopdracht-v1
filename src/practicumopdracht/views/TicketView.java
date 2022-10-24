@@ -92,8 +92,9 @@ public class TicketView extends View {
         gridpane.add(datePickerEndDate, 1, 3);
 
         // Cost
-        Label labelCost = new Label("Kosten:");
+        Label labelCost = new Label("Kosten: €");
         txtFieldCost = new NumericTextField();
+        txtFieldCost.setPromptText("0,00");
         gridpane.add(labelCost, 0, 4);
         gridpane.add(txtFieldCost, 1, 4);
 

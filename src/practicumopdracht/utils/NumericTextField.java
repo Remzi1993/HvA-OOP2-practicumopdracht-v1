@@ -12,11 +12,16 @@ import java.text.DecimalFormatSymbols;
 public class NumericTextField extends TextField {
     private static final char DECIMAL_SEPARATOR = ',';
     private static final char GROUPING_SEPARATOR = '.';
-    private static final String PATTERN = "#,##0.00";
+    private static final int DEFAULT_MAX_LENGTH = 10;
     private static DecimalFormatSymbols decimalFormatSymbols;
 
+    /**
+     * Constructor for NumericTextField with a default pattern of #,##0.00 for currency.
+     * The default constructor is intended for currency input and is decimal limited to 2 digits.
+     */
     public NumericTextField() {
         super();
+        final String PATTERN = "#,##0.00";
         decimalFormatSymbols = new DecimalFormatSymbols();
         decimalFormatSymbols.setDecimalSeparator(DECIMAL_SEPARATOR);
         decimalFormatSymbols.setGroupingSeparator(GROUPING_SEPARATOR);
@@ -24,6 +29,34 @@ public class NumericTextField extends TextField {
         this.textProperty().addListener((observable, oldValue, newValue) -> {
             if (!newValue.matches("\\d*([\\,\\.]\\d{0,2})?")) {
                 this.setText(oldValue);
+            }
+
+            if (newValue.length() > DEFAULT_MAX_LENGTH) {
+                String string = newValue.substring(0, DEFAULT_MAX_LENGTH);
+                this.setText(string);
+            }
+        });
+    }
+
+    /**
+     * This constructor only accepts positive natural numbers.
+     * @param MAX_LENGTH The maximum length of the number.
+     */
+    public NumericTextField(final int MAX_LENGTH) {
+        super();
+        decimalFormatSymbols = new DecimalFormatSymbols();
+        decimalFormatSymbols.setDecimalSeparator(DECIMAL_SEPARATOR);
+        decimalFormatSymbols.setGroupingSeparator(GROUPING_SEPARATOR);
+        this.textProperty().addListener((observable, oldValue, newValue) -> {
+            if (newValue.matches("^[1-9]\\d*$") || newValue.equals("")) {
+                this.setText(newValue);
+            } else {
+                this.setText(oldValue);
+            }
+
+            if (newValue.length() > MAX_LENGTH) {
+                String string = newValue.substring(0, MAX_LENGTH);
+                this.setText(string);
             }
         });
     }

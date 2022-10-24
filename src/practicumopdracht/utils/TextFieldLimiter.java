@@ -7,11 +7,11 @@ import javafx.scene.control.TextField;
  * @author Remzi Cavdar - remzi.cavdar@hva.nl
  */
 public class TextFieldLimiter {
-    public TextFieldLimiter(final TextField textField, final int maxLength) {
-        textField.textProperty().addListener((observableValue, oldValue, newValue) -> {
-            if (textField.getText().length() > maxLength) {
-                String string = textField.getText().substring(0, maxLength);
-                textField.setText(string);
+    public TextFieldLimiter(final TextField TEXT_FIELD, final int MAX_LENGTH) {
+        TEXT_FIELD.textProperty().addListener((observableValue, oldValue, newValue) -> {
+            if (TEXT_FIELD.getText().length() > MAX_LENGTH) {
+                String string = TEXT_FIELD.getText().substring(0, MAX_LENGTH);
+                TEXT_FIELD.setText(string);
             }
         });
     }
