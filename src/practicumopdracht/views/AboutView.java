@@ -1,33 +1,23 @@
 package practicumopdracht.views;
 
-import javafx.geometry.Insets;
 import javafx.geometry.Pos;
 import javafx.scene.Scene;
 import javafx.scene.control.Hyperlink;
 import javafx.scene.control.Label;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
-import javafx.scene.layout.ColumnConstraints;
-import javafx.scene.layout.GridPane;
-import javafx.scene.layout.HBox;
-import javafx.scene.layout.VBox;
+import javafx.scene.layout.*;
 import practicumopdracht.utils.ResourceLoader;
-
 import java.awt.*;
-import java.io.IOException;
 import java.net.URI;
-import java.net.URISyntaxException;
-
 import static practicumopdracht.MainApplication.getAppCSS;
 
 public class AboutView {
     public Scene getScene() {
         // VBox parent container
         VBox vboxContainer = new VBox();
-        vboxContainer.getStyleClass().add("vbox-container");
-        // Padding
-        vboxContainer.setPadding(new Insets(10));
         vboxContainer.setAlignment(Pos.CENTER);
+        vboxContainer.getStyleClass().add("about-view-vbox-container");
 
         HBox hbox = new HBox();
         Image image = new Image(new ResourceLoader().getInputStream("images/emoji/zany-face.gif"),
@@ -52,15 +42,14 @@ public class AboutView {
         gridpane.getStyleClass().add("gridpane");
         // GridPane Column settings
         ColumnConstraints col1 = new ColumnConstraints();
-        col1.setPercentWidth(45);
+        col1.setPercentWidth(40);
         ColumnConstraints col2 = new ColumnConstraints();
-        col2.setPercentWidth(55);
+        col2.setPercentWidth(60);
         gridpane.getColumnConstraints().addAll(col1, col2);
 
         // GridPane horizontal and vertical Spacing - margins between columns
         gridpane.setVgap(5);
         gridpane.setHgap(5);
-        gridpane.setAlignment(Pos.CENTER);
 
         Label label1 = new Label("Gemaakt door:");
         Label label2 = new Label("Remzi Cavdar");
@@ -96,10 +85,8 @@ public class AboutView {
             {
                 try {
                     Desktop.getDesktop().browse(new URI("mailto:remzi.cavdar@hva.nl"));
-                } catch (IOException e1) {
-                    e1.printStackTrace();
-                } catch (URISyntaxException e1) {
-                    e1.printStackTrace();
+                } catch (Exception ex) {
+                    ex.printStackTrace();
                 }
             }
         });
@@ -107,6 +94,8 @@ public class AboutView {
         HBox hbox2 = new HBox();
         hbox2.setAlignment(Pos.CENTER);
         hbox2.getChildren().add(gridpane);
+        HBox.setHgrow(gridpane, Priority.ALWAYS);
+        hbox2.getStyleClass().add("about-view-hbox2");
 
         // Root container
         vboxContainer.getChildren().addAll(hbox, hbox2);
