@@ -6,6 +6,11 @@ import java.time.LocalDate;
 import static practicumopdracht.MainApplication.DEBUG;
 import static practicumopdracht.MainApplication.getDateTimeFormatter;
 
+/**
+ * BinaryPersonDAO - BinaryMasterDAO
+ * This is a DAO class which handles loading and saving data to a binary file for the Person model.
+ * @author Remzi Cavdar - remzi.cavdar@hva.nl
+ */
 public class BinaryPersonDAO extends PersonDAO {
     private static final String DIRECTORY_NAME = getAppDataDirectory();
     private static final String FILE_NAME = "Persons.dat";

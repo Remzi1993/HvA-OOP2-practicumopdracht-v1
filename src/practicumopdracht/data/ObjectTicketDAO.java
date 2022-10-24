@@ -4,6 +4,13 @@ import practicumopdracht.models.Ticket;
 import java.io.*;
 import static practicumopdracht.MainApplication.*;
 
+/**
+ * ObjectTicketDAO - ObjectDetailDAO
+ * This is a DAO class which handles loading and saving objects to a file for the Ticket model.
+ * This class handles serialization (saving state of an object) and deserialization (loading/recreate the object in memory)
+ * of the Ticket model.
+ * @author Remzi Cavdar - remzi.cavdar@hva.nl
+ */
 public class ObjectTicketDAO extends TicketDAO {
     private static final String DIRECTORY_NAME = getAppDataDirectory();
     private static final String FILE_NAME = "Tickets.obj";

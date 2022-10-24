@@ -14,7 +14,6 @@ import static practicumopdracht.MainApplication.getDateTimeFormatter;
  * This is a DAO class which handles loading and saving data to a text file for the Person model.
  * @author Remzi Cavdar - remzi.cavdar@hva.nl
  */
-
 public class TextPersonDAO extends PersonDAO {
     private static final String DIRECTORY_NAME = getAppDataDirectory();
     private static final String FILE_NAME = "Persons.txt";
