@@ -5,6 +5,10 @@ import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.event.ActionEvent;
 import javafx.scene.control.*;
+import javafx.scene.image.Image;
+import javafx.scene.image.ImageView;
+import javafx.stage.Modality;
+import javafx.stage.Stage;
 import practicumopdracht.comparators.DateComparator;
 import practicumopdracht.comparators.NameComparator;
 import practicumopdracht.comparators.PriceComparator;
@@ -12,10 +16,8 @@ import practicumopdracht.data.PersonDAO;
 import practicumopdracht.data.TicketDAO;
 import practicumopdracht.models.Person;
 import practicumopdracht.models.Ticket;
-import practicumopdracht.utils.AlertDialog;
-import practicumopdracht.utils.DatePickerConverter;
-import practicumopdracht.utils.InputHandler;
-import practicumopdracht.utils.IsNumeric;
+import practicumopdracht.utils.*;
+import practicumopdracht.views.AboutView;
 import practicumopdracht.views.TicketView;
 import practicumopdracht.views.View;
 import java.io.FileNotFoundException;
@@ -43,6 +45,7 @@ public class TicketController extends Controller {
     private ObservableList<Ticket> observableListTickets;
     private static InputHandler inputHandler;
     private Person selectedPerson;
+    private Stage secondStage;
 
     public TicketController(final Person SELECTED_PERSON, final boolean PERSON_NAME_ASCENDING) {
         selectedPerson = SELECTED_PERSON;
@@ -59,6 +62,7 @@ public class TicketController extends Controller {
         view.getMenuItemSave().setOnAction(this::handleMenuSaveButton);
         view.getMenuItemLoad().setOnAction(this::handleMenuLoadButton);
         view.getMenuItemClose().setOnAction(this::handleMenuCloseButton);
+        view.getMenuItemAbout().setOnAction(this::handleMenuAboutButton);
 
         // Buttons
         view.getSaveButton().setOnAction(this::handleSaveButton);
@@ -249,12 +253,29 @@ public class TicketController extends Controller {
     private void handleMenuCloseButton(ActionEvent event) {
         alert = new AlertDialog("CONFIRMATION", "Afsluiten",
                 "Weet u zeker dat u de app wilt afsluiten?");
+        alert.setGraphic(new ImageView(new Image(
+                new ResourceLoader().getInputStream("images/emoji/cry.gif"),
+                100, 100, true, true)));
         alert.show();
 
         if (alert.getResult() == ButtonType.OK) {
             Platform.exit();
             System.exit(0);
         }
+    }
+
+    private void handleMenuAboutButton(ActionEvent event) {
+        if (secondStage != null) {
+            secondStage.close();
+        }
+        secondStage = new Stage();
+        secondStage.getIcons().add(getAppIcon());
+        secondStage.setTitle("Informatie & contactgegevens - versie: " + APP_VERSION);
+        secondStage.setResizable(false);
+        secondStage.initModality(Modality.APPLICATION_MODAL);
+        secondStage.setAlwaysOnTop(true);
+        secondStage.setScene(new AboutView().getScene());
+        secondStage.show();
     }
 
     private void handleSaveButton(ActionEvent event) {

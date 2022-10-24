@@ -4,15 +4,19 @@ import javafx.application.Platform;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.event.ActionEvent;
+import javafx.scene.Scene;
 import javafx.scene.control.*;
+import javafx.scene.image.Image;
+import javafx.scene.image.ImageView;
+import javafx.stage.Modality;
+import javafx.stage.Stage;
+import javafx.stage.StageStyle;
 import practicumopdracht.comparators.NameComparator;
 import practicumopdracht.data.PersonDAO;
 import practicumopdracht.data.TicketDAO;
 import practicumopdracht.models.Person;
-import practicumopdracht.utils.AlertDialog;
-import practicumopdracht.utils.DatePickerConverter;
-import practicumopdracht.utils.InputHandler;
-import practicumopdracht.utils.IsNumeric;
+import practicumopdracht.utils.*;
+import practicumopdracht.views.AboutView;
 import practicumopdracht.views.PersonView;
 import practicumopdracht.views.View;
 import java.io.FileNotFoundException;
@@ -38,6 +42,7 @@ public class PersonController extends Controller {
     private boolean personNameAscending;
     private static InputHandler inputHandler;
     private Person selectedPerson;
+    private Stage secondStage;
 
     public PersonController(final Person SELECTED_PERSON) {
         selectedPerson = SELECTED_PERSON;
@@ -89,6 +94,7 @@ public class PersonController extends Controller {
         view.getMenuItemClose().setOnAction(this::handleMenuCloseButton);
         view.getMenuItemSortAZ().setOnAction(this::handleMenuSortAZButton);
         view.getMenuItemSortZA().setOnAction(this::handleMenuSortZAButton);
+        view.getMenuItemAbout().setOnAction(this::handleMenuAboutButton);
 
         // Buttons
         view.getSaveButton().setOnAction(this::handleSaveButton);
@@ -206,6 +212,9 @@ public class PersonController extends Controller {
     private void handleMenuCloseButton(ActionEvent event) {
         alert = new AlertDialog("CONFIRMATION", "Afsluiten",
                 "Wilt u de app afsluiten?");
+        alert.setGraphic(new ImageView(new Image(
+                new ResourceLoader().getInputStream("images/emoji/screaming.gif"),
+                100, 100, true, true)));
         alert.show();
 
         if (alert.getResult() == ButtonType.OK) {
@@ -222,6 +231,20 @@ public class PersonController extends Controller {
     private void handleMenuSortZAButton(ActionEvent event) {
         observableListPersons.sort(new NameComparator(false));
         personNameAscending = false;
+    }
+
+    private void handleMenuAboutButton(ActionEvent event) {
+        if (secondStage != null) {
+            secondStage.close();
+        }
+        secondStage = new Stage();
+        secondStage.getIcons().add(getAppIcon());
+        secondStage.setTitle("Informatie & contactgegevens - versie: " + APP_VERSION);
+        secondStage.setResizable(false);
+        secondStage.initModality(Modality.APPLICATION_MODAL);
+        secondStage.setAlwaysOnTop(true);
+        secondStage.setScene(new AboutView().getScene());
+        secondStage.show();
     }
 
     private void handleSaveButton(ActionEvent event) {

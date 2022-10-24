@@ -17,6 +17,10 @@
     -fx-padding: 10 10 5 20;
 }
 
+.about-view-hbox {
+    -fx-padding: 0 0 20 0;
+}
+
 /**
  * Listview
  */

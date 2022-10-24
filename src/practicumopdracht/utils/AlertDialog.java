@@ -4,6 +4,7 @@ import javafx.scene.control.Alert;
 import javafx.scene.control.ButtonType;
 import javafx.scene.control.DialogPane;
 import javafx.scene.image.Image;
+import javafx.scene.image.ImageView;
 import javafx.stage.Stage;
 import practicumopdracht.MainApplication;
 import java.util.Objects;
@@ -90,18 +91,34 @@ public class AlertDialog {
         switch (type) {
             case "CONFIRMATION":
                 alert.setAlertType(Alert.AlertType.CONFIRMATION);
+                alert.setGraphic(new ImageView(new Image(
+                        new ResourceLoader().getInputStream("images/emoji/thinking-face.gif"),
+                        100, 100, true, true)));
                 break;
             case "WARNING":
                 alert.setAlertType(Alert.AlertType.WARNING);
+                alert.setGraphic(new ImageView(new Image(
+                        new ResourceLoader().getInputStream("images/emoji/weary.gif"),
+                        100, 100, true, true)));
                 break;
             case "ERROR":
                 alert.setAlertType(Alert.AlertType.ERROR);
+                alert.setGraphic(new ImageView(new Image(
+                        new ResourceLoader().getInputStream("images/emoji/dizzy-face.gif"),
+                        100, 100, true, true)));
                 break;
             case "NONE":
                 break;
             default:
                 alert.setAlertType(Alert.AlertType.INFORMATION);
+                alert.setGraphic(new ImageView(new Image(
+                        new ResourceLoader().getInputStream("images/emoji/slightly-happy.gif"),
+                        100, 100, true, true)));
         }
+    }
+
+    public void setGraphic(final ImageView IMAGE_VIEW) {
+        alert.setGraphic(IMAGE_VIEW);
     }
 
     private void initializeText() {

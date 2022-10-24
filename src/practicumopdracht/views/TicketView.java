@@ -22,7 +22,7 @@ public class TicketView extends View {
     private ComboBox<Person> comboBoxBelongsTo;
     private Button saveButton, newButton, deleteButton, switchButton;
     private ListView<Ticket> listview;
-    private MenuItem menuItemSave, menuItemLoad, menuItemClose;
+    private MenuItem menuItemSave, menuItemLoad, menuItemClose, menuItemAbout;
     private RadioButton radioButtonDate1, radioButtonDate2, radioButtonCost1, radioButtonCost2;
 
     @Override
@@ -39,8 +39,12 @@ public class TicketView extends View {
         menuItemLoad = new MenuItem("Laden");
         menuItemClose = new MenuItem("Afsluiten");
         fileMenu.getItems().addAll(menuItemSave, menuItemLoad, new SeparatorMenuItem(), menuItemClose);
-        // Add the menu to the menu bar.
-        menuBar.getMenus().add(fileMenu);
+        // Create the info and about menu.
+        Menu aboutMenu = new Menu("Support & info");
+        menuItemAbout = new MenuItem("Info & contactgegevens");
+        aboutMenu.getItems().add(menuItemAbout);
+        // Add the menus to the menu bar.
+        menuBar.getMenus().addAll(fileMenu, aboutMenu);
 
         // VBox parent container
         VBox vboxContainer = new VBox();
@@ -191,6 +195,10 @@ public class TicketView extends View {
 
     public MenuItem getMenuItemClose() {
         return menuItemClose;
+    }
+
+    public MenuItem getMenuItemAbout() {
+        return menuItemAbout;
     }
 
     public TextField getTxtFieldCost() {

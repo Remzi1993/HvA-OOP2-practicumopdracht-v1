@@ -19,7 +19,7 @@ public class PersonView extends View {
     private ComboBox<String> comboBoxSex;
     private Button saveButton, newButton, deleteButton, switchButton;
     private ListView<Person> listView;
-    private MenuItem menuItemSave, menuItemLoad, menuItemClose, menuItemSortAZ, menuItemSortZA;
+    private MenuItem menuItemSave, menuItemLoad, menuItemClose, menuItemSortAZ, menuItemSortZA, menuItemAbout;
     private static final int MAX_LENGTH_SSN = 9;
 
     @Override
@@ -41,8 +41,12 @@ public class PersonView extends View {
         menuItemSortAZ = new MenuItem("Naam (A-Z)");
         menuItemSortZA = new MenuItem("Naam (Z-A)");
         sortMenu.getItems().addAll(menuItemSortAZ, menuItemSortZA);
+        // Create the info and about menu.
+        Menu aboutMenu = new Menu("Support & info");
+        menuItemAbout = new MenuItem("Info & contactgegevens");
+        aboutMenu.getItems().add(menuItemAbout);
         // Add the menus to the menu bar.
-        menuBar.getMenus().addAll(fileMenu, sortMenu);
+        menuBar.getMenus().addAll(fileMenu, sortMenu, aboutMenu);
 
         // VBox parent container
         VBox vboxContainer = new VBox();
@@ -171,6 +175,10 @@ public class PersonView extends View {
 
     public MenuItem getMenuItemSortZA() {
         return menuItemSortZA;
+    }
+
+    public MenuItem getMenuItemAbout() {
+        return menuItemAbout;
     }
 
     public TextField getTxtFieldName() {
