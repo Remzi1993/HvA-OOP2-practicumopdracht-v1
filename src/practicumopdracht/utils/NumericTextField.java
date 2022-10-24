@@ -7,7 +7,7 @@ import java.text.DecimalFormatSymbols;
 /**
  * NumericTextField extends TextField
  * This class is a custom TextField which only allows numeric input.
- * @author Remzi Cavdar -
+ * @author Remzi Cavdar - remzi.cavdar@hva.nl
  */
 public class NumericTextField extends TextField {
     private static final char DECIMAL_SEPARATOR = ',';
