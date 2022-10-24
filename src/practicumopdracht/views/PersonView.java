@@ -20,8 +20,8 @@ public class PersonView extends View {
     private ComboBox<String> comboBoxSex;
     private Button saveButton, newButton, deleteButton, switchButton;
     private ListView<Person> listView;
-    private static final int MAX_LENGTH_SSN = 9;
     private MenuItem menuItemSave, menuItemLoad, menuItemClose, menuItemSortAZ, menuItemSortZA;
+    private static final int MAX_LENGTH_SSN = 9;
 
     public PersonView() {
         new TextFieldLimiter(txtFieldSSN, MAX_LENGTH_SSN);

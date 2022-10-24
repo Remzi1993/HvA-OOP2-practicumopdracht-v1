@@ -17,7 +17,7 @@ import practicumopdracht.utils.NumericTextField;
 
 public class TicketView extends View {
     private TextField txtDestination, txtFieldCost;
-    private TextArea textAreaDescription;
+    private TextArea txtAreaDescription;
     private DatePicker datePickerStartDate, datePickerEndDate;
     private CheckBox checkBoxCheckedIn;
     private ComboBox<Person> comboBoxBelongsTo;
@@ -105,10 +105,10 @@ public class TicketView extends View {
 
         // Description
         Label labelDescription = new Label("Beschrijving:");
-        textAreaDescription = new TextArea();
-        textAreaDescription.setPromptText("(Optioneel)");
+        txtAreaDescription = new TextArea();
+        txtAreaDescription.setPromptText("(Optioneel)");
         gridpane.add(labelDescription, 0, 6);
-        gridpane.add(textAreaDescription, 1, 6);
+        gridpane.add(txtAreaDescription, 1, 6);
 
         // Save button
         HBox hboxSaveButton = new HBox();
@@ -217,8 +217,8 @@ public class TicketView extends View {
         return txtDestination;
     }
 
-    public TextArea getTextAreaDescription() {
-        return textAreaDescription;
+    public TextArea getTxtAreaDescription() {
+        return txtAreaDescription;
     }
 
     public Button getSaveButton() {

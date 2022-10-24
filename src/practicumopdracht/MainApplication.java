@@ -90,7 +90,7 @@ public class MainApplication extends Application {
         }
 
         // Start/default controller with default associated view
-        switchController(new PersonController());
+        switchController(new PersonController(null));
     }
 
     /**

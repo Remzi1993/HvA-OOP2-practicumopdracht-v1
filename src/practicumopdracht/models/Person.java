@@ -5,6 +5,7 @@ import static practicumopdracht.MainApplication.getDateTimeFormatter;
 
 /**
  * Person model - MasterModel
+ * This class represents a person.
  * @author Remzi Cavdar - remzi.cavdar@hva.nl
  */
 
@@ -13,7 +14,17 @@ public class Person {
     private LocalDate birthdate;
     private int SSN; // Social Security Number (SSN)
 
-    // Name, Sex, Birthdate, Birthplace, Nationality, SSN, Document number
+    /**
+     * This is a constructor of the person model with the following attributes:
+     * Name, Sex, Birthdate, Birthplace, Nationality, SSN, Document number
+     * @param name is a String and is the full name of a person
+     * @param sex is a String denoting the biological sex of a person
+     * @param birthdate is a LocalDate denoting the birthdate of a person
+     * @param birthplace is a String denoting the birthplace of a person
+     * @param nationality is a String denoting the nationality of a person
+     * @param SSN is an int denoting the Social Security Number (SSN) of a person
+     * @param documentNumber is a String denoting the document number (passport or ID card) of a person
+     */
     public Person(String name, String sex, LocalDate birthdate, String birthplace, String nationality, int SSN,
                   String documentNumber) {
         this.name = name;

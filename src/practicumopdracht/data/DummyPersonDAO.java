@@ -42,6 +42,18 @@ public class DummyPersonDAO extends PersonDAO {
                 LocalDate.parse("11-06-1993", getDateTimeFormatter()), "UK",
                 "British", 3456787, "THJE23864"));
 
+        persons.add(new Person("Aldoor van Hagen", "Man",
+                LocalDate.parse("11-06-1993", getDateTimeFormatter()), "UK",
+                "British", 3456787, "THJE23864"));
+
+        persons.add(new Person("Magna van Hoog", "Man",
+                LocalDate.parse("11-06-1993", getDateTimeFormatter()), "UK",
+                "British", 3456787, "THJE23864"));
+
+        persons.add(new Person("Siechske van der Domme", "Man",
+                LocalDate.parse("11-06-1993", getDateTimeFormatter()), "UK",
+                "British", 3456787, "THJE23864"));
+
         return true;
     }
 

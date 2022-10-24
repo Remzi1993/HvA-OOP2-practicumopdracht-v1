@@ -37,8 +37,10 @@ public class PersonController extends Controller {
     private ObservableList<Person> observableListPersons;
     private boolean personNameAscending;
     private static InputHandler inputHandler;
+    private Person selectedPerson;
 
-    public PersonController() {
+    public PersonController(final Person SELECTED_PERSON) {
+        selectedPerson = SELECTED_PERSON;
         personDAO = getPersonDAO();
         ticketDAO = getTicketDAO();
         view = new PersonView();
@@ -52,6 +54,9 @@ public class PersonController extends Controller {
         view.getListView().getSelectionModel().selectedItemProperty().addListener((
                 observableValue, oldPerson, newPerson) -> {
             if (newPerson != null) {
+                // This is needed to remember the selected person in the listview, so we can give this to the TicketController
+                selectedPerson = newPerson;
+
                 getInputDataFromView();
                 fullName.setText(String.valueOf(newPerson.getName()));
                 sex.setValue(newPerson.getSex());
@@ -69,6 +74,12 @@ public class PersonController extends Controller {
                 // Reset and clear warnings when a person is selected from the listView
                 inputHandler.setTotalErrorValues(0);
                 inputHandler.clearWarnings(data);
+            } else {
+                selectedPerson = null;
+                // Disable these buttons if no person is selected in the listView
+                view.getNewButton().setDisable(true);
+                view.getDeleteButton().setDisable(true);
+                view.getSwitchButton().setDisable(true);
             }
         });
 
@@ -92,6 +103,11 @@ public class PersonController extends Controller {
         personNameAscending = true;
         // Set the observableList to the ListView
         view.getListView().setItems(observableListPersons);
+
+        // Remember the selected person if users go back from the tickets overview
+        if(selectedPerson != null) {
+            view.getListView().getSelectionModel().select(selectedPerson);
+        }
 
         // Datepicker
         birthdate = view.getDatePickerBirthdate();
@@ -144,7 +160,7 @@ public class PersonController extends Controller {
                         "De data is succesvol opgeslagen.");
             } else {
                 menuAlert(false, "Error bij opslaan data!",
-                        "Er is een fout opgetreden tijdens het opslaan van de data.");
+                        "Data is niet opgeslagen.\nEr is een fout opgetreden tijdens het opslaan van de data.");
             }
         }
     }
@@ -325,10 +341,6 @@ public class PersonController extends Controller {
         alert.show();
         // Clear everything after successful save
         inputHandler.clearValues(data, true);
-        // Disable the buttons again until a person is selected in the listViw
-        view.getNewButton().setDisable(true);
-        view.getDeleteButton().setDisable(true);
-        view.getSwitchButton().setDisable(true);
         if (DEBUG) {
             System.out.println("End action: save");
         }
@@ -355,10 +367,6 @@ public class PersonController extends Controller {
             inputHandler.clearValues(data, true);
             // Clear warnings
             inputHandler.clearWarnings(data);
-            // Disable the buttons again until a person is selected in the listViw
-            view.getNewButton().setDisable(true);
-            view.getDeleteButton().setDisable(true);
-            view.getSwitchButton().setDisable(true);
         }
 
         if (DEBUG) {
@@ -393,10 +401,6 @@ public class PersonController extends Controller {
             // Clear listView selection and inputs
             view.getListView().getSelectionModel().clearSelection();
             inputHandler.clearValues(data, true);
-            // Disable the buttons again until a person is selected in the listViw
-            view.getNewButton().setDisable(true);
-            view.getDeleteButton().setDisable(true);
-            view.getSwitchButton().setDisable(true);
         }
 
         if (DEBUG) {
@@ -405,13 +409,6 @@ public class PersonController extends Controller {
     }
 
     private void handleSwitchButton(ActionEvent event) {
-        person = view.getListView().getSelectionModel().getSelectedItem();
-        if (person == null) {
-            alert = new AlertDialog("WARNING", "Persoon selecteren",
-                    "Selecteer een persoon voordat u verder gaat naar vliegtickets.");
-            alert.show();
-            return;
-        }
-        switchController(new TicketController(person, personNameAscending));
+        switchController(new TicketController(selectedPerson, personNameAscending));
     }
 }

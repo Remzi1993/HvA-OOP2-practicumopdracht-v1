@@ -42,8 +42,10 @@ public class TicketController extends Controller {
     private ObservableList<Person> observableListPersons;
     private ObservableList<Ticket> observableListTickets;
     private static InputHandler inputHandler;
+    private Person selectedPerson;
 
-    public TicketController(Person person, final boolean PERSON_NAME_ASCENDING) {
+    public TicketController(final Person SELECTED_PERSON, final boolean PERSON_NAME_ASCENDING) {
+        selectedPerson = SELECTED_PERSON;
         ticketDAO = getTicketDAO();
         personDAO = getPersonDAO();
         view = new TicketView();
@@ -75,9 +77,9 @@ public class TicketController extends Controller {
         // Set the items in the belongs to combobox
         view.getComboBoxBelongsTo().setItems(observableListPersons);
         // Selected person from the previous screen
-        view.getComboBoxBelongsTo().getSelectionModel().select(person);
+        view.getComboBoxBelongsTo().getSelectionModel().select(selectedPerson);
         // Set the items in the listview
-        observableListTickets = FXCollections.observableArrayList(ticketDAO.getAllFor(person));
+        observableListTickets = FXCollections.observableArrayList(ticketDAO.getAllFor(selectedPerson));
         // Default sorting from date ascending order
         observableListTickets.sort(new DateComparator(true));
         view.getRadioButtonDate1().setSelected(true);
@@ -87,16 +89,19 @@ public class TicketController extends Controller {
         view.getComboBoxBelongsTo().getSelectionModel().selectedItemProperty().addListener((
                 observableValue, oldBelongsTo, newBelongsTo) -> {
             if (newBelongsTo != null) {
+                // This is needed to remember the selected person in the listview, so we can give this to the PersonController
+                selectedPerson = newBelongsTo;
+                // Set the items in the listview
                 observableListTickets.setAll(ticketDAO.getAllFor(newBelongsTo));
-
                 // Enable these buttons if a ticket is selected in the listView
                 view.getNewButton().setDisable(true);
                 view.getDeleteButton().setDisable(true);
-
                 // Reset and clear warnings when a ticket is selected from the listView
                 inputHandler.setTotalErrorValues(0);
                 inputHandler.clearWarnings(data);
                 inputHandler.clearValues(data, false);
+            } else {
+                selectedPerson = null;
             }
         });
 
@@ -170,7 +175,7 @@ public class TicketController extends Controller {
         endDate = view.getDatePickerEndDate();
         cost = view.getTxtFieldCost();
         checkedIn = view.getCheckBoxCheckedIn();
-        description = view.getTextAreaDescription();
+        description = view.getTxtAreaDescription();
         listView = view.getListView();
         data = new Object[]{belongsTo, destination, startDate, endDate, cost, checkedIn, description, listView};
     }
@@ -432,6 +437,6 @@ public class TicketController extends Controller {
     }
 
     private void handleSwitchButton(ActionEvent event) {
-        switchController(new PersonController());
+        switchController(new PersonController(selectedPerson));
     }
 }

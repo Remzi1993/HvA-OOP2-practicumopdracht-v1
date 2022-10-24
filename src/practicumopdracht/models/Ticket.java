@@ -6,6 +6,7 @@ import static practicumopdracht.MainApplication.getDateTimeFormatter;
 
 /**
  * Ticket model - DetailModel
+ * This class represents an airline ticket.
  * @author Remzi Cavdar - remzi.cavdar@hva.nl
  */
 
@@ -16,6 +17,17 @@ public class Ticket implements Serializable {
     private double cost;
     private boolean checkedIn;
 
+    /**
+     * This is a constructor of the ticket model with the following attributes:
+     * Destination, Description, Start date, End date, Cost, Checked in
+     * @param belongsTo is a Person object denoting the person who owns the ticket
+     * @param destination is a String denoting the destination of the ticket
+     * @param startDate is a LocalDate denoting the start date of the ticket
+     * @param endDate is a LocalDate denoting the end date of the ticket
+     * @param cost is a double denoting the cost of the ticket
+     * @param checkedIn is a boolean denoting whether the person has checked in or not
+     * @param description is a String denoting the description of the ticket
+     */
     public Ticket(Person belongsTo, String destination, LocalDate startDate, LocalDate endDate, double cost,
                   boolean checkedIn, String description) {
         this.belongsTo = belongsTo;
