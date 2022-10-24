@@ -14,7 +14,6 @@ import practicumopdracht.utils.NumericTextField;
  * TicketView - DetailView
  * @author Remzi Cavdar - remzi.cavdar@hva.nl
  */
-
 public class TicketView extends View {
     private TextField txtDestination, txtFieldCost;
     private TextArea txtAreaDescription;
@@ -58,7 +57,7 @@ public class TicketView extends View {
         col1.setPercentWidth(25);
         ColumnConstraints col2 = new ColumnConstraints();
         col2.setPercentWidth(75);
-        gridpane.getColumnConstraints().addAll(col1,col2);
+        gridpane.getColumnConstraints().addAll(col1, col2);
 
         // GridPane horizontal and vertical Spacing - margins between columns
         gridpane.setVgap(10);
@@ -137,7 +136,7 @@ public class TicketView extends View {
         radioButtonDate1.setTooltip(tooltipDate);
         radioButtonDate2.setTooltip(tooltipDate);
         radioButtonCost1 = new RadioButton("Kosten (laag naar hoog)");
-        radioButtonCost2= new RadioButton("Kosten (hoog naar laag)");
+        radioButtonCost2 = new RadioButton("Kosten (hoog naar laag)");
         ToggleGroup radioGroup = new ToggleGroup();
         radioButtonDate1.setToggleGroup(radioGroup);
         radioButtonDate2.setToggleGroup(radioGroup);

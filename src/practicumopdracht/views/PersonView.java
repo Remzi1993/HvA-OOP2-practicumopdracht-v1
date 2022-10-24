@@ -13,7 +13,6 @@ import practicumopdracht.models.Person;
  * PersonView - MasterView
  * @author Remzi Cavdar - remzi.cavdar@hva.nl
  */
-
 public class PersonView extends View {
     private TextField txtFieldName, txtFieldBirthplace, txtFieldNationality, txtFieldSSN, txtFieldDocumentNumber;
     private DatePicker datePickerBirthdate;
@@ -22,10 +21,6 @@ public class PersonView extends View {
     private ListView<Person> listView;
     private MenuItem menuItemSave, menuItemLoad, menuItemClose, menuItemSortAZ, menuItemSortZA;
     private static final int MAX_LENGTH_SSN = 9;
-
-//    public PersonView() {
-//        new TextFieldLimiter(txtFieldSSN, MAX_LENGTH_SSN);
-//    }
 
     @Override
     protected Parent initializeView() {
@@ -64,7 +59,7 @@ public class PersonView extends View {
         col1.setPercentWidth(25);
         ColumnConstraints col2 = new ColumnConstraints();
         col2.setPercentWidth(75);
-        gridpane.getColumnConstraints().addAll(col1,col2);
+        gridpane.getColumnConstraints().addAll(col1, col2);
 
         // GridPane horizontal and vertical Spacing - margins between columns
         gridpane.setVgap(10);
