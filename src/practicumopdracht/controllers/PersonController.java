@@ -16,6 +16,8 @@ import practicumopdracht.views.AboutView;
 import practicumopdracht.views.PersonView;
 import practicumopdracht.views.View;
 import java.io.FileNotFoundException;
+import java.time.LocalDate;
+import java.util.Objects;
 import static practicumopdracht.MainApplication.*;
 
 /**
@@ -50,6 +52,18 @@ public class PersonController extends Controller {
         view.getNewButton().setDisable(true);
         view.getDeleteButton().setDisable(true);
         view.getSwitchButton().setDisable(true);
+
+        if (selectedPerson == null) {
+            view.getDatePickerBirthdate().setValue(LocalDate.now().minusYears(18));
+            view.getDatePickerBirthdate().getEditor().setText(getDateFormat().toUpperCase());
+
+            view.getDatePickerBirthdate().setOnAction(event -> {
+                if (view.getDatePickerBirthdate().getValue() == null) {
+                    view.getDatePickerBirthdate().setValue(LocalDate.now().minusYears(18));
+                    view.getDatePickerBirthdate().getEditor().setText(getDateFormat().toUpperCase());
+                }
+            });
+        }
 
         view.getListView().getSelectionModel().selectedItemProperty().addListener((
                 observableValue, oldPerson, newPerson) -> {
@@ -106,7 +120,7 @@ public class PersonController extends Controller {
         view.getListView().setItems(observableListPersons);
 
         // Remember the selected person if users go back from the tickets overview
-        if(selectedPerson != null) {
+        if (selectedPerson != null) {
             view.getListView().getSelectionModel().select(selectedPerson);
         }
 
@@ -131,6 +145,14 @@ public class PersonController extends Controller {
             }
         });
 
+        birthdate.setDayCellFactory(picker -> new DateCell() {
+            @Override
+            public void updateItem(LocalDate item, boolean empty) {
+                super.updateItem(item, empty);
+                setDisable(empty || item.isBefore(LocalDate.now().minusYears(150)) ||
+                        item.isAfter(LocalDate.now().minusYears(18)));
+            }
+        });
     }
 
     @Override
@@ -156,7 +178,7 @@ public class PersonController extends Controller {
         alert.show();
 
         if (alert.getResult() == ButtonType.OK) {
-            if(personDAO.save() && ticketDAO.save()) {
+            if (personDAO.save() && ticketDAO.save()) {
                 menuAlert(true, "Data succesvol opgeslagen",
                         "De data is succesvol opgeslagen.");
             } else {
@@ -174,7 +196,7 @@ public class PersonController extends Controller {
         if (alert.getResult() == ButtonType.OK) {
             try {
                 // Load data from data sources and confirm if successful
-                if(personDAO.load() && ticketDAO.load()) {
+                if (personDAO.load() && ticketDAO.load()) {
                     menuAlert(true, "Data succesvol opgehaald",
                             "De data is succesvol opgehaald.");
                 } else {
@@ -193,7 +215,7 @@ public class PersonController extends Controller {
     }
 
     private void menuAlert(boolean result, String title, String contextText) {
-        if(result) {
+        if (result) {
             alert = new AlertDialog("INFORMATION", title,
                     contextText);
             alert.show();
@@ -262,11 +284,13 @@ public class PersonController extends Controller {
 
         if (fullName.getText().isBlank() || sex.getSelectionModel().isEmpty() || birthplace.getText().isBlank() ||
                 nationality.getText().isBlank() || SSN.getText().isBlank() || !isNumeric.isInt(SSN.getText()) ||
-                documentNumber.getText().isBlank() || birthdate.getValue() == null) {
+                documentNumber.getText().isBlank() ||
+                Objects.equals(birthdate.getEditor().getText(), getDateFormat().toUpperCase()) ||
+                birthdate.getValue() == null || birthdate.getValue().isAfter(LocalDate.now().minusYears(18))) {
 
             /* Show warnings if inputs are empty and/or have incorrect values - empty and/or incorrect inputs get a
             red border */
-            inputHandler.checkValues(data);
+            inputHandler.checkValues(data, 18);
             inputHandler.checkIsInt(SSN);
 
             if (fullName.getText().isBlank()) {
@@ -275,8 +299,12 @@ public class PersonController extends Controller {
             if (sex.getSelectionModel().isEmpty()) {
                 sb.append("\nGeen geslacht geselecteerd.");
             }
-            if (birthdate.getValue() == null) {
+            if (Objects.equals(birthdate.getEditor().getText(), getDateFormat().toUpperCase()) ||
+                    birthdate.getValue() == null) {
                 sb.append("\nGeen/onjuist geboortedatum ingevuld.");
+            }
+            if (birthdate.getValue().isAfter(LocalDate.now().minusYears(18))) {
+                sb.append("\nOnjuist geboortedatum ingevuld.\nJe moet minimaal 18 jaar zijn.");
             }
             if (birthplace.getText().isBlank()) {
                 sb.append("\nGeen geboorteplaats ingevuld.");
@@ -344,7 +372,7 @@ public class PersonController extends Controller {
         // Show confirmation
         alert.show();
         // Clear everything after successful save
-        inputHandler.clearValues(data, true);
+        inputHandler.clearValues(data, true, true);
         if (DEBUG) {
             System.out.println("End action: save");
         }
@@ -368,7 +396,7 @@ public class PersonController extends Controller {
                 return;
             }
             // Clear everything
-            inputHandler.clearValues(data, true);
+            inputHandler.clearValues(data, true, true);
             // Clear warnings
             inputHandler.clearWarnings(data);
         }
@@ -404,7 +432,7 @@ public class PersonController extends Controller {
             observableListPersons.remove(person);
             // Clear listView selection and inputs
             view.getListView().getSelectionModel().clearSelection();
-            inputHandler.clearValues(data, true);
+            inputHandler.clearValues(data, true, true);
         }
 
         if (DEBUG) {

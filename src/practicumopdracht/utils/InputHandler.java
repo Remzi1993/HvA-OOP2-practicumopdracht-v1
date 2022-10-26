@@ -3,6 +3,9 @@ package practicumopdracht.utils;
 import javafx.scene.control.*;
 import javafx.scene.layout.Border;
 import javafx.scene.paint.Color;
+import java.time.LocalDate;
+import java.util.Objects;
+import static practicumopdracht.MainApplication.getDateFormat;
 
 /**
  * Class InputHandler
@@ -16,6 +19,7 @@ public class InputHandler {
     private int totalErrorValues;
 
     /**
+     * Method to check for any JavaFX input control if it is empty or not
      * @param inputs Checks if the inputs are empty and set a red border around the empty inputs
      */
     public void checkValues(Object[] inputs) {
@@ -37,7 +41,44 @@ public class InputHandler {
                 }
             }
             if (input instanceof DatePicker) {
-                if (((DatePicker) input).getValue() == null && ((DatePicker) input).isEditable()) {
+                ((DatePicker) input).setBorder(null);
+                if (Objects.equals(((DatePicker) input).getEditor().getText(), getDateFormat().toUpperCase()) ||
+                        ((DatePicker) input).getValue() == null && ((DatePicker) input).isEditable()) {
+                    ((DatePicker) input).setBorder(BORDER);
+                    ++totalErrorValues;
+                }
+            }
+        }
+    }
+
+    /**
+     *
+     * @param inputs Checks if the inputs are empty and set a red border around the empty inputs
+     * @param DatePickerMinAge Checks if a datepicker input is older than the minimum age
+     */
+    public void checkValues(Object[] inputs, int DatePickerMinAge) {
+        if (inputs == null || inputs.length == 0) {
+            return; // If inputs is null or empty return
+        }
+        for (Object input : inputs) {
+            if (input instanceof TextField) {
+                if (((TextField) input).getText().isBlank()) {
+                    ((TextField) input).setBorder(BORDER);
+                    ++totalErrorValues;
+                }
+            }
+            if (input instanceof ComboBox) {
+                ((ComboBox<?>) input).setBorder(null);
+                if (((ComboBox<?>) input).getSelectionModel().isEmpty()) {
+                    ((ComboBox<?>) input).setBorder(BORDER);
+                    ++totalErrorValues;
+                }
+            }
+            if (input instanceof DatePicker) {
+                ((DatePicker) input).setBorder(null);
+                if (Objects.equals(((DatePicker) input).getEditor().getText(), getDateFormat().toUpperCase()) ||
+                        ((DatePicker) input).getValue().isAfter(LocalDate.now().minusYears(DatePickerMinAge)) &&
+                                ((DatePicker) input).isEditable()) {
                     ((DatePicker) input).setBorder(BORDER);
                     ++totalErrorValues;
                 }
@@ -102,7 +143,7 @@ public class InputHandler {
      * @param inputs Clears all inputs
      * @param clearComboBox Clears the ComboBox if set to true
      */
-    public void clearValues(Object[] inputs, boolean clearComboBox) {
+    public void clearValues(Object[] inputs, boolean clearComboBox, boolean DatePickerDefaultValue) {
         if (inputs == null || inputs.length == 0) {
             return; // If inputs is null or empty return
         }
@@ -113,10 +154,6 @@ public class InputHandler {
             if (input instanceof TextArea) {
                 ((TextArea) input).clear();
             }
-            if (input instanceof DatePicker) {
-                ((DatePicker) input).getEditor().clear();
-                ((DatePicker) input).setValue(null);
-            }
             if (input instanceof CheckBox) {
                 ((CheckBox) input).setSelected(false);
             }
@@ -125,6 +162,13 @@ public class InputHandler {
             }
             if (input instanceof ComboBox && clearComboBox) {
                 ((ComboBox<?>) input).getSelectionModel().clearSelection();
+            }
+            if (input instanceof DatePicker && DatePickerDefaultValue) {
+                ((DatePicker) input).setValue(LocalDate.now().minusYears(18));
+                ((DatePicker) input).getEditor().setText(getDateFormat().toUpperCase());
+            } else if (input instanceof DatePicker) {
+                ((DatePicker) input).setValue(null);
+                ((DatePicker) input).getEditor().clear();
             }
         }
     }

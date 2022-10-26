@@ -86,7 +86,7 @@ public class PersonView extends View {
         gridpane.add(comboBoxSex, 1, 1);
 
         // Birthdate
-        Label labelBirthdate = new Label("Geboortedatum:");
+        Label labelBirthdate = new Label("Geboortedatum: (minimaal 18 jaar)");
         datePickerBirthdate = new DatePicker();
         gridpane.add(labelBirthdate, 0, 2);
         gridpane.add(datePickerBirthdate, 1, 2);
@@ -104,8 +104,7 @@ public class PersonView extends View {
         gridpane.add(txtFieldNationality, 1, 4);
 
         // SSN
-        Label labelSSN = new Label("BSN:");
-        //txtFieldSSN = new TextField();
+        Label labelSSN = new Label("BSN: (alleen cijfers)");
         txtFieldSSN = new NumericTextField(MAX_LENGTH_SSN);
         gridpane.add(labelSSN, 0, 5);
         gridpane.add(txtFieldSSN, 1, 5);

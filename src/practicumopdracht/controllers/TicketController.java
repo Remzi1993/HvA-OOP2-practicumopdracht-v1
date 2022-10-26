@@ -100,7 +100,7 @@ public class TicketController extends Controller {
                 // Reset and clear warnings when a ticket is selected from the listView
                 inputHandler.setTotalErrorValues(0);
                 inputHandler.clearWarnings(data);
-                inputHandler.clearValues(data, false);
+                inputHandler.clearValues(data, false, false);
             } else {
                 selectedPerson = null;
             }
@@ -350,7 +350,7 @@ public class TicketController extends Controller {
         // Show confirmation
         alert.show();
         // Clear everything after successful save
-        inputHandler.clearValues(data, false);
+        inputHandler.clearValues(data, false, false);
         // Disable the buttons again until a ticket is selected in the listViw
         view.getNewButton().setDisable(true);
         view.getDeleteButton().setDisable(true);
@@ -375,7 +375,7 @@ public class TicketController extends Controller {
                 return;
             }
             // Clear everything
-            inputHandler.clearValues(data, false);
+            inputHandler.clearValues(data, false, false);
             // Clear warnings
             inputHandler.clearWarnings(data);
             // Disable the buttons again until a ticket is selected in the listViw
@@ -413,7 +413,7 @@ public class TicketController extends Controller {
             observableListTickets.remove(ticket);
             // Clear listView selection and inputs
             view.getListView().getSelectionModel().clearSelection();
-            inputHandler.clearValues(data, false);
+            inputHandler.clearValues(data, false, false);
             // Disable the buttons again until a ticket is selected in the listViw
             view.getNewButton().setDisable(true);
             view.getDeleteButton().setDisable(true);
