@@ -7,13 +7,30 @@ import javafx.scene.control.Label;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
 import javafx.scene.layout.*;
+import javafx.stage.Modality;
+import javafx.stage.Stage;
 import practicumopdracht.utils.ResourceLoader;
 import java.awt.*;
 import java.net.URI;
-import static practicumopdracht.MainApplication.getAppCSS;
+import static practicumopdracht.MainApplication.*;
 
+/**
+ * AboutView - The info and support view. This view shows the information about the application and the developer.
+ * This is a basic view with no functionality or any business logic therefore it doesn't need a controller.
+ * @author Remzi Cavdar - remzi.cavdar@hva.nl
+ */
 public class AboutView {
-    public Scene getScene() {
+    public AboutView() {
+        Stage stage = new Stage();
+        stage.getIcons().add(getAppIcon());
+        stage.setTitle("Informatie & contactgegevens - versie: " + APP_VERSION);
+        stage.setResizable(false);
+        stage.initModality(Modality.APPLICATION_MODAL);
+        stage.setScene(getScene());
+        stage.show();
+    }
+
+    private Scene getScene() {
         // VBox parent container
         VBox vboxContainer = new VBox();
         vboxContainer.setAlignment(Pos.CENTER);
@@ -80,6 +97,7 @@ public class AboutView {
         gridpane.add(label12, 0, 6);
         gridpane.add(label13, 1, 6);
 
+        // Make the link clickable and to open the default browser. This is the only business logic in this view.
         link.setOnAction(e -> {
             if(Desktop.isDesktopSupported())
             {

@@ -7,8 +7,6 @@ import javafx.event.ActionEvent;
 import javafx.scene.control.*;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
-import javafx.stage.Modality;
-import javafx.stage.Stage;
 import practicumopdracht.comparators.DateComparator;
 import practicumopdracht.comparators.NameComparator;
 import practicumopdracht.comparators.PriceComparator;
@@ -45,7 +43,6 @@ public class TicketController extends Controller {
     private ObservableList<Ticket> observableListTickets;
     private static InputHandler inputHandler;
     private Person selectedPerson;
-    private Stage secondStage;
 
     public TicketController(final Person SELECTED_PERSON, final boolean PERSON_NAME_ASCENDING) {
         selectedPerson = SELECTED_PERSON;
@@ -62,7 +59,7 @@ public class TicketController extends Controller {
         view.getMenuItemSave().setOnAction(this::handleMenuSaveButton);
         view.getMenuItemLoad().setOnAction(this::handleMenuLoadButton);
         view.getMenuItemClose().setOnAction(this::handleMenuCloseButton);
-        view.getMenuItemAbout().setOnAction(this::handleMenuAboutButton);
+        view.getMenuItemAbout().setOnAction(e -> new AboutView());
 
         // Buttons
         view.getSaveButton().setOnAction(this::handleSaveButton);
@@ -262,20 +259,6 @@ public class TicketController extends Controller {
             Platform.exit();
             System.exit(0);
         }
-    }
-
-    private void handleMenuAboutButton(ActionEvent event) {
-        if (secondStage != null) {
-            secondStage.close();
-        }
-        secondStage = new Stage();
-        secondStage.getIcons().add(getAppIcon());
-        secondStage.setTitle("Informatie & contactgegevens - versie: " + APP_VERSION);
-        secondStage.setResizable(false);
-        secondStage.initModality(Modality.APPLICATION_MODAL);
-        secondStage.setAlwaysOnTop(true);
-        secondStage.setScene(new AboutView().getScene());
-        secondStage.show();
     }
 
     private void handleSaveButton(ActionEvent event) {
