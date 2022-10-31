@@ -15,7 +15,6 @@ import java.util.Objects;
 
 public abstract class TicketDAO implements DAO<Ticket> {
     protected List<Ticket> tickets;
-    private static final String APP_DATA_DIRECTORY = "App_data";
 
     public TicketDAO() {
         tickets = new ArrayList<>();
@@ -58,9 +57,4 @@ public abstract class TicketDAO implements DAO<Ticket> {
 
     @Override
     public abstract boolean save();
-
-    // Getter
-    public static String getAppDataDirectory() {
-        return APP_DATA_DIRECTORY;
-    }
 }

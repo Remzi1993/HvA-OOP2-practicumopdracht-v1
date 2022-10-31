@@ -13,7 +13,6 @@ import java.util.List;
 
 public abstract class PersonDAO implements DAO<Person> {
     protected List<Person> persons;
-    private static final String APP_DATA_DIRECTORY = "App_data";
 
     public PersonDAO() {
         persons = new ArrayList<>();
@@ -58,9 +57,4 @@ public abstract class PersonDAO implements DAO<Person> {
 
     @Override
     public abstract boolean save();
-
-    // Getter
-    public static String getAppDataDirectory() {
-        return APP_DATA_DIRECTORY;
-    }
 }

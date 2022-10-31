@@ -6,8 +6,7 @@ import java.nio.charset.StandardCharsets;
 import java.time.DateTimeException;
 import java.time.LocalDate;
 import java.util.Arrays;
-import static practicumopdracht.MainApplication.DEBUG;
-import static practicumopdracht.MainApplication.getDateTimeFormatter;
+import static practicumopdracht.MainApplication.*;
 
 /**
  * TextPersonDAO - TextMasterDAO

@@ -1,6 +1,12 @@
 package practicumopdracht;
 
 import javafx.application.Application;
+import java.io.File;
+import java.io.FileNotFoundException;
+import java.io.FileOutputStream;
+import java.io.IOException;
+import java.nio.channels.FileChannel;
+import java.nio.channels.FileLock;
 import java.time.LocalDate;
 
 /**
@@ -14,11 +20,44 @@ public class Main {
     public static boolean launchedFromMain;
 
     public static void main(String[] args) {
-        if(!YES_I_ACCEPT) {
+        if (!YES_I_ACCEPT) {
             showDeclarationOfIntegrity();
             return;
         }
         launchedFromMain = true;
+
+        /*
+         * Prevents the user of starting multiple instances of the application.
+         * This is done by creating a temporary file in the app directory.
+         * The temp file is excluded from git and is called App.lock.
+         */
+        final File FILE = new File("App.lock");
+
+        if (FILE.exists()) {
+            System.err.println("The application is already running!");
+            return;
+        }
+
+        try (
+                FileOutputStream fileOutputStream = new FileOutputStream(FILE);
+                FileChannel channel = fileOutputStream.getChannel();
+                FileLock lock = channel.lock()
+        ) {
+            System.out.println("Starting application");
+        } catch (SecurityException e) {
+            System.err.println("SecurityException: " + e.getMessage());
+        } catch (FileNotFoundException e) {
+            System.err.println("An error occurred.");
+            throw new RuntimeException(e);
+        } catch (IOException e) {
+            throw new RuntimeException(e);
+        }
+
+        /*
+         * Register a shutdown hook to delete the lock file when the application is closed. Even when forcefully closed
+         * with the task manager. (Tested on Windows 11 with JavaFX 19)
+         */
+        FILE.deleteOnExit();
         Application.launch(MainApplication.class, args);
     }
 
@@ -30,15 +69,15 @@ public class Main {
         System.out.println("---");
 
         String integriteitsVerklaring =
-            "Ik verklaar naar eer en geweten dat ik deze practicumopdracht zelf zal maken en geen plagiaat zal plegen " +
-            "door code van anderen over te nemen.\n\n" +
+                "Ik verklaar naar eer en geweten dat ik deze practicumopdracht zelf zal maken en geen plagiaat zal plegen " +
+                        "door code van anderen over te nemen.\n\n" +
 
-            "Ik ben me ervan bewust dat:\n"+
-            "\t- Er (geautomatiseerd) op fraude wordt gescanned\n" +
-            "\t- Verdachte situaties worden gemeld aan de examencommissie\n" +
-            "\t- Fraude kan leiden tot het ongeldig verklaren van deze practicumopdracht voor alle studenten\n\n" +
+                        "Ik ben me ervan bewust dat:\n" +
+                        "\t- Er (geautomatiseerd) op fraude wordt gescanned\n" +
+                        "\t- Verdachte situaties worden gemeld aan de examencommissie\n" +
+                        "\t- Fraude kan leiden tot het ongeldig verklaren van deze practicumopdracht voor alle studenten\n\n" +
 
-            "Door 'YES_I_ACCEPT' in de Main-class op 'true' te zetten, onderteken ik deze verklaring.";
+                        "Door 'YES_I_ACCEPT' in de Main-class op 'true' te zetten, onderteken ik deze verklaring.";
 
         System.out.println(integriteitsVerklaring);
     }
@@ -47,6 +86,7 @@ public class Main {
     public static String getStudentName() {
         return STUDENT_NAME;
     }
+
     public static int getStudentNumber() {
         return STUDENT_NUMBER;
     }

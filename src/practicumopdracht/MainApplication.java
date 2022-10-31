@@ -47,6 +47,8 @@ public class MainApplication extends Application {
     private static PersonDAO personDAO;
     // TicketDAO - DetailDAO
     private static TicketDAO ticketDAO;
+    // For DAOs - the directory the application data is stored in
+    private static final String APP_DATA_DIRECTORY = "App_data";
     // Global debug setting for getting (extra) error and/or success messages in the console. Turn off for production.
     public static final boolean DEBUG = false;
     public static final String APP_VERSION = "1.0.0";
@@ -178,5 +180,9 @@ public class MainApplication extends Application {
 
     public static double getMaxWidthScreen() {
         return VISUAL_BOUNDS.getWidth();
+    }
+
+    public static String getAppDataDirectory() {
+        return APP_DATA_DIRECTORY;
     }
 }

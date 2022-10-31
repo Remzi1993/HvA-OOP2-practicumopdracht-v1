@@ -22,14 +22,17 @@
 # virtual machine crash logs, see http://www.java.com/en/download/help/error_hotspot.xml
 hs_err_pid*
 
-#Windows
+# Windows
 thumbs.db
 desktop.ini
 
-#Mac
+# Mac
 .DS_Store
 
-#NetBeans IntellliJ IDEA
+# NetBeans IntellliJ IDEA
 .idea
 /target
 /out
+
+# App specefic files
+App.lock

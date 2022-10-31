@@ -3,8 +3,7 @@ package practicumopdracht.data;
 import practicumopdracht.models.Person;
 import java.io.*;
 import java.time.LocalDate;
-import static practicumopdracht.MainApplication.DEBUG;
-import static practicumopdracht.MainApplication.getDateTimeFormatter;
+import static practicumopdracht.MainApplication.*;
 
 /**
  * BinaryPersonDAO - BinaryMasterDAO
