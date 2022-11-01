@@ -1,6 +1,7 @@
 package practicumopdracht;
 
 import javafx.application.Application;
+import practicumopdracht.utils.Preloader;
 import java.io.File;
 import java.io.FileNotFoundException;
 import java.io.FileOutputStream;
@@ -18,6 +19,7 @@ public class Main {
     private static final int STUDENT_NUMBER = 500714645;
     private static final boolean YES_I_ACCEPT = true;
     public static boolean launchedFromMain;
+    private static final boolean PRELOADER = false;
 
     public static void main(String[] args) {
         if (!YES_I_ACCEPT) {
@@ -58,6 +60,13 @@ public class Main {
          * with the task manager. (Tested on Windows 11 with JavaFX 19)
          */
         FILE.deleteOnExit();
+        /*
+         * If the boolean PRELOADER is set to true a preloader will be shown. If there is not a lot of data to be loaded
+         * then the preloader would be too fast to see.
+         */
+        if (PRELOADER) {
+            System.setProperty("javafx.preloader", Preloader.class.getName());
+        }
         Application.launch(MainApplication.class, args);
     }
 

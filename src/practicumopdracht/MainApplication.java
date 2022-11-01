@@ -154,6 +154,10 @@ public class MainApplication extends Application {
     }
 
     // Getters
+    public static String getAppTitle() {
+        return TITLE;
+    }
+
     public static Image getAppIcon() {
         return APP_ICON;
     }
