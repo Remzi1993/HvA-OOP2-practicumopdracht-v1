@@ -2,16 +2,14 @@ package practicumopdracht.views;
 
 import javafx.geometry.Pos;
 import javafx.scene.Scene;
-import javafx.scene.control.Hyperlink;
 import javafx.scene.control.Label;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
 import javafx.scene.layout.*;
 import javafx.stage.Modality;
 import javafx.stage.Stage;
+import practicumopdracht.utils.Hyperlink;
 import practicumopdracht.utils.ResourceLoader;
-import java.awt.*;
-import java.net.URI;
 import static practicumopdracht.MainApplication.*;
 
 /**
@@ -35,23 +33,27 @@ public class AboutView {
         VBox vboxContainer = new VBox();
         vboxContainer.setAlignment(Pos.CENTER);
         vboxContainer.getStyleClass().add("about-view-vbox-container");
-
+        // HBox container for the images
         HBox hbox = new HBox();
-        Image image = new Image(new ResourceLoader().getInputStream("images/emoji/zany-face.gif"),
-                100, 100, true, true);
-        ImageView imageView = new ImageView(image);
-        Image image2 = new Image(new ResourceLoader().getInputStream("images/emoji/star-struck.gif"),
-                100, 100, true, true);
-        ImageView imageView2 = new ImageView(image2);
-        Image image3 = new Image(new ResourceLoader().getInputStream("images/emoji/partying-face.gif"),
-                100, 100, true, true);
-        ImageView imageView3 = new ImageView(image3);
-        Image image4 = new Image(new ResourceLoader().getInputStream("images/emoji/rocket.gif"),
-                100, 100, true, true);
-        ImageView imageView4 = new ImageView(image4);
+
+        ImageView img1 = new ImageView(new Image(
+                new ResourceLoader().getInputStream("images/emoji/zany-face.gif"),
+                100, 100, true, true));
+
+        ImageView img2 = new ImageView(new Image(
+                new ResourceLoader().getInputStream("images/emoji/star-struck.gif"),
+                100, 100, true, true));
+
+        ImageView img3 = new ImageView(new Image(
+                new ResourceLoader().getInputStream("images/emoji/partying-face.gif"),
+                100, 100, true, true));
+
+        ImageView img4 = new ImageView(new Image(
+                new ResourceLoader().getInputStream("images/emoji/rocket.gif"),
+                100, 100, true, true));
 
         hbox.setAlignment(Pos.CENTER);
-        hbox.getChildren().addAll(imageView, imageView2, imageView3, imageView4);
+        hbox.getChildren().addAll(img1, img2, img3, img4);
         hbox.getStyleClass().add("about-view-hbox");
 
         // GridPane container
@@ -81,33 +83,26 @@ public class AboutView {
         gridpane.add(label5, 0, 2);
         gridpane.add(label6, 1, 2);
         Label label7 = new Label("E-mail:");
-        Hyperlink link = new Hyperlink("remzi.cavdar@hva.nl");
+        Hyperlink link = new Hyperlink("remzi.cavdar@hva.nl", "mailto:remzi.cavdar@hva.nl");
         gridpane.add(label7, 0, 3);
         gridpane.add(link, 1, 3);
-        Label label8 = new Label("School:");
-        Label label9 = new Label("Hogeschool van Amsterdam (HvA)");
+        Label label8 = new Label("Repository:");
+        Hyperlink link2 = new Hyperlink("gitlab.fdmci.hva.nl/OOP2/2223/blok-1/student-1",
+                "https://gitlab.fdmci.hva.nl/OOP2/2223/blok-1/student-1");
         gridpane.add(label8, 0, 4);
-        gridpane.add(label9, 1, 4);
-        Label label10 = new Label("Opleiding:");
-        Label label11 = new Label("HBO-ICT Software Engineering");
-        gridpane.add(label10, 0, 5);
-        gridpane.add(label11, 1, 5);
-        Label label12 = new Label("Studieloopbaanbegeleider:");
-        Label label13 = new Label("Ingrid Roks");
-        gridpane.add(label12, 0, 6);
-        gridpane.add(label13, 1, 6);
-
-        // Make the link clickable and to open the default browser. This is the only business logic in this view.
-        link.setOnAction(e -> {
-            if(Desktop.isDesktopSupported())
-            {
-                try {
-                    Desktop.getDesktop().browse(new URI("mailto:remzi.cavdar@hva.nl"));
-                } catch (Exception ex) {
-                    ex.printStackTrace();
-                }
-            }
-        });
+        gridpane.add(link2, 1, 4);
+        Label label9 = new Label("School:");
+        Label label10 = new Label("Hogeschool van Amsterdam (HvA)");
+        gridpane.add(label9, 0, 5);
+        gridpane.add(label10, 1, 5);
+        Label label11 = new Label("Opleiding:");
+        Label label12 = new Label("HBO-ICT Software Engineering");
+        gridpane.add(label11, 0, 6);
+        gridpane.add(label12, 1, 6);
+        Label label13 = new Label("Studieloopbaanbegeleider:");
+        Label label14 = new Label("Ingrid Roks");
+        gridpane.add(label13, 0, 7);
+        gridpane.add(label14, 1, 7);
 
         HBox hbox2 = new HBox();
         hbox2.setAlignment(Pos.CENTER);
@@ -118,7 +113,7 @@ public class AboutView {
         // Root container
         vboxContainer.getChildren().addAll(hbox, hbox2);
         // Scene
-        Scene scene = new Scene(vboxContainer, 500, 350);
+        Scene scene = new Scene(vboxContainer, 600, 400);
         // Apply stylesheet
         scene.getStylesheets().add(getAppCSS());
         return scene;

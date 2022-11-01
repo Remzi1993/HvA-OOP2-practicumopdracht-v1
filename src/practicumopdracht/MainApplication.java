@@ -51,7 +51,7 @@ public class MainApplication extends Application {
     private static final String APP_DATA_DIRECTORY = "App_data";
     // Global debug setting for getting (extra) error and/or success messages in the console. Turn off for production.
     public static final boolean DEBUG = false;
-    public static final String APP_VERSION = "1.0.0";
+    public static final String APP_VERSION = "1.0.3";
 
     @Override
     public void start(Stage stage) {
