@@ -11,20 +11,19 @@ import javafx.stage.Stage;
  * @author Remzi Cavdar - ict@remzi.info - <a href="https://github.com/Remzi1993">@Remzi1993</a>
  */
 public class Preloader extends javafx.application.Preloader {
-    private ProgressBar progressBar;
-    private Stage stage;
+    private static final ProgressBar PROGRESS_BAR = new ProgressBar();
+    private static Stage stage;
     private static final boolean DEBUG = false;
 
     private Scene getScene() {
-        progressBar = new ProgressBar();
         BorderPane borderPane = new BorderPane();
-        borderPane.setCenter(progressBar);
+        borderPane.setCenter(PROGRESS_BAR);
         return new Scene(borderPane, 300, 150);
     }
 
     @Override
     public void start(Stage stage) throws Exception {
-        this.stage = stage;
+        Preloader.stage = stage;
         stage.getIcons().add(new Image(new ResourceLoader().getInputStream("images/icon.png")));
         stage.setTitle("Laden van applicatie");
         stage.setResizable(false);
@@ -34,7 +33,7 @@ public class Preloader extends javafx.application.Preloader {
 
     @Override
     public void handleProgressNotification(ProgressNotification pn) {
-        progressBar.setProgress(pn.getProgress());
+        PROGRESS_BAR.setProgress(pn.getProgress());
     }
 
     @Override
@@ -42,7 +41,7 @@ public class Preloader extends javafx.application.Preloader {
         if (evt.getType() == StateChangeNotification.Type.BEFORE_START) {
             if (DEBUG) {
                 try {
-                    Thread.sleep(5000);
+                    Thread.sleep(1000);
                 } catch (InterruptedException e) {
                     throw new RuntimeException(e);
                 }
