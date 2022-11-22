@@ -105,7 +105,7 @@ public class PersonView extends View {
 
         // SSN
         Label labelSSN = new Label("BSN: (alleen cijfers)");
-        txtFieldSSN = new NumericTextField(MAX_LENGTH_SSN);
+        txtFieldSSN = new NumericTextField(false, MAX_LENGTH_SSN);
         gridpane.add(labelSSN, 0, 5);
         gridpane.add(txtFieldSSN, 1, 5);
 

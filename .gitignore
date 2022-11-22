@@ -36,3 +36,4 @@ desktop.ini
 
 # App specefic files
 App.lock
+/App_data

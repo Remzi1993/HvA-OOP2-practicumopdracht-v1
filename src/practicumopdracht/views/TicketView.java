@@ -96,7 +96,7 @@ public class TicketView extends View {
 
         // Cost
         Label labelCost = new Label("Kosten: €");
-        txtFieldCost = new NumericTextField();
+        txtFieldCost = new NumericTextField(true, 10);
         txtFieldCost.setPromptText("0,00");
         gridpane.add(labelCost, 0, 4);
         gridpane.add(txtFieldCost, 1, 4);

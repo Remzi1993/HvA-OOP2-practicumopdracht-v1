@@ -1,8 +1,8 @@
 package practicumopdracht.utils;
 
 import javafx.scene.control.TextField;
-import java.text.DecimalFormat;
 import java.text.DecimalFormatSymbols;
+import java.util.regex.Pattern;
 
 /**
  * NumericTextField extends TextField
@@ -10,55 +10,50 @@ import java.text.DecimalFormatSymbols;
  * @author Remzi Cavdar - remzi.cavdar@hva.nl
  */
 public class NumericTextField extends TextField {
+    private static final DecimalFormatSymbols DECIMAL_FORMAT_SYMBOLS = new DecimalFormatSymbols();
     private static final char DECIMAL_SEPARATOR = ',';
     private static final char GROUPING_SEPARATOR = '.';
-    private static final int DEFAULT_MAX_LENGTH = 10;
-    private static DecimalFormatSymbols decimalFormatSymbols;
+    private static final Pattern GROUPING_SEPARATOR_PATTERN = Pattern.compile("\\.");
+    // For positive decimals: ^\\d*([,.]\\d{0,2})?$
+    // For positive and negative decimals: ^-?\\d*([,.]\\d{0,2})?$
+    private static final Pattern DECIMAL_PATTERN = Pattern.compile("^-?\\d*([,.]\\d{0,2})?$");
+    // For positive integers: ^$|^[1-9]\\d*$
+    // For positive and negative integers ^$|^[-1-9]\\d*$
+    private static final Pattern INTEGER_PATTERN = Pattern.compile("^$|^[1-9]\\d*$");
 
     /**
-     * Constructor for NumericTextField with a default pattern of #,##0.00 for currency.
-     * The default constructor is intended for currency input and is decimal limited to 2 digits.
-     */
-    public NumericTextField() {
-        super();
-        final String PATTERN = "#,##0.00";
-        decimalFormatSymbols = new DecimalFormatSymbols();
-        decimalFormatSymbols.setDecimalSeparator(DECIMAL_SEPARATOR);
-        decimalFormatSymbols.setGroupingSeparator(GROUPING_SEPARATOR);
-        DecimalFormat decimalFormat = new DecimalFormat(PATTERN, decimalFormatSymbols);
-        this.textProperty().addListener((observable, oldValue, newValue) -> {
-            if (!newValue.matches("\\d*([\\,\\.]\\d{0,2})?")) {
-                this.setText(oldValue);
-            }
-
-            if (newValue.length() > DEFAULT_MAX_LENGTH) {
-                String string = newValue.substring(0, DEFAULT_MAX_LENGTH);
-                this.setText(string);
-            }
-        });
-    }
-
-    /**
-     * This constructor only accepts positive natural numbers.
+     * Constructor for NumericTextField for both integer and decimal input.
+     * @param IS_DECIMAL True if decimal input is allowed, false if only integer input is allowed.
      * @param MAX_LENGTH The maximum length of the number.
      */
-    public NumericTextField(final int MAX_LENGTH) {
+    public NumericTextField(final boolean IS_DECIMAL, final int MAX_LENGTH) {
         super();
-        decimalFormatSymbols = new DecimalFormatSymbols();
-        decimalFormatSymbols.setDecimalSeparator(DECIMAL_SEPARATOR);
-        decimalFormatSymbols.setGroupingSeparator(GROUPING_SEPARATOR);
-        this.textProperty().addListener((observable, oldValue, newValue) -> {
-            if (newValue.matches("^[1-9]\\d*$") || newValue.equals("")) {
-                this.setText(newValue);
-            } else {
-                this.setText(oldValue);
-            }
+        DECIMAL_FORMAT_SYMBOLS.setDecimalSeparator(DECIMAL_SEPARATOR);
+        DECIMAL_FORMAT_SYMBOLS.setGroupingSeparator(GROUPING_SEPARATOR);
 
-            if (newValue.length() > MAX_LENGTH) {
-                String string = newValue.substring(0, MAX_LENGTH);
-                this.setText(string);
-            }
-        });
+        if (IS_DECIMAL) {
+            this.textProperty().addListener((observable, oldValue, newValue) -> {
+                if (!DECIMAL_PATTERN.matcher(newValue).matches()) {
+                    this.setText(oldValue);
+                }
+
+                if (newValue.length() > MAX_LENGTH) {
+                    String string = newValue.substring(0, MAX_LENGTH);
+                    this.setText(string);
+                }
+            });
+        } else {
+            this.textProperty().addListener((observable, oldValue, newValue) -> {
+                if (!INTEGER_PATTERN.matcher(newValue).matches()) {
+                    this.setText(oldValue);
+                }
+
+                if (newValue.length() > MAX_LENGTH) {
+                    String string = newValue.substring(0, MAX_LENGTH);
+                    this.setText(string);
+                }
+            });
+        }
     }
 
     @Override
@@ -72,6 +67,8 @@ public class NumericTextField extends TextField {
     }
 
     private String replaceAll(String text) {
-        return text.replaceAll("\\.", Character.toString(decimalFormatSymbols.getDecimalSeparator()));
+        return GROUPING_SEPARATOR_PATTERN
+                .matcher(text)
+                .replaceAll(String.valueOf(DECIMAL_SEPARATOR));
     }
 }
