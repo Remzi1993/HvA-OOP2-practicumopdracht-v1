@@ -13,10 +13,9 @@ public class NumericTextField extends TextField {
     private static final DecimalFormatSymbols DECIMAL_FORMAT_SYMBOLS = new DecimalFormatSymbols();
     private static final char DECIMAL_SEPARATOR = ',';
     private static final char GROUPING_SEPARATOR = '.';
-    private static final Pattern GROUPING_SEPARATOR_PATTERN = Pattern.compile("\\.");
     // For positive decimals: ^\\d*([,.]\\d{0,2})?$
     // For positive and negative decimals: ^-?\\d*([,.]\\d{0,2})?$
-    private static final Pattern DECIMAL_PATTERN = Pattern.compile("^-?\\d*([,.]\\d{0,2})?$");
+    private static final Pattern DECIMAL_PATTERN = Pattern.compile("^\\d*([,.]\\d{0,2})?$");
     // For positive integers: ^$|^[1-9]\\d*$
     // For positive and negative integers ^$|^[-1-9]\\d*$
     private static final Pattern INTEGER_PATTERN = Pattern.compile("^$|^[1-9]\\d*$");
@@ -58,17 +57,32 @@ public class NumericTextField extends TextField {
 
     @Override
     public void insertText(int index, String text) {
-        super.insertText(index, replaceAll(text));
+        super.insertText(index, replace(text));
     }
 
     @Override
     public void replaceText(int start, int end, String text) {
-        super.replaceText(start, end, replaceAll(text));
+        super.replaceText(start, end, replace(text));
     }
 
-    private String replaceAll(String text) {
-        return GROUPING_SEPARATOR_PATTERN
-                .matcher(text)
-                .replaceAll(String.valueOf(DECIMAL_SEPARATOR));
+    private String replace(String text) {
+        return text.replace(GROUPING_SEPARATOR, DECIMAL_SEPARATOR);
+    }
+
+    // The following methods don't work if you're upcasting to TextField - use NumericTextField class directly.
+    public void setNumber(int value) {
+        this.setText(String.valueOf(value));
+    }
+
+    public void setNumber(double value) {
+        this.setText(String.valueOf(value));
+    }
+
+    public void setText(int value) {
+        setNumber(value);
+    }
+
+    public void setText(double value) {
+        setNumber(value);
     }
 }
