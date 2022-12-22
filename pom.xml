@@ -3,11 +3,10 @@
          xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
          xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
     <modelVersion>4.0.0</modelVersion>
-
     <name>Practicumopdracht</name>
     <groupId>nl.hva</groupId>
     <artifactId>practicumopdracht</artifactId>
-    <version>1.0.0.</version>
+    <version>1.0.0</version>
     <packaging>jar</packaging>
 
     <organization>
@@ -20,7 +19,7 @@
             <id>remzi1993</id>
             <name>Remzi Cavdar</name>
             <email>remzi.cavdar@hva.nl</email>
-            <url>https://github.com/Remzi1993</url>
+            <url>https://gitlab.fdmci.hva.nl/cavdarr</url>
             <organization>HvA</organization>
             <organizationUrl>https://www.hva.nl</organizationUrl>
             <roles>
@@ -65,6 +64,11 @@
 
     <build>
         <sourceDirectory>src</sourceDirectory>
+        <resources>
+            <resource>
+                <directory>src/practicumopdracht/resources</directory>
+            </resource>
+        </resources>
         <plugins>
             <plugin>
                 <artifactId>maven-assembly-plugin</artifactId>
