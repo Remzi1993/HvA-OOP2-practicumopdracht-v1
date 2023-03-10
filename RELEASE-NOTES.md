@@ -5,3 +5,7 @@
 - Added a conditional preloader
 ## 1.0.3
 - Improved the info window and added a custom Hyperlink class to set urls
+## 1.0.4
+- Small optimizations
+- ## 1.0.5
+- Small optimizations

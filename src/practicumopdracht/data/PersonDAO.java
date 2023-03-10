@@ -41,10 +41,9 @@ public abstract class PersonDAO implements DAO<Person> {
 
     @Override
     public void addOrUpdate(Person person) {
-        if (persons.contains(person)) {
-            return;
+        if(!persons.contains(person)) {
+            persons.add(person);
         }
-        persons.add(person);
     }
 
     @Override

@@ -23,8 +23,8 @@
             <organization>HvA</organization>
             <organizationUrl>https://www.hva.nl</organizationUrl>
             <roles>
-                <role>student</role>
-                <role>developer</role>
+                <role>Student</role>
+                <role>Developer</role>
             </roles>
             <timezone>Europe/Amsterdam</timezone>
         </developer>
