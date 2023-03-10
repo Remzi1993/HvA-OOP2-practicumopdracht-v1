@@ -31,7 +31,7 @@
     </developers>
 
     <properties>
-        <javafx.version>19</javafx.version>
+        <javafx.version>19.0.2.1</javafx.version>
         <maven.compiler.source>19</maven.compiler.source>
         <maven.compiler.target>19</maven.compiler.target>
         <project.mainClass>practicumopdracht.Main</project.mainClass>
@@ -52,12 +52,12 @@
         <dependency>
             <groupId>com.google.code.gson</groupId>
             <artifactId>gson</artifactId>
-            <version>2.10</version>
+            <version>2.10.1</version>
         </dependency>
         <dependency>
             <groupId>org.jetbrains</groupId>
             <artifactId>annotations</artifactId>
-            <version>23.1.0</version>
+            <version>24.0.1</version>
             <scope>compile</scope>
         </dependency>
     </dependencies>
