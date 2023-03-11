@@ -41,10 +41,9 @@ public abstract class TicketDAO implements DAO<Ticket> {
 
     @Override
     public void addOrUpdate(Ticket ticket) {
-        if (tickets.contains(ticket)) {
-            return;
+        if(!tickets.contains(ticket)) {
+            tickets.add(ticket);
         }
-        tickets.add(ticket);
     }
 
     @Override

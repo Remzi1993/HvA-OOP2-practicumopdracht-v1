@@ -7,5 +7,7 @@
 - Improved the info window and added a custom Hyperlink class to set urls
 ## 1.0.4
 - Small optimizations
-- ## 1.0.5
+## 1.0.5
+- Small optimizations
+## 1.0.6
 - Small optimizations
