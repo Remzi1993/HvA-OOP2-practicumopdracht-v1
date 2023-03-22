@@ -55,6 +55,13 @@ public class NumericTextField extends TextField {
         }
     }
 
+    /**
+     * @param IS_DECIMAL Default value is 10.
+     */
+    public NumericTextField(final boolean IS_DECIMAL) {
+        this(IS_DECIMAL, 10);
+    }
+
     @Override
     public void insertText(int index, String text) {
         super.insertText(index, replace(text));
