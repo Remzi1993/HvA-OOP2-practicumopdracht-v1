@@ -10,7 +10,7 @@ public abstract class View {
     private Parent root;
 
     public View() {
-        this.root = initializeView();
+        root = initializeView();
     }
 
     protected abstract Parent initializeView();

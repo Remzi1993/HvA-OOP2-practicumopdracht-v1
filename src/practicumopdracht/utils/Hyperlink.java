@@ -24,7 +24,7 @@ public class Hyperlink extends javafx.scene.control.Hyperlink {
     }
 
     public void setUrl(String url) {
-        // Make the link clickable and to open the default browser. This is the only business logic in this view.
+        // Make the link clickable and open the URL in the default browser.
         this.setOnAction(e -> {
             if (Desktop.isDesktopSupported()) {
                 try {

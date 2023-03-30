@@ -32,7 +32,6 @@ public class AlertDialog {
 
     /**
      * AlertDialog constructor only providing type
-     *
      * @param type setAlertType for new Alert
      */
     public AlertDialog(String type) {

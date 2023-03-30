@@ -65,37 +65,40 @@ public class PersonController extends Controller {
             });
         }
 
-        view.getListView().getSelectionModel().selectedItemProperty().addListener((
-                observableValue, oldPerson, newPerson) -> {
-            if (newPerson != null) {
-                // This is needed to remember the selected person in the listview, so we can give this to the TicketController
-                selectedPerson = newPerson;
+        view.getListView().getSelectionModel().selectedItemProperty().addListener(
+                (observableValue, oldPerson, newPerson) -> {
+                    if (newPerson != null) {
+                        /* This is needed to remember the selected person in the listview, so we can give this to the
+                         * TicketController when the switch button is pressed and when TicketView is displayed.
+                         */
+                        selectedPerson = newPerson;
 
-                getInputDataFromView();
-                fullName.setText(String.valueOf(newPerson.getName()));
-                sex.setValue(newPerson.getSex());
-                birthdate.setValue(newPerson.getBirthdate());
-                birthplace.setText(String.valueOf(newPerson.getBirthplace()));
-                nationality.setText(String.valueOf(newPerson.getNationality()));
-                SSN.setText(String.valueOf(newPerson.getSSN()));
-                documentNumber.setText(String.valueOf(newPerson.getDocumentNumber()));
+                        getInputDataFromView();
+                        fullName.setText(String.valueOf(newPerson.getName()));
+                        sex.setValue(newPerson.getSex());
+                        birthdate.setValue(newPerson.getBirthdate());
+                        birthplace.setText(String.valueOf(newPerson.getBirthplace()));
+                        nationality.setText(String.valueOf(newPerson.getNationality()));
+                        SSN.setText(String.valueOf(newPerson.getSSN()));
+                        documentNumber.setText(String.valueOf(newPerson.getDocumentNumber()));
 
-                // Enable these buttons if a person is selected in the listView
-                view.getNewButton().setDisable(false);
-                view.getDeleteButton().setDisable(false);
-                view.getSwitchButton().setDisable(false);
+                        // Enable these buttons if a person is selected in the listView
+                        view.getNewButton().setDisable(false);
+                        view.getDeleteButton().setDisable(false);
+                        view.getSwitchButton().setDisable(false);
 
-                // Reset and clear warnings when a person is selected from the listView
-                inputHandler.setTotalErrorValues(0);
-                inputHandler.clearWarnings(data);
-            } else {
-                selectedPerson = null;
-                // Disable these buttons if no person is selected in the listView
-                view.getNewButton().setDisable(true);
-                view.getDeleteButton().setDisable(true);
-                view.getSwitchButton().setDisable(true);
-            }
-        });
+                        // Reset and clear warnings when a person is selected from the listView
+                        inputHandler.setTotalErrorValues(0);
+                        inputHandler.clearWarnings(data);
+                    } else {
+                        selectedPerson = null;
+                        // Disable these buttons if no person is selected in the listView
+                        view.getNewButton().setDisable(true);
+                        view.getDeleteButton().setDisable(true);
+                        view.getSwitchButton().setDisable(true);
+                    }
+                }
+        );
 
         // Menubar items
         view.getMenuItemSave().setOnAction(this::handleMenuSaveButton);

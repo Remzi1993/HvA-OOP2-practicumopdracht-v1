@@ -71,7 +71,6 @@ public class TicketView extends View {
         // Labels and inputs and controls
         // Belongs to
         Label labelBelongsTo = new Label("Persoon:");
-
         comboBoxBelongsTo = new ComboBox<>();
         gridpane.add(labelBelongsTo, 0, 0);
         gridpane.add(comboBoxBelongsTo, 1, 0);

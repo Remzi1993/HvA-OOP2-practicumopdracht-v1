@@ -31,9 +31,9 @@
     </developers>
 
     <properties>
-        <javafx.version>19.0.2.1</javafx.version>
-        <maven.compiler.source>19</maven.compiler.source>
-        <maven.compiler.target>19</maven.compiler.target>
+        <javafx.version>20</javafx.version>
+        <maven.compiler.source>20</maven.compiler.source>
+        <maven.compiler.target>20</maven.compiler.target>
         <project.mainClass>practicumopdracht.Main</project.mainClass>
     </properties>
 

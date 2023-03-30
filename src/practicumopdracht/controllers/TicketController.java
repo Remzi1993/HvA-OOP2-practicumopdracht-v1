@@ -18,11 +18,14 @@ import practicumopdracht.utils.*;
 import practicumopdracht.views.AboutView;
 import practicumopdracht.views.TicketView;
 import practicumopdracht.views.View;
+
 import java.io.FileNotFoundException;
+
 import static practicumopdracht.MainApplication.*;
 
 /**
  * TicketController - DetailController
+ *
  * @author Remzi Cavdar - remzi.cavdar@hva.nl
  */
 public class TicketController extends Controller {
@@ -87,24 +90,27 @@ public class TicketController extends Controller {
         // Set the items in the listview
         view.getListView().setItems(observableListTickets);
 
-        view.getComboBoxBelongsTo().getSelectionModel().selectedItemProperty().addListener((
-                observableValue, oldBelongsTo, newBelongsTo) -> {
-            if (newBelongsTo != null) {
-                // This is needed to remember the selected person in the listview, so we can give this to the PersonController
-                selectedPerson = newBelongsTo;
-                // Set the items in the listview
-                observableListTickets.setAll(ticketDAO.getAllFor(newBelongsTo));
-                // Enable these buttons if a ticket is selected in the listView
-                view.getNewButton().setDisable(true);
-                view.getDeleteButton().setDisable(true);
-                // Reset and clear warnings when a ticket is selected from the listView
-                inputHandler.setTotalErrorValues(0);
-                inputHandler.clearWarnings(data);
-                inputHandler.clearValues(data, false, false);
-            } else {
-                selectedPerson = null;
-            }
-        });
+        view.getComboBoxBelongsTo().getSelectionModel().selectedItemProperty().addListener(
+                (observableValue, oldBelongsTo, newBelongsTo) -> {
+                    if (newBelongsTo != null) {
+                        /* This is needed to remember the selected person in the combobox, so we can give this to the
+                         * PersonController when the switch button is pressed and when PersonView is displayed.
+                         */
+                        selectedPerson = newBelongsTo;
+                        // Set the items in the listview
+                        observableListTickets.setAll(ticketDAO.getAllFor(newBelongsTo));
+                        // Enable these buttons if a ticket is selected in the listView
+                        view.getNewButton().setDisable(true);
+                        view.getDeleteButton().setDisable(true);
+                        // Reset and clear warnings when a ticket is selected from the listView
+                        inputHandler.setTotalErrorValues(0);
+                        inputHandler.clearWarnings(data);
+                        inputHandler.clearValues(data, false, false);
+                    } else {
+                        selectedPerson = null;
+                    }
+                }
+        );
 
         view.getListView().getSelectionModel().selectedItemProperty().addListener((
                 observableValue, oldTicket, newTicket) -> {
@@ -114,7 +120,7 @@ public class TicketController extends Controller {
                 startDate.setValue(newTicket.getStartDate());
                 endDate.setValue(newTicket.getEndDate());
                 cost.setText(String.valueOf(newTicket.getCost()).replace(".", ","));
-                checkedIn.selectedProperty().set(newTicket.isCheckedIn());
+                checkedIn.setSelected(newTicket.isCheckedIn());
                 description.setText(newTicket.getDescription());
 
                 // Enable these buttons if a ticket is selected in the listView
@@ -187,7 +193,7 @@ public class TicketController extends Controller {
         alert.show();
 
         if (alert.getResult() == ButtonType.OK) {
-            if(personDAO.save() && ticketDAO.save()) {
+            if (personDAO.save() && ticketDAO.save()) {
                 menuAlert(true, "Data succesvol opgeslagen",
                         "De data is succesvol opgeslagen.");
             } else {
@@ -208,7 +214,7 @@ public class TicketController extends Controller {
                 view.getListView().getSelectionModel().clearSelection();
 
                 // Load data from data sources and confirm if successful
-                if(personDAO.load() && ticketDAO.load()) {
+                if (personDAO.load() && ticketDAO.load()) {
                     menuAlert(true, "Data succesvol opgehaald",
                             """
                                     De data is succesvol opgehaald.
@@ -236,7 +242,7 @@ public class TicketController extends Controller {
     }
 
     private void menuAlert(boolean result, String title, String contextText) {
-        if(result) {
+        if (result) {
             alert = new AlertDialog("INFORMATION", title,
                     contextText);
             alert.show();
@@ -320,10 +326,13 @@ public class TicketController extends Controller {
         alert = new AlertDialog("INFORMATION");
         if (ticket == null) {
             // Create new ticket
-            ticket = new Ticket(belongsTo.getSelectionModel().getSelectedItem(), destination.getText(),
+            ticket = new Ticket(
+                    belongsTo.getSelectionModel().getSelectedItem(),
+                    destination.getText(),
                     startDate.getValue(), endDate.getValue(),
                     Double.parseDouble(cost.getText().replace(",", ".")),
-                    checkedIn.isSelected(), description.getText());
+                    checkedIn.isSelected(), description.getText()
+            );
 
             // Update ListView
             observableListTickets.add(ticket);

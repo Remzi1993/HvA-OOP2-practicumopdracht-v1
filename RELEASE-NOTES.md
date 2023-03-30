@@ -11,3 +11,7 @@
 - Small optimizations
 ## 1.0.6
 - Small optimizations
+## 1.0.7
+- Small optimizations
+- Improved docs and code comments
+- Added App_data folder to show examples of app data

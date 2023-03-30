@@ -40,4 +40,4 @@ desktop.ini
 
 # App specefic files
 App.lock
-/App_data
+# Examples of app data. Comment this out when in production - /App_data
