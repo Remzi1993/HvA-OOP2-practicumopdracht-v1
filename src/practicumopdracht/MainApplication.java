@@ -20,7 +20,8 @@ import static practicumopdracht.Main.*;
 /**
  * Main class for the JavaFX application.
  * This class is responsible for starting the JavaFX application and starting the default view.
- * Switching between views is done by the controllers. Whereby the controllers use the switchController method.
+ * Switching between views is done by the controllers. Whereby the controllers use the switchController method in this
+ * class.
  *
  * @author Remzi Cavdar - remzi.cavdar@hva.nl
  */
@@ -47,7 +48,7 @@ public class MainApplication extends Application {
     private static final String APP_DATA_DIRECTORY = "App_data";
     // Global debug setting for getting (extra) error and/or success messages in the console. Turn off for production.
     public static final boolean DEBUG = false;
-    public static final String APP_VERSION = "1.0.7";
+    public static final String APP_VERSION = "1.0.8";
 
     @Override
     public void start(Stage stage) {
@@ -93,7 +94,7 @@ public class MainApplication extends Application {
     }
 
     /**
-     * switchController for switching scenes
+     * switchController for switching between views.
      * @param controller needs a controller as a parameter/argument and can't be null
      */
     public static void switchController(Controller controller) {
@@ -104,20 +105,23 @@ public class MainApplication extends Application {
 
         // Check if there is a scene and if not create a new scene with the initial width and height
         if (scene == null) {
-            // Initial width and height when starting the application
+            // Initial width and height when starting the application for the first time
             scene = new Scene(controller.getView().getRoot(), WIDTH, HEIGHT);
-        } else  {
-            // When you switch scenes then it will use the current width and height of the scene
+        } else {
+            /*
+             * The current width and height of the scene is used when switching views, therefore the window of
+             * the app will not resize and stay the same size when switching views.
+             */
             scene = new Scene(controller.getView().getRoot(), scene.getWidth(), scene.getHeight());
         }
 
-        // Apply stylesheet
+        // Apply stylesheet to the scene
         scene.getStylesheets().add(APP_CSS);
 
-        // Get scene from controller who shows the specific view
+        // Apply scene to stage
         stage.setScene(scene);
 
-        // Show stage with scene and when changing (navigating in app) scene show the other scene.
+        // Show the stage (App window)
         stage.show();
     }
 

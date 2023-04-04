@@ -15,3 +15,5 @@
 - Small optimizations
 - Improved docs and code comments
 - Added App_data folder to show examples of app data
+## 1.0.8
+- Improved docs and code comments
