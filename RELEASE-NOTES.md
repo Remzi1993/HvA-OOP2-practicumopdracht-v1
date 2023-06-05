@@ -17,3 +17,5 @@
 - Added App_data folder to show examples of app data
 ## 1.0.8
 - Improved docs and code comments
+## 1.0.9
+- Improved the app's resource loader

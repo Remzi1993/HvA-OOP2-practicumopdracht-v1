@@ -24,7 +24,7 @@ public class Preloader extends javafx.application.Preloader {
     @Override
     public void start(Stage stage) throws Exception {
         Preloader.stage = stage;
-        stage.getIcons().add(new Image(new ResourceLoader().getInputStream("images/icon.png")));
+        stage.getIcons().add(new Image(new ResourceLoader().getFileFromResourceAsStream("images/icon.png")));
         stage.setTitle("Laden van applicatie");
         stage.setResizable(false);
         stage.setScene(getScene());

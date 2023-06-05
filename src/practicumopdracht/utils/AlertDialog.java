@@ -91,19 +91,19 @@ public class AlertDialog {
             case "CONFIRMATION":
                 alert.setAlertType(Alert.AlertType.CONFIRMATION);
                 alert.setGraphic(new ImageView(new Image(
-                        new ResourceLoader().getInputStream("images/emoji/thinking-face.gif"),
+                        new ResourceLoader().getFileFromResourceAsStream("images/emoji/thinking-face.gif"),
                         100, 100, true, true)));
                 break;
             case "WARNING":
                 alert.setAlertType(Alert.AlertType.WARNING);
                 alert.setGraphic(new ImageView(new Image(
-                        new ResourceLoader().getInputStream("images/emoji/weary.gif"),
+                        new ResourceLoader().getFileFromResourceAsStream("images/emoji/weary.gif"),
                         100, 100, true, true)));
                 break;
             case "ERROR":
                 alert.setAlertType(Alert.AlertType.ERROR);
                 alert.setGraphic(new ImageView(new Image(
-                        new ResourceLoader().getInputStream("images/emoji/dizzy-face.gif"),
+                        new ResourceLoader().getFileFromResourceAsStream("images/emoji/dizzy-face.gif"),
                         100, 100, true, true)));
                 break;
             case "NONE":
@@ -111,7 +111,7 @@ public class AlertDialog {
             default:
                 alert.setAlertType(Alert.AlertType.INFORMATION);
                 alert.setGraphic(new ImageView(new Image(
-                        new ResourceLoader().getInputStream("images/emoji/slightly-happy.gif"),
+                        new ResourceLoader().getFileFromResourceAsStream("images/emoji/slightly-happy.gif"),
                         100, 100, true, true)));
         }
     }

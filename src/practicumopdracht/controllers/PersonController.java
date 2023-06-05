@@ -233,7 +233,7 @@ public class PersonController extends Controller {
         alert = new AlertDialog("CONFIRMATION", "Afsluiten",
                 "Wilt u de app afsluiten?");
         alert.setGraphic(new ImageView(new Image(
-                new ResourceLoader().getInputStream("images/emoji/screaming.gif"),
+                new ResourceLoader().getFileFromResourceAsStream("images/emoji/screaming.gif"),
                 100, 100, true, true)));
         alert.show();
 

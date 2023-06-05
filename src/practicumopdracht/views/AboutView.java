@@ -37,19 +37,19 @@ public class AboutView {
         HBox hbox = new HBox();
 
         ImageView img1 = new ImageView(new Image(
-                new ResourceLoader().getInputStream("images/emoji/zany-face.gif"),
+                new ResourceLoader().getFileFromResourceAsStream("images/emoji/zany-face.gif"),
                 100, 100, true, true));
 
         ImageView img2 = new ImageView(new Image(
-                new ResourceLoader().getInputStream("images/emoji/star-struck.gif"),
+                new ResourceLoader().getFileFromResourceAsStream("images/emoji/star-struck.gif"),
                 100, 100, true, true));
 
         ImageView img3 = new ImageView(new Image(
-                new ResourceLoader().getInputStream("images/emoji/partying-face.gif"),
+                new ResourceLoader().getFileFromResourceAsStream("images/emoji/partying-face.gif"),
                 100, 100, true, true));
 
         ImageView img4 = new ImageView(new Image(
-                new ResourceLoader().getInputStream("images/emoji/rocket.gif"),
+                new ResourceLoader().getFileFromResourceAsStream("images/emoji/rocket.gif"),
                 100, 100, true, true));
 
         hbox.setAlignment(Pos.CENTER);

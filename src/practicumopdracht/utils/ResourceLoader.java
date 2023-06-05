@@ -1,44 +1,28 @@
 package practicumopdracht.utils;
 
-import java.io.*;
-import java.util.Objects;
+import java.io.InputStream;
 
 /**
  * Class for loading resources.
  * @author Remzi Cavdar - remzi.cavdar@hva.nl
  */
 public class ResourceLoader {
-    private final Class<?> CURRENT_CLASS = new Object() { }.getClass().getEnclosingClass();
-    private InputStream inputStream;
+    /**
+     * Get a file from the resources' folder. This method works everywhere, IDEA, unit test and JAR file.
+     * @param fileName the name of the file
+     * @return the file as an InputStream
+     */
+    public InputStream getFileFromResourceAsStream(String fileName) {
 
-    public InputStream getInputStream(final String FILE_NAME) {
-        inputStream = CURRENT_CLASS.getClassLoader().getResourceAsStream(FILE_NAME);
+        // The class loader that loaded the class
+        ClassLoader classLoader = getClass().getClassLoader();
+        InputStream inputStream = classLoader.getResourceAsStream(fileName);
 
-        // The stream holding the file content
+        // the stream holding the file content
         if (inputStream == null) {
-            Exception ex = new FileNotFoundException("File not found: " + FILE_NAME);
-
-            // Throw an IllegalArgumentException that wraps FileNotFoundException
-            throw new IllegalArgumentException(ex);
+            throw new IllegalArgumentException("file not found! " + fileName);
         } else {
             return inputStream;
-        }
-    }
-
-    public String getResourceDir(final String FILE_NAME) {
-        if(FILE_NAME == null) {
-            System.err.println("File name is null");
-            throw new IllegalArgumentException("File name cannot be null");
-        }
-
-        // The stream holding the file content
-        if (FILE_NAME.isBlank()) {
-            Exception ex = new FileNotFoundException("Resource not found! - " + FILE_NAME);
-
-            // Throw an IllegalArgumentException that wraps FileNotFoundException
-            throw new IllegalArgumentException(ex);
-        } else {
-            return Objects.requireNonNull(CURRENT_CLASS.getResource(FILE_NAME)).toExternalForm();
         }
     }
 }

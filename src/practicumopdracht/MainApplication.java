@@ -34,8 +34,9 @@ public class MainApplication extends Application {
     private static final Rectangle2D VISUAL_BOUNDS = Screen.getPrimary().getVisualBounds();
     // Resources - see README.md if this fails
     private static final ResourceLoader RESOURCE_LOADER = new ResourceLoader();
-    private static final Image APP_ICON = new Image(RESOURCE_LOADER.getInputStream("images/icon.png"));
-    private static final String APP_CSS = RESOURCE_LOADER.getResourceDir("/style.css");
+    private static final Image APP_ICON = new Image(
+            RESOURCE_LOADER.getFileFromResourceAsStream("images/icon.png"));
+    private static final String APP_CSS = "style.css";
     private static final String DATE_FORMAT = "dd-MM-yyyy";
     private static final DateTimeFormatter DATE_TIME_FORMATTER = DateTimeFormatter.ofPattern(DATE_FORMAT);
     private static Stage stage;
@@ -46,9 +47,14 @@ public class MainApplication extends Application {
     private static TicketDAO ticketDAO;
     // For DAOs - the directory the application data is stored in
     private static final String APP_DATA_DIRECTORY = "App_data";
-    // Global debug setting for getting (extra) error and/or success messages in the console. Turn off for production.
-    public static final boolean DEBUG = false;
-    public static final String APP_VERSION = "1.0.8";
+    public static final String APP_VERSION = "1.0.9";
+    /**
+     * Global debug setting for getting (extra) error and/or success messages in the console. Turn off for production.
+     * This is a global setting for the entire application.
+     * Artifact cannot be built with this setting on.
+     */
+    public static final boolean DEBUG = true;
+
 
     @Override
     public void start(Stage stage) {
@@ -60,7 +66,7 @@ public class MainApplication extends Application {
 
         if (DEBUG) {
             System.out.printf("Resources directory: %s%nDefault charset: %s%nDefault locale: %s%n",
-                    RESOURCE_LOADER.getResourceDir("/"), Charset.defaultCharset().displayName(),
+                    RESOURCE_LOADER.getFileFromResourceAsStream("").toString(), Charset.defaultCharset().displayName(),
                     Locale.getDefault().getDisplayName());
         }
 

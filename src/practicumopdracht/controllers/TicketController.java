@@ -257,7 +257,7 @@ public class TicketController extends Controller {
         alert = new AlertDialog("CONFIRMATION", "Afsluiten",
                 "Weet u zeker dat u de app wilt afsluiten?");
         alert.setGraphic(new ImageView(new Image(
-                new ResourceLoader().getInputStream("images/emoji/cry.gif"),
+                new ResourceLoader().getFileFromResourceAsStream("images/emoji/cry.gif"),
                 100, 100, true, true)));
         alert.show();
 
