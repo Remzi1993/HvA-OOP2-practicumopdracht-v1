@@ -53,7 +53,7 @@ public class MainApplication extends Application {
      * This is a global setting for the entire application.
      * Artifact cannot be built with this setting on.
      */
-    public static final boolean DEBUG = true;
+    public static final boolean DEBUG = false;
 
 
     @Override
