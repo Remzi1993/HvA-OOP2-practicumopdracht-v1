@@ -18,14 +18,11 @@ import practicumopdracht.utils.*;
 import practicumopdracht.views.AboutView;
 import practicumopdracht.views.TicketView;
 import practicumopdracht.views.View;
-
 import java.io.FileNotFoundException;
-
 import static practicumopdracht.MainApplication.*;
 
 /**
  * TicketController - DetailController
- *
  * @author Remzi Cavdar - remzi.cavdar@hva.nl
  */
 public class TicketController extends Controller {
