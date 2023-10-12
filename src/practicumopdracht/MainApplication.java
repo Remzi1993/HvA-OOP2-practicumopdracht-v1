@@ -47,7 +47,7 @@ public class MainApplication extends Application {
     private static TicketDAO ticketDAO;
     // For DAOs - the directory the application data is stored in
     private static final String APP_DATA_DIRECTORY = "App_data";
-    public static final String APP_VERSION = "1.0.9";
+    public static final String APP_VERSION = "1.0.10";
     /**
      * Global debug setting for getting (extra) error and/or success messages in the console. Turn off for production.
      * This is a global setting for the entire application.
