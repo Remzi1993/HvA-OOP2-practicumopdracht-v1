@@ -31,7 +31,7 @@
     </developers>
 
     <properties>
-        <javafx.version>22.0.2</javafx.version>
+        <javafx.version>24-ea+5</javafx.version>
         <maven.compiler.source>21</maven.compiler.source>
         <maven.compiler.target>21</maven.compiler.target>
         <project.mainClass>practicumopdracht.Main</project.mainClass>
